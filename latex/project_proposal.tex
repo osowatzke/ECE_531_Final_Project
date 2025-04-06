@@ -1,0 +1,40 @@
+\documentclass[conference,onecolumn]{IEEEtran}
+\usepackage{enumitem}
+\usepackage{cite}
+
+\title{XM Radio Demodulation}
+
+\author{
+\IEEEauthorblockN{Owen Sowatzke}
+\IEEEauthorblockA{\textit{Electrical Engineering Department} \\
+\textit{University of Arizona}\\
+Tucson, USA \\
+osowatzke@arizona.edu}
+\and
+\IEEEauthorblockN{Glenn Alan Walker}
+\IEEEauthorblockA{\textit{Electrical Engineering Department} \\
+\textit{University of Arizona}\\
+Tucson, USA \\
+gaw@arizona.edu}}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Phase/Timing QPSK tracker to pull out the MFP
+\begin{itemize}
+\item Needed to de-interleave for the FEC
+\end{itemize}
+\item Demodulate/Decode QPSK XM signal from single satellite single ensemble
+\item Demodulate/Decode multiple QPSK XM signals for a single ensemble
+\item Demodulate/Decoced 2 satellites + 1 terrestrial ensemble
+\item Play Channel 0 audio
+\end{itemize}
+
+Since XM is a proprietary signal, everything we do would be some sort of "discovery" as it isn't documented other than patents.  So just getting the FPS and MFP sequences are "new".
+
+\nocite{joint_xm_radio_sirius_xm_patent}
+\bibliographystyle{IEEEtran}
+\bibliography{sources}{}
+%\bibliographystyle{ieeetr}
+\end{document}

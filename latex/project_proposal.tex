@@ -2,7 +2,7 @@
 \usepackage{enumitem}
 \usepackage{cite}
 
-\title{XM Radio Demodulation}
+\title{XM Radio Reception with the PlutoSDR}
 
 \author{
 \IEEEauthorblockN{Owen Sowatzke}
@@ -20,30 +20,14 @@ gaw@arizona.edu}}
 \begin{document}
 \maketitle
 
-XM radio leverages a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites transmit QSPK-modulated symbols, and the terrestrial repeaters leverage COFDM modulation \cite{5586866}. For our final project, we propose demodulating the signal from a single satellite and performing forward error correction (FEC). Our project will leverage the time and frequency synchronization methods covered in class.
+XM radio leverages a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites transmit QSPK-modulated symbols, and the terrestrial repeaters leverage COFDM modulation \cite{5586866}. For our final project, we propose demodulating the signal from a single satellite and performing forward error correction (FEC). Our project will leverage the time, frequency, and frame synchronization methods covered in class. Additionally, it will extend the material covered in class to forward error correction. XM radio is a proprietary signal, and the technical details are documented only in patents such as \cite{a2008_us8260192b2, marko_2012_us8667344b2}. Major milestones for our project include: performing timing and frequency synchronization, extracting the master frame preamble (MFP) and frame synchronization preamble (FSP), and demodulating the signal from a single satellite. Additional stretch goals that will be addressed only if time permits include: demodulating the COFDM signals from terrestrial repeaters, combining the returns from multiple satellites and/or the terrestrial repeaters, and playing XM channel 1 audio (free preview channel). We believe that this project will reinforce what we learned in the course and provide invaluable experience performing FEC and OFDM demodulation.
 
-Perform single satellite demodulation as well a FEC decoding.
-
-\begin{itemize}
-\item Phase/Timing QPSK tracker to pull out the MFP
-\begin{itemize}
-\item Needed to de-interleave for the FEC
-\end{itemize}
-\item Demodulate/Decode QPSK XM signal from single satellite single ensemble
-\item Demodulate/Decode multiple QPSK XM signals for a single ensemble
-\item Demodulate/Decoced 2 satellites + 1 terrestrial ensemble
-\item Play Channel 0 audio
-\end{itemize}
-
-Since XM is a proprietary signal, everything we do would be some sort of "discovery" as it isn't documented other than patents.  So just getting the FPS and MFP sequences are "new".
-
+\nocite{5586866}
 \nocite{a2008_us8260192b2}
 \nocite{marko_2012_us8667344b2}
-\nocite{alldatasheetcom_2015_sta400a}
-\nocite{5586866}
+\nocite{collins_2018_softwaredefined}
 \nocite{chaudhari_2022_timing}
 \nocite{650240}
-\nocite{collins_2018_softwaredefined}
 \bibliographystyle{IEEEtran}
 \bibliography{sources}{}
 %\bibliographystyle{ieeetr}

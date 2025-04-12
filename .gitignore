@@ -1,6 +1,13 @@
+# Ignore texmaker binary outputs
 *.aux
 *.pdf
 *.gz
 *.log
 *.bbl
 *blg
+
+# Ignore data files
+*.dat
+
+# Ignore compiled GNU radio module
+gr-xm_module

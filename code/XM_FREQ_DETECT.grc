@@ -34,24 +34,15 @@ options:
 
 blocks:
 - name: freq
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: freq
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '-45000'
-    step: '100'
-    stop: '45000'
-    value: '-15700'
-    widget: counter_slider
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 16.0]
+    coordinate: [288, 16.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -83,7 +74,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 168.0]
+    coordinate: [736, 192.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -99,14 +90,14 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: samp_rate
-    showports: 'False'
+    showports: 'True'
     type: complex
     waveform: analog.GR_COS_WAVE
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 304.0]
+    coordinate: [408, 392.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -124,9 +115,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1352, 128.0]
+    coordinate: [1752, 64.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_source_0
   id: blocks_file_source
   parameters:
@@ -139,14 +130,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
-    repeat: 'False'
+    repeat: 'True'
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 168.0]
+    coordinate: [16, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0
@@ -164,7 +155,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [216, 288.0]
+    coordinate: [624, 208.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 192.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
@@ -182,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1096, 304.0]
+    coordinate: [1520, 208.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_0
@@ -209,7 +221,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [768, 220.0]
+    coordinate: [1176, 220.0]
     rotation: 0
     state: enabled
 - name: filter_fft_rrc_filter_0
@@ -232,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [480, 140.0]
+    coordinate: [904, 164.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0
@@ -324,7 +336,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1312, 248.0]
+    coordinate: [1808, 192.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -405,21 +417,105 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 104.0]
+    coordinate: [1176, 88.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '-1'
+    name: freq
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 264.0]
+    rotation: 0
+    state: enabled
+- name: xm_module_qpsk_fft_cfo_est_0
+  id: xm_module_qpsk_fft_cfo_est
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fft_size: '8192'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 436.0]
     rotation: 0
     state: enabled
 
 connections:
 - [analog_agc_xx_0, '0', filter_fft_rrc_filter_0, '0']
 - [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
-- [blocks_file_source_0, '0', blocks_multiply_xx_0, '0']
+- [blocks_file_source_0, '0', blocks_throttle2_0, '0']
+- [blocks_file_source_0, '0', xm_module_qpsk_fft_cfo_est_0, '0']
 - [blocks_multiply_xx_0, '0', analog_agc_xx_0, '0']
+- [blocks_throttle2_0, '0', blocks_multiply_xx_0, '0']
 - [digital_costas_loop_cc_0, '0', blocks_file_sink_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0_0, '0']
 - [digital_symbol_sync_xx_0, '0', digital_costas_loop_cc_0, '0']
 - [filter_fft_rrc_filter_0, '0', digital_symbol_sync_xx_0, '0']
 - [filter_fft_rrc_filter_0, '0', qtgui_freq_sink_x_0, '0']
+- [xm_module_qpsk_fft_cfo_est_0, '0', qtgui_number_sink_0, '0']
+- [xm_module_qpsk_fft_cfo_est_0, CFO_freq, analog_sig_source_x_0, cmd]
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.9.2

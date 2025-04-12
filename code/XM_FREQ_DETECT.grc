@@ -125,7 +125,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: XM_test_x2.dat
+    file: ../data/XM_test_x2.dat
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'

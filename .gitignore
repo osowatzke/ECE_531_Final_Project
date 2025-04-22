@@ -3,4 +3,5 @@
 *.gz
 *.log
 *.bbl
-*blg
+*.blg
+*.asv

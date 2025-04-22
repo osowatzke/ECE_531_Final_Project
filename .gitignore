@@ -1,7 +1,17 @@
+# Ignore texmaker binary outputs
 *.aux
 *.pdf
 *.gz
 *.log
 *.bbl
 *.blg
+
+# Ignore MATLAB autosave files
 *.asv
+
+# Ignore data files
+data
+*.dat
+
+# Ignore compiled GNU radio module
+gr-xm_module

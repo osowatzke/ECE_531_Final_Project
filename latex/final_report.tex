@@ -39,7 +39,13 @@ XM radio leverages a combination of satellites and terrestrial repeaters to dive
 	\label{fig::xm_satellite_config}
 \end{figure}
 
-XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.  
+XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal. We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure \ref{fig::tdm_receiver}. 
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{tdm_receiver.png}}}
+	\caption{TDM Receiver Architecture \cite{a2008_us8260192b2}}
+	\label{fig::tdm_receiver}
+\end{figure}
 
 \begin{itemize}
 	\item Nyquist Filter

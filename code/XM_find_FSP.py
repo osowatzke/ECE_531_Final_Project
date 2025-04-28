@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import signal
-sys.path.append("/media/sf_VM_shared/ECE531/Final/python_tools")
-import XM_constants as XM
+#sys.path.append("/media/sf_VM_shared/ECE531/Final/python_tools")
+import XM_Constants as XM
 def signal_handler(sig, frame):
     print('You pressed Ctrl+C!')
     sys.exit(0)

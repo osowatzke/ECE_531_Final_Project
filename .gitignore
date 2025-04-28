@@ -13,5 +13,8 @@
 data
 *.dat
 
+# Ignore Python Cache
+__pycache__
+
 # Ignore compiled GNU radio module
 gr-xm_module

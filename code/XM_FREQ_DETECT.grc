@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: fft_size
+  id: variable
+  parameters:
+    comment: ''
+    value: '8192'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 8.0]
+    rotation: 0
+    state: enabled
 - name: samp_rate
   id: variable
   parameters:
@@ -62,7 +74,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [928, 168.0]
+    coordinate: [936, 208.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -85,7 +97,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 388.0]
+    coordinate: [504, 420.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -103,7 +115,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2032, 192.0]
+    coordinate: [2040, 232.0]
     rotation: 0
     state: disabled
 - name: blocks_file_source_0
@@ -125,7 +137,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 144.0]
+    coordinate: [24, 184.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0
@@ -143,7 +155,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 192.0]
+    coordinate: [728, 232.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -164,7 +176,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 168.0]
+    coordinate: [504, 208.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
@@ -182,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1744, 128.0]
+    coordinate: [1752, 168.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_0
@@ -209,7 +221,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1392, 132.0]
+    coordinate: [1400, 172.0]
     rotation: 0
     state: enabled
 - name: filter_fft_rrc_filter_0
@@ -232,10 +244,102 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 140.0]
+    coordinate: [1136, 180.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: qtgui_tab_widget_0@4
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2040, 144.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_const_sink_x_0_0_0
   id: qtgui_const_sink_x
   parameters:
     affinity: ''
@@ -324,10 +428,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2032, 104.0]
+    coordinate: [1744, 312.0]
     rotation: 0
     state: enabled
-- name: qtgui_const_sink_x_0_0_0
+- name: qtgui_const_sink_x_0_0_0_0
   id: qtgui_const_sink_x
   parameters:
     affinity: ''
@@ -416,99 +520,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1736, 272.0]
-    rotation: 0
-    state: enabled
-- name: qtgui_const_sink_x_0_0_0_0
-  id: qtgui_const_sink_x
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    axislabels: 'True'
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    grid: 'False'
-    gui_hint: qtgui_tab_widget_0@1
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
-    marker1: '0'
-    marker10: '0'
-    marker2: '0'
-    marker3: '0'
-    marker4: '0'
-    marker5: '0'
-    marker6: '0'
-    marker7: '0'
-    marker8: '0'
-    marker9: '0'
-    name: '""'
-    nconnections: '1'
-    size: '1024'
-    style1: '0'
-    style10: '0'
-    style2: '0'
-    style3: '0'
-    style4: '0'
-    style5: '0'
-    style6: '0'
-    style7: '0'
-    style8: '0'
-    style9: '0'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_slope: qtgui.TRIG_SLOPE_POS
-    tr_tag: '""'
-    type: complex
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    xmax: '2'
-    xmin: '-2'
-    ymax: '2'
-    ymin: '-2'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1392, 328.0]
+    coordinate: [1400, 368.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -546,7 +558,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: qtgui_tab_widget_0@0
+    gui_hint: qtgui_tab_widget_0@1
     label: Relative Gain
     label1: ''
     label10: ''''''
@@ -589,7 +601,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1392, 424.0]
+    coordinate: [1400, 464.0]
     rotation: 0
     state: enabled
 - name: qtgui_number_sink_0
@@ -621,7 +633,7 @@ blocks:
     factor8: '1'
     factor9: '1'
     graph_type: qtgui.NUM_GRAPH_NONE
-    gui_hint: qtgui_tab_widget_0@0
+    gui_hint: 'qtgui_tab_widget_0@0: 0,0,1,1'
     label1: ''
     label10: ''
     label2: ''
@@ -634,7 +646,7 @@ blocks:
     label9: ''
     max: '1'
     min: '-1'
-    name: freq
+    name: CFO Frequency Estimate
     nconnections: '1'
     type: float
     unit1: ''
@@ -652,7 +664,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 264.0]
+    coordinate: [504, 296.0]
     rotation: 0
     state: enabled
 - name: qtgui_tab_widget_0
@@ -661,8 +673,8 @@ blocks:
     alias: ''
     comment: ''
     gui_hint: ''
-    label0: Spectrum
-    label1: Const. before Timing Comp
+    label0: CFO FFT Output
+    label1: Spectrum
     label10: Tab 10
     label11: Tab 11
     label12: Tab 12
@@ -673,20 +685,94 @@ blocks:
     label17: Tab 17
     label18: Tab 18
     label19: Tab 19
-    label2: Const. after Timing Comp
-    label3: Const. after Phase Comp
-    label4: Tab 4
+    label2: Const. before Timing Comp
+    label3: Const. after Timing Comp
+    label4: Const. after Phase Comp
     label5: Tab 5
     label6: Tab 6
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '4'
+    num_tabs: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [160, 8.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_vector_sink_f_1
+  id: qtgui_vector_sink_f
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: 'qtgui_tab_widget_0@0: 1,0,10,1'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    ref_level: '0'
+    showports: 'False'
+    update_time: '0.10'
+    vlen: fft_size
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    x_axis_label: Frequency (Hz)
+    x_start: -0.5*samp_rate
+    x_step: samp_rate/fft_size
+    x_units: '""'
+    y_axis_label: Magnitude (dB)
+    y_units: '""'
+    ymax: '-20'
+    ymin: '-80'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 580.0]
     rotation: 0
     state: enabled
 - name: xm_module_qpsk_fft_cfo_est_0
@@ -703,7 +789,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 296.0]
+    coordinate: [208, 304.0]
     rotation: 0
     state: enabled
 
@@ -722,7 +808,8 @@ connections:
 - [filter_fft_rrc_filter_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
 - [filter_fft_rrc_filter_0, '0', qtgui_freq_sink_x_0, '0']
 - [xm_module_qpsk_fft_cfo_est_0, '0', qtgui_number_sink_0, '0']
-- [xm_module_qpsk_fft_cfo_est_0, CFO_freq, analog_sig_source_x_0, cmd]
+- [xm_module_qpsk_fft_cfo_est_0, '1', qtgui_vector_sink_f_1, '0']
+- [xm_module_qpsk_fft_cfo_est_0, freq_msg, analog_sig_source_x_0, cmd]
 
 metadata:
   file_format: 1

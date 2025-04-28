@@ -42,11 +42,14 @@ inputs:
 #  optional: ...
 
 outputs:
-- label: out
-  dtype: float
-- label: CFO_freq
+- label: freq_msg
   domain: message
   dtype: float
+- label: CFO_freq
+  dtype: float
+- label: FFT_out
+  dtype: float
+  vlen: ${fft_size}
 #- label: ...
 #  domain: ...
 #  dtype: ...

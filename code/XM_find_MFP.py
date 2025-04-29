@@ -54,8 +54,15 @@ for loop in range(FSP_in_file-8*XM.FSP_per_frame):
     if np.max(np.abs(corr_out))>max_corr:
         max_corr=np.max(np.abs(corr_out))
         max_index=idx+np.argmax(np.abs(corr_out))-XM.MFP_symbols+1
+        plt.clf()
+        plt.plot(np.abs(corr_out))
+        plt.xlabel('Index')
+        plt.ylabel('Magnitude')
+        plt.title('MFP Correlation')
+        plt.pause(0.1)
         print (max_index, max_corr)
     idx=idx+samples_between_FSP
+plt.show()
 mfp_index=max_index
 print ("last index = ", idx)
 print ("mfp index = ", mfp_index)

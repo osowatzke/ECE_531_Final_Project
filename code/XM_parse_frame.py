@@ -18,15 +18,19 @@ interleaver3=XM.XM_interleaver(1360, 8)
 interleaver4=XM.XM_interleaver(2720, 1)
 mfp_file = open('mfp_data.npy', 'rb')
 mfp_bit_length=2*((XM.FSP_per_frame-1)*XM.Data_symbols + XM.Data_symbols_last)
-try:
-    os.remove('mfp_deinterleave.npy')
-except:
-    pass
 
-sat=1
+sat=0
 if sat==1:
+    try:
+        os.remove('mfp_deinterleave2.npy')
+    except:
+        pass
     mfp_out_file = open('mfp_deinterleave2.npy', 'wb')
 else:
+    try:
+        os.remove('mfp_deinterleave.npy')
+    except:
+        pass
     mfp_out_file = open('mfp_deinterleave.npy', 'wb')
 data_array = np.load(mfp_file)
 TSCC_in=np.zeros(5440*2, dtype=float)

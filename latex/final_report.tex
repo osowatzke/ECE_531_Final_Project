@@ -62,17 +62,21 @@ The XM radio signal is transmitted through a square-root raised cosine filter, w
 	\label{fig::constellation_no_timing_comp}
 \end{figure}
 
-\begin{figure}[H]
-	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{cfo_frequency_estimate.png}}}
-	\caption{Coarse Frequency FFT Output}
-	\label{fig::cfo_frequency_estimate}
-\end{figure}
+We can correct for this timing offset using a timing synchronization block. For this purpose, we use a GNU radio symbol sync block. This symbol sync block can be subdivided into 4 blocks: interpolator, timing error detector, loop filter, and controller. The interpolator applies a fractional delay. The timing error detector measures the timing offset. The loop filter stabilizes the process. And the controller manages the interpolation process. For our work, we specifically choose a Gardner Timing Error detector because it is robust to frequency errors. Our constellation after timing compensation is shown in Figure \ref{fig::constellation_after_timing_comp}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_timing_comp.png}}}
 	\caption{Received Constellation After Timing Synchronization}
 	\label{fig::constellation_after_timing_comp}
 \end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{cfo_frequency_estimate.png}}}
+	\caption{Coarse Frequency FFT Output}
+	\label{fig::cfo_frequency_estimate}
+\end{figure}
+
+
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_fine_carrier_comp.png}}}

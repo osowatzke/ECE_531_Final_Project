@@ -54,6 +54,8 @@ XM Radio divides their content across two separate ensembles (Ensemble A and Ens
 	\label{fig::timing_carrier_sync}
 \end{figure}
 
+The XM radio signal is transmitted through a square-root raised cosine filter, which limit the signal bandwidth [ADD A CITATION HERE]. Because of this, the receiver needs a matching square root raised cosine filter. The root-raised cosine filter is a type II Nyquist filter, which results in zero intersymbol interference when the received signal is sampled at the midpoint of each symbol period. When the PlutoSDR samples the received signal, this condition is not strictly enforced. This results in significant spreading in our constellation as illustrated in Figure \ref{fig::constellation_no_timing_comp}.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_no_timing_comp.png}}}
 	\caption{Received Constellation Before Timing Synchronization}

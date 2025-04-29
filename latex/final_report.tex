@@ -48,12 +48,6 @@ XM Radio divides their content across two separate ensembles (Ensemble A and Ens
 \end{figure}
 
 \begin{figure}[H]
-	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
-	\caption{TDM Frame Format \cite{a2008_us8260192b2}}
-	\label{fig::tdm_frame_format}
-\end{figure}
-
-\begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}
 	\label{fig::timing_carrier_sync}
@@ -91,6 +85,14 @@ The phase rotator adjusts the phase of the received signal by multiplying it wit
 	\caption{Received Constellation After Fine Carrier Synchronization}
 	\label{fig::constellation_after_fine_carrier_comp}
 \end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
+	\caption{TDM Frame Format \cite{a2008_us8260192b2}}
+	\label{fig::tdm_frame_format}
+\end{figure}
+
+The patents we referenced did not provide the master frame preamble (MFP) and the frame synchronization preamble (FSP). As a result, we cross-correlated the signal with delayed versions of itself. When the cross-correlation output peaked, we selected the preamble-length set of samples that resulted in a peak as the preamble. We also demodulated the signal using BPSK demodulation to reconstruct the original preamble. The maximum cross-correlation output when identifying the master frame preamble is shown in Figure \ref{fig::mfp_correlation}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}

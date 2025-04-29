@@ -12,6 +12,8 @@
 # Ignore data files
 data
 *.dat
+*.npy
+*.mat
 
 # Ignore Python Cache
 __pycache__

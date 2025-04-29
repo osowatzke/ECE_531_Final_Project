@@ -70,6 +70,8 @@ We can correct for this timing offset using a timing synchronization block. For 
 	\label{fig::constellation_after_timing_comp}
 \end{figure}
 
+After timing compensation, we see that the amplitude of the constellation has stabilized. However, the resulting constellation is a ring. This occurs because after phase and frequency errors. The phase error leads to a static tilt of the constellation and the frequency offset causes our constellation to rotate. To correctly demodulate the signal, we must also remove the frequency offset in the signal. We do this in 2 stages: coarse frequency compensation and fine frequency compensation. We implement the coarse frequency compensation algorithm using a custom GNU radio python block. This block raises our received data to the fourth power to remove the QPSK modulation. Then, it takes an FFT of the resulting signal. The peak index of the FFT provides us with an estimate of the coarse frequency error. When solving for the error we also must divide the frequency error by 4 to account for raising the received data to the 4th power prior to the FFT. The FFT output and the corresponding frequency error for one frame of data is shown in Figure \ref{fig::cfo_frequency_estimate}.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{cfo_frequency_estimate.png}}}
 	\caption{Coarse Frequency FFT Output}

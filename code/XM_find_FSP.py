@@ -44,16 +44,16 @@ for loop in range(10*XM.samples_between_FSP):
         max_corr=np.max(np.abs(corr_out))
         max_idx=idx
         # Plot results
-        plt.clf()
-        plt.plot(np.abs(corr_out))
-        plt.xlabel('Index')
-        plt.ylabel('Magnitude')
-        plt.title('FSP Auto-Correlation')        
-        plt.pause(0.5)
+        # plt.clf()
+        # plt.plot(np.abs(corr_out))
+        # plt.xlabel('Index')
+        # plt.ylabel('Magnitude')
+        # plt.title('FSP Auto-Correlation')        
+        # plt.pause(0.5)
     idx+=1
 
 # Show best results
-plt.show()
+# plt.show()
 
 # Print results
 print ("last test = ",idx)
@@ -67,4 +67,16 @@ for loop in range(10):
 
 # Output FSP
 print ("FPS Sequence = ", 1*(fsp_mrc>0))
+
+# Plot constellation
+preamble_symbols = data_array[max_idx:max_idx+step]
+data_symbols = data_array[max_idx+step:max_idx+fsp_step]
+plt.clf()
+plt.scatter(np.real(data_symbols), np.imag(data_symbols))
+plt.scatter(np.real(preamble_symbols), np.imag(preamble_symbols))
+plt.xlabel('In-phase')
+plt.ylabel('Quadrature')
+plt.title('Constellation')
+plt.legend(['Data Symbols', 'FSP Symbols'], loc='lower right')
+plt.show()
 print ("DONE")

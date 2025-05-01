@@ -82,3 +82,18 @@ print ("last index = ", idx)
 print ("mfp index = ", mfp_index)
 print ("LIKELY MFP ")
 print (1*(data_array[mfp_index:mfp_index+XM.MFP_symbols]>0))
+
+# Plot constellation
+preamble_symbols = data_array[mfp_index:mfp_index+step]
+data_start = mfp_index + step + XM.FSP_symbols
+data_end = data_start + XM.data_symbols
+data_symbols = data_array[data_start:data_end]
+plt.clf()
+plt.scatter(np.real(data_symbols), np.imag(data_symbols))
+plt.scatter(np.real(preamble_symbols), np.imag(preamble_symbols))
+plt.xlabel('In-phase')
+plt.ylabel('Quadrature')
+plt.title('Constellation')
+plt.legend(['Data Symbols', 'MFP Symbols'], loc='lower right')
+plt.show()
+print ("DONE")

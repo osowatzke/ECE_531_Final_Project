@@ -108,8 +108,18 @@ The patents we referenced did not provide the MFP or FSP. As a result, we identi
 	\label{fig::fsp_correlation}
 \end{figure}
 
-cross-correlated the signal with delayed versions of itself. When the cross-correlation output peaked, we selected the preamble-length set of samples that resulted in a peak as the preamble. We also demodulated the signal using BPSK demodulation to reconstruct the original preamble. The maximum cross-correlation output when identifying the master frame preamble is shown in Figure \ref{fig::mfp_correlation}.\\
+We can also examine some of the properties of the FSP by looking at its constellation. In Figure \ref{fig::fsp_constellation}, we show the constellation of the FSP symbols and data symbols.
 
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_constellation.png}}}
+	\caption{Constellation of FSP Symbols vs Data Symbols}
+	\label{fig::fsp_constellation}
+\end{figure}
+
+Examining the figure, we see that the FSP uses bi-phase modulation (phase-shifted BPSK) instead of QPSK modulation like the proceeding signals. To 
+improve our correlation performance going forward, we demodulate each of the FSP constellation points. Note that our results are ambiguous by $180^{\circ}$, so we assume a leading 1 in the FSPs. Errors reported by the Reed Solomon decoder (when implemented) can be used to resolve this ambiguity. If we receive high error counts, we know to rotate the phase of our FSP by $180^{\circ}$.
+
+We can perform a similar procedure to identify the MFP. However, to avoid false alarms from our FSP, we take advantage of the MFP located illustrated in Figure \ref{fig::tdm_frame_format}. We specifically know that the MFP will always be located right before the FSP. Therefore, we consider only MFP positions right before the FSP as illustrated in Figure \ref{fig::finding_mfp}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_mfp.png}}}
@@ -117,13 +127,22 @@ cross-correlated the signal with delayed versions of itself. When the cross-corr
 	\label{fig::finding_mfp}
 \end{figure}
 
-
+The base case auto-correlation provides the location of the MFP. For our data, the best case auto-correlation is shown in Figure \ref{fig::mfp_correlation} and the resulting constellation is shown in Figure \ref{fig::mfp_constellation}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}
-	\caption{Finding the MFP using Cross Correlation}
+	\caption{Auto-Correlation of Optimum MFP Selection}
 	\label{fig::mfp_correlation}
 \end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_constellation.png}}}
+	\caption{Constellation of MFP Symbols vs Data Symbols}
+	\label{fig::mfp_constellation}
+\end{figure}
+
+Examining the constellation, we see that the MFP is also bi-phase. To 
+improve our correlation performance going forward, we demodulate each of the MFP constellation points. Note that our results are ambiguous by $180^{\circ}$ as described above. For now we assume a leading 1 in the MFPs.
 
 % Add plot of FSP in constellation w/ different color
 

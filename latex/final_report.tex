@@ -94,6 +94,8 @@ XM radio divides its transmitted data into frames. These frames are marked by tw
 	\label{fig::tdm_frame_format}
 \end{figure}
 
+The patents we referenced did not provide the MFP or FSP. As a result, we identified them ourselves using the auto-correlation of our signal. We considered the FSP first because it occurred more frequently in our collected data. To compute the FSP, we correlated an FSP duration of samples with a copy delayed by the FSP separation. By sweeping the starting index until we maximized the auto-correlation, we were able to effectively identify the start of our FSP. Our approach is illustrated in Figure \ref{fig::finding_fsp} and the best auto-correlation is shown in Figure \ref{fig::fsp_correlation}.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_fsp.png}}}
 	\caption{Algorithm for Indentifying FSP}
@@ -101,12 +103,21 @@ XM radio divides its transmitted data into frames. These frames are marked by tw
 \end{figure}
 
 \begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_correlation.png}}}
+	\caption{Auto-Correlation of Optimum FSP Selection}
+	\label{fig::fsp_correlation}
+\end{figure}
+
+cross-correlated the signal with delayed versions of itself. When the cross-correlation output peaked, we selected the preamble-length set of samples that resulted in a peak as the preamble. We also demodulated the signal using BPSK demodulation to reconstruct the original preamble. The maximum cross-correlation output when identifying the master frame preamble is shown in Figure \ref{fig::mfp_correlation}.\\
+
+
+\begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_mfp.png}}}
 	\caption{Algorithm for Indentifying MFP}
 	\label{fig::finding_mfp}
 \end{figure}
 
-The patents we referenced did not provide the master frame preamble (MFP) and the frame synchronization preamble (FSP). As a result, we cross-correlated the signal with delayed versions of itself. When the cross-correlation output peaked, we selected the preamble-length set of samples that resulted in a peak as the preamble. We also demodulated the signal using BPSK demodulation to reconstruct the original preamble. The maximum cross-correlation output when identifying the master frame preamble is shown in Figure \ref{fig::mfp_correlation}.
+
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}

@@ -86,6 +86,8 @@ The phase rotator adjusts the phase of the received signal by multiplying it wit
 	\label{fig::constellation_after_fine_carrier_comp}
 \end{figure}
 
+XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
 	\caption{TDM Frame Format \cite{a2008_us8260192b2}}

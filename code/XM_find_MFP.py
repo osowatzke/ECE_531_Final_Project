@@ -67,8 +67,8 @@ for loop in range(FSP_in_file-8*XM.FSP_per_frame):
             plt.plot(np.abs(corr_out))
             plt.xlabel('Index')
             plt.ylabel('Magnitude')
-            plt.title('MFP Correlation')
-            plt.pause(0.1)
+            plt.title('MFP Auto-Correlation')
+            plt.pause(0.5)
             
     # Move to next possible MFP position
     idx=idx+XM.samples_between_FSP

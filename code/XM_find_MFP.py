@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 import signal
-sys.path.append("/media/sf_VM_shared/ECE531/Final/python_tools")
 import XM_constants as XM
 
 # Allow user to exit out of script early

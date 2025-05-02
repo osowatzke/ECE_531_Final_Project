@@ -44,16 +44,16 @@ for loop in range(10*XM.samples_between_FSP):
         max_corr=np.max(np.abs(corr_out))
         max_idx=idx
         # Plot results
-        # plt.clf()
-        # plt.plot(np.abs(corr_out))
-        # plt.xlabel('Index')
-        # plt.ylabel('Magnitude')
-        # plt.title('FSP Auto-Correlation')        
-        # plt.pause(0.5)
+        plt.clf()
+        plt.plot(np.abs(corr_out))
+        plt.xlabel('Index')
+        plt.ylabel('Magnitude')
+        plt.title('FSP Auto-Correlation')        
+        plt.pause(0.5)
     idx+=1
 
 # Show best results
-# plt.show()
+plt.show()
 
 # Print results
 print ("last test = ",idx)

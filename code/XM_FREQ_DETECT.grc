@@ -97,7 +97,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 420.0]
+    coordinate: [504, 412.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -717,7 +717,7 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
-    average: '1.0'
+    average: '0.2'
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -766,13 +766,13 @@ blocks:
     x_units: '""'
     y_axis_label: Magnitude (dB)
     y_units: '""'
-    ymax: '-20'
-    ymin: '-80'
+    ymax: '-60'
+    ymin: '-120'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 580.0]
+    coordinate: [504, 572.0]
     rotation: 0
     state: enabled
 - name: xm_module_qpsk_fft_cfo_est_0

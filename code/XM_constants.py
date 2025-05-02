@@ -73,6 +73,14 @@ class XM_sat:
         return int(self.FSP_per_frame*(self.FSP_symbols+self.data_symbols))
     
     @property
+    def data_symbols_last(self):
+        return int(self.data_symbols - self.MFP_symbols - self.pad_symbols)
+    
+    @property
+    def data_symbols_per_frame(self):
+        return int((self.FSP_per_frame-1)*self.data_symbols + self.data_symbols_last)
+    
+    @property
     def symbol_oversample_rate(self):
         return self.fs/self.symbol_rate
     

@@ -117,6 +117,7 @@ class XM_sat:
         print("samples per frame = ",   self.samples_per_frame)
         print("samples per second = ",  self.samples_per_second)
 
+    # Create XM Interleaver Object
     class XM_interleaver:
         def __init__(self, buffer_size, step_size):
             self.buffer_size=buffer_size
@@ -126,18 +127,32 @@ class XM_sat:
             self.switch_position=0 # 1 puts into buffer
         
         def advance(self, input_data):
+
+            # Select delayed data
             if self.switch_position:
+
+                # Delay data and output delay from delay line
                 self.buffer=np.roll(self.buffer,1)
                 output=self.buffer[0]
                 self.buffer[0]=input_data
+
+                # Increment number of samples selected from delay line
                 self.step_indx+=1
+
+                # Switch to the non-delayed version once we hit the step size
                 if self.step_indx==self.step_size:
                     self.switch_position=0
                     self.step_indx=0
                 return output
+            
+            # Output the non-delay data
             else:
                 output=input_data
+
+                # Increment the number of samples selected from the non-delayed data
                 self.step_indx+=1
+
+                # Switch to the delayed version once we hit the step size
                 if self.step_indx==self.step_size:
                     self.switch_position=1
                     self.step_indx=1

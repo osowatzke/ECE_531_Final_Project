@@ -121,13 +121,13 @@ We can write our base band signal with a frequency offset $f_o$ as follows:
 	r^M(k) = s^M(k)e^{j(2{\pi}f_okT + \theta)M} = s^M(k)e^{j2{\pi}Mf_okT}
 \end{equation}
 
-\noindent We can ignore the constant $s^M(k)$ term for PSK modulation. Then if we take an FFT of our data, we should be left with a sinc function centered about $Mf_oT$. In other words, we can solve for the coarse frequency offset as follows:
+\noindent As previously stated, we can ignore the constant $s^M(k)$ term for PSK modulation. Then if we take an FFT of our data, we should be left with a sinc function centered about $Mf_oT$. In other words, we can solve for the coarse frequency offset as follows:
 
 \begin{equation}
 	\hat{f}_o = \frac{1}{MTK}\text{arg}\left|\sum_{k=0}^{K-1}{r^M(k)e^{-j2{\pi}kT/K}}\right|
 \end{equation}
 
-\noindent We can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and remove the coarse frequency offset. Following the work of \cite{collins_2018_softwaredefined}, the coarse frequency offset correction is placed at the start of the chain to ensure that it operates on the largest possible bandwidth.
+\noindent Then, we can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and remove the coarse frequency offset. Following the work of \cite{collins_2018_softwaredefined}, the coarse frequency offset correction is placed at the start of the chain to ensure that it operates on the largest possible bandwidth.
  
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}

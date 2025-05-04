@@ -101,6 +101,34 @@ In this report, we concentrate specifically on the SAT channels (TDM channels). 
 	\label{fig::tdm_receiver_architecture}
 \end{figure}
 
+\subsection{Coarse Frequency Compensation}
+
+We can write our base band signal with a frequency offset $f_o$ as follows:
+
+\begin{equation}
+	r(k) = s(k)e^{j(2{\pi}f_okT + \theta)}
+\end{equation}
+
+\noindent Additionally, for PSK modulated signals we know that the amplitude $s(k)$ is constant and the phase $\theta$ is defined as:
+
+\begin{equation}
+	\theta = \frac{2{\pi}n}{M},\quad n \in 0,1,...,M-1
+\end{equation}
+
+\noindent where $M$ is the constellation order. If we raise our received data to the M-th power, we can strip the modulation from our received data.
+
+\begin{equation}
+	r^M(k) = s^M(k)e^{j(2{\pi}f_okT + \theta)M} = s^M(k)e^{j2{\pi}Mf_okT}
+\end{equation}
+
+\noindent We can ignore the constant $s^M(k)$ term for PSK modulation. Then if we take an FFT of our data, we should be left with a sinc function centered about $Mf_oT$. In other words, we can solve for the coarse frequency offset as follows:
+
+\begin{equation}
+	\hat{f}_o = \frac{1}{MTK}\text{arg}\left|\sum_{k=0}^{K-1}{r^M(k)e^{-j2{\pi}kT/K}}\right|
+\end{equation}
+
+\noindent We can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and remove the coarse frequency offset. Following the work of \cite{collins_2018_softwaredefined}, the coarse frequency offset correction is placed at the start of the chain to ensure that it operates on the largest possible bandwidth.
+ 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

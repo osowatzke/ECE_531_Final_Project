@@ -201,7 +201,36 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 
 \subsubsection{Interpolation Controller}
 
-%   to the symbols.
+The interpolation controller computes a fractional delay and a strobe which indicates when the delay should be applied. The strobes occur on average once per symbol. The counter decrement value can be computed with the loop filter output $v(n)$ as follows:
+
+\begin{equation}
+	W(n) = v(n) + \frac{1}{N}
+\end{equation}
+
+\noindent Using the decrement, the counter is updated as follows:
+
+\begin{equation}
+	c(n + 1) = (c(n) - W(n))\ \text{mod}\ 1
+\end{equation}
+
+\noindent Strobes occur whenever the counter wraps.
+
+\begin{equation}
+	\text{Strobe} = \begin{cases}
+		\text{True}, & \text{if}\ c(n) < W(n)\\
+		\text{False}, & \text{otherwise}
+	\end{cases}
+\end{equation}
+
+\noindent Finally, on each strobe, we update the factional delay parameter as follows:
+
+\begin{equation}
+	\mu(k) = \frac{c(n)}{W(n)}
+\end{equation}
+
+\subsection{Carrier Synchronization}
+
+In this section, we describe the carrier recovery algorithm. The carrier recovery block is responsible for fine frequency synchronization as opposed to the coarse frequency compensation block at the front of the chain. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}

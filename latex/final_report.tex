@@ -265,8 +265,35 @@ The loop filter is responsible for stabilizing the error signal. It uses the sam
 	\theta = \frac{B_{\text{Loop}}}{M(\zeta + 0.25/\zeta)} && \Delta = 1 + 2\zeta\theta + \theta^2
 \end{align}
 
+The selection of $\zeta$ affects the responsive and stability of the PLL:
 
+\begin{equation}
+\zeta = \begin{cases}
+< 1, & \text{Underdamped}\\
+= 1, & \text{Critically Damped}\\
+> 1, & \text{Overdamped}
+\end{cases}
+\end{equation}
 
+\noindent $B_\text{Loop}$ is then chosen to achieve a maximum frequency pull-in range, $\Delta_{f,\text{pull}}$, and a maximum frequency lock delay, $t_{\Delta,\text{Max}}$, which are defined in \cite{collins_2018_softwaredefined} as follows:
+
+\begin{equation}
+	\label{eq::max_freq_correct}
+	\Delta_{f,\text{pull}} \sim 2\pi\sqrt{2}\zeta{B_\text{Loop}}\end{equation}
+
+\begin{equation}
+	t_{\Delta,\text{Max}} \sim \frac{32\zeta^2}{B_\text{Loop}}\end{equation}
+
+\subsubsection{Direct Digital Synthesizer}
+
+The direct digital synthesizer creates a tone using the phase output by the loop filter. It specifically performs phase accumulation to determine the instantaneous phase of the correction signal. The z-transform of the the DDS is specifically given by:
+
+\begin{equation}
+	D(z) = G_3\frac{z^{-1}}{1 - z^{-1}}
+\end{equation}
+
+\noindent where $G_3 = -1$ to remove the phase offset from the received signal. Note that our accumulator also includes an additional cycle of delay to simplify the implementation.
+ 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

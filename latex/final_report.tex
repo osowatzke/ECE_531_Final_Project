@@ -93,7 +93,7 @@ In this section, we provide background information on XM radio modulation. XM ra
 \end{figure}
 \fi
 
-In this report, we concentrate specifically on the SAT channels (TDM channels). A sample TDM receiver architecture is shown in Figure \ref{fig::tdm_receiver_architecture}. In this architecture, We start perform a coarse frequency compensation to remove large carrier offsets. Next, we pass the signal through a matched filter to maximize the SNR. Then, we perform timing recovery to ensure we are sampling in the middle of symbol transitions. We also perform carrier recovery to get rid of any residual phase or frequency offsets. Finally, we perform frame synchronization to form frames of data with the correct set of samples.
+In this report, we concentrate specifically on the SAT channels (TDM channels). A sample TDM receiver architecture is shown in Figure \ref{fig::tdm_receiver_architecture}. In this architecture, We start by performing coarse frequency compensation to remove large carrier offsets. Next, we pass the signal through a matched filter to maximize the SNR. Then, we perform timing recovery to ensure we are sampling the symbols in the ideal positions (midway between symbol transitions). We also perform carrier recovery to get rid of any residual phase or frequency offsets. Finally, we perform frame synchronization to form frames of data with the correct set of samples.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_receiver_architecture.png}}}

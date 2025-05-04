@@ -142,9 +142,41 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 	\label{eq::srrc_filter}
 \end{equation}
 
-\noindent Nyquist filters only result in zero ISI, when they are properly sampled at the midpoint of symbol transitions. Timing synchronization is used to compensate for imperfect sampling.
+\noindent Nyquist filters only result in zero ISI, when they are properly sampled at the midpoint of symbol transitions. Timing synchronization is used to compensate for imperfect sampling. The timing synchronization algorithm is illustrated in Figure \ref{fig::timing_synchronization}.
 
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.6\textwidth]{timing_synchronization.png}}}
+	\caption{Timing Synchronization Block Diagram}
+	\label{fig::timing_synchronization}
+\end{figure}
 
+\noindent The interpolator applies a fractional delay to the input samples. We specifically use a piecewise polynomial filter (PPF), which interpolates the input data as follows:
+
+\begin{equation}
+	x(kT_s + \mu(k)T_s) = \sum_{n=-2}^{1}{h(n)x((k-n)T_s)}
+\end{equation}
+
+\noindent where the filter taps $h(n)$ are given by
+
+\begin{equation}
+\begin{split}
+	h = [&\alpha\mu(k)(\mu(k) - 1), \\
+	&-\alpha\mu(k)^2 - (1-\alpha)\mu(k) + 1,\\
+	&-\alpha\mu(k)^2 + (1+\alpha)\mu(k),\\
+	&\alpha\mu(k)(\mu(k) - 1)]
+\end{split}
+\end{equation}
+
+\noindent The timing error detector measures the timing offset in the data. There are a few different methods for measuring these offsets. They include the zero crossing, Gardener, and  M\"{u}ller and Mueller methods. In the work that follows, we use the Gardener method because it is least sensitive to carrier phase offsets. The gardener method defines the error signal $e(k)$ as follows:
+
+\begin{equation}
+\begin{split}
+	e(k) =& \text{Re}(x((k-1/2)T_s+\tau))\left[\text{Re}(x((k-1)T_s + \tau)) - \text{Re}(x(kT_s + \tau))\right] + \\
+	&\text{Im}(x((k-1/2)T_s+\tau))\left[\text{Im}(x((k-1)T_s+\tau)) -\text{Im}(x(kT_s+\tau))\right]
+\end{split}
+\end{equation}
+
+%   to the symbols.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}

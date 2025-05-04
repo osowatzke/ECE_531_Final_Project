@@ -129,6 +129,23 @@ We can write our base band signal with a frequency offset $f_o$ as follows:
 
 \noindent Then, we can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and remove the coarse frequency offset. Following the work of \cite{collins_2018_softwaredefined}, the coarse frequency offset correction is placed at the start of the chain to ensure that it operates on the largest possible bandwidth.
  
+\subsection{Timing Synchronization}
+
+Nyquist filters are used to minimize intersymbol interference (ISI). The impulse response of a Nyquist filter is zero at symbol intervals (i.e. $h(nT_s) = 0 \ \forall\ n \neq 0$). A sinc function is a type I Nyquist filter and has a perfectly bandlimited frequency response. However, the impulse response is infinite time and decays with $1/t$, which does not converge in the presence of intersymbol errors. As a result, we typically use a type II Nyquist filter, which has a finite impulse response that decays faster with time. However, type II Nyquist filters are not perfectly bandlimited in the frequency domain and have some rolloff and excess bandwidth. A common Nyquist filter is the square-root raised cosine (SRRC) filter, which is defined as follows:
+ 
+\begin{equation}
+	h(t) = \begin{cases}
+		\frac{1}{\sqrt{T_s}}\left(1 - \beta + 4\frac{\beta}{\pi}\right), & t = 0 \\
+		\frac{\beta}{\sqrt{2T_s}}\left[\left(1 + \frac{2}{\pi}\right)\sin\left(\frac{\pi}{4\beta}\right)+ \left(1-\frac{2}{\pi}\right)\cos\left(\frac{\pi}{4\beta}\right)\right], & t = \pm\frac{T_s}{4\beta} \\
+		\frac{1}{\sqrt{T_s}}\frac{\sin\left[\pi\frac{t}{T_s}(1-\beta)\right]+4\beta\frac{t}{T_s}\cos\left[\pi\frac{t}{T_s}(1+\beta)\right]}{\pi\frac{t}{T_s}\left[1 - \left(4\beta\frac{t}{T_s}\right)^2\right]}, & \text{otherwise}
+	\end{cases}
+	\label{eq::srrc_filter}
+\end{equation}
+
+\noindent Nyquist filters only result in zero ISI, when they are properly sampled at the midpoint of symbol transitions. Timing synchronization is used to compensate for imperfect sampling.
+
+
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

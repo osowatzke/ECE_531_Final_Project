@@ -293,7 +293,22 @@ The direct digital synthesizer creates a tone using the phase output by the loop
 \end{equation}
 
 \noindent where $G_3 = -1$ to remove the phase offset from the received signal. Note that our accumulator also includes an additional cycle of delay to simplify the implementation.
- 
+
+\subsubsection{Phase Rotator}
+
+The phase rotator creates a tone from the phase output by the DDS using a lookup table (LUT). The received signal is then multiplied with the tone to remove the phase offset.
+
+\subsection{Frame Synchronization}
+
+XM radio divides its transmitted data into frames. These frames include two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
+	\caption{TDM Frame Format \cite{a2008_us8260192b2}}
+	\label{fig::tdm_frame_format}
+\end{figure}
+
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

@@ -192,6 +192,7 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 
 \begin{align}
 	G_1 = \frac{-4\zeta\theta}{G_DN\Delta} && G_2 = \frac{-4\theta^2}{G_DN\Delta}
+	\label{eq::loop_filter}
 \end{align}
 
 \noindent where $\theta$ and $\Delta$ are given by:
@@ -230,7 +231,41 @@ The interpolation controller computes a fractional delay and a strobe which indi
 
 \subsection{Carrier Synchronization}
 
-In this section, we describe the carrier recovery algorithm. The carrier recovery block is responsible for fine frequency synchronization as opposed to the coarse frequency compensation block at the front of the chain. 
+In this section, we describe the carrier recovery algorithm. The carrier recovery block is responsible for fine frequency synchronization as opposed to the coarse frequency compensation block at the front of the chain. An overview of the fine frequency synchronization is displayed in Figure \ref{fig::carrier_synchronization}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{carrier_synchronization.png}}}
+	\caption{Fine Frequency Synchronization}
+	\label{fig::carrier_synchronization}
+\end{figure}
+
+The carrier synchronization architecture is very similar to the the timing synchronization architecture. It uses a phase error detector (PED) to detect phase offsets in the received data. Then, it stabilizes the error signal in the loop filter before it is fed into a direct digital synthesizer (DDS). The DDS generates the correction signal which is applied in the phase rotator.
+
+\subsubsection{Phase Error Detector}
+
+The phase error detector is specific to the modulation scheme. The TDM we receive uses QPSK modulation. Therefore, we should use the compute the error signal ($e(k)$) as follows:
+
+\begin{equation}
+	e(k) = \text{sign}(\text{Re}(y(k))) \times \text{Im}(y(k)) - \text{sign}(\text{Im}(y(k))) \times \text{Re}(y(k))
+\end{equation}
+
+\noindent The error signal should be zero when, $\text{Re}(y(k)) = \pm\text{Im}(y(k))$. The algorithm should specifically try to force the received data to the nearest QPSK constellation point.
+
+\subsubsection{Loop Filter}
+
+The loop filter is responsible for stabilizing the error signal. It uses the same proportional-plus integrator (PI) filter that was presented in Equation \ref{eq::loop_filter} with updated values for $G_1$ and $G_2$. The updated constants are specifically defined in terms of the damping factor ($\zeta$), the loop bandwidth $B_{\text{Loop}}$, and the modulation order ($M$).
+
+\begin{align}
+	G_1 = \frac{4\zeta\theta/\Delta}{M} && G_2 = \frac{(4/M)\theta^2/\Delta}{M}
+\end{align}
+
+\noindent where $\theta$ and $\Delta$ are defined as follows:
+
+\begin{align}
+	\theta = \frac{B_{\text{Loop}}}{M(\zeta + 0.25/\zeta)} && \Delta = 1 + 2\zeta\theta + \theta^2
+\end{align}
+
+
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}

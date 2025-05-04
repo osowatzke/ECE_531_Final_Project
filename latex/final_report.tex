@@ -3,6 +3,8 @@
 \usepackage{cite}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{amsmath, nccmath, bm}
+\usepackage{amssymb}
 \graphicspath{{./images}}
 
 \title{XM Radio Reception with the PlutoSDR}
@@ -34,6 +36,10 @@ gaw@arizona.edu}}
 
 In this project, we demodulate XM radio transmissions and perform forward error correction (FEC) with our Pluto SDR. XM radio uses a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites use QPSK modulation, and the terrestrial repeaters use coded orthogonal frequency domain multiplexing (COFDM). Our work focuses on the time-division multiplexed (TDM) signal from a single satellite. To demodulate this signal we leverage concepts from the course such as time synchronization, carrier synchronization, and frame synchronization. We also perform FEC, which was not covered in the course. With respect to FEC, we perform time deinterleaving, Virterbi decoding, and Reed Solomon Decoding. Because XM radio is a proprietary signal, it is documented only in patents such as \cite{a2008_us8260192b2, marko_2012_us8667344b2}. However, the patents leave out portions of the details, which require us to reverse-engineer portions of the system.
 
+\section{Background}
+
+In this section, we provide background information on XM radio modulation. XM radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble contains half of the XM radio channels and uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.
+
 \iffalse
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{xm_spectrum.png}}}
@@ -48,7 +54,36 @@ In this project, we demodulate XM radio transmissions and perform forward error 
 	\label{fig::xm_satellite_config}
 \end{figure}
 
-XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal. We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure \ref{fig::tdm_receiver}. 
+\noindent The center frequencies and bandwidths for each XM radio signal are detailed below:
+\vspace{-12pt}
+\begin{table}[H]
+	\begin{center}
+	\caption{XM Radio Center Frequencies and Bandwidths}
+	\label{table::nand_gate_noise_analysis}
+	\begin{tabular}{| c | c | c |}
+		\hline
+		\textbf{Name} & $\mathbf{f_c}$ & \textbf{BW}\\
+		\hline
+		SAT1A	& 2333.465 MHz & 1.886 MHz\\
+		\hline
+		SAT2A	& 2335.305 MHz & 1.886 MHz\\
+		\hline
+		TERRA & 2337.490 MHz & 2.51 MHz \\
+		\hline
+		TERRB & 2340.020 MHz & 2.51 MHz \\
+		\hline
+		SAT1B	& 2342.205 MHz & 1.886 MHz\\
+		\hline
+		SAT2B	& 2344.045 MHz & 1.886 MHz\\
+		\hline
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure
+\ref{fig::tdm_receiver}.
+
+% XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal. We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure \ref{fig::tdm_receiver}. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{tdm_receiver.png}}}

@@ -150,6 +150,8 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 	\label{fig::timing_synchronization}
 \end{figure}
 
+\subsubsection{Interpolator}
+
 \noindent The interpolator applies a fractional delay to the input samples. We specifically use a piecewise polynomial filter (PPF), which interpolates the input data as follows:
 
 \begin{equation}
@@ -167,7 +169,9 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 \end{split}
 \end{equation}
 
-\noindent The timing error detector measures the timing offset in the data. There are a few different methods for measuring these offsets. They include the zero crossing, Gardener, and  M\"{u}ller and Mueller methods. In the work that follows, we use the Gardener method because it is least sensitive to carrier phase offsets. The gardener method defines the error signal $e(k)$ as follows:
+\subsubsection{Timing Error Detector}
+
+\noindent The timing error detector (TED) measures the timing offset in the data. There are a few different methods for measuring these offsets. They include the zero crossing, Gardener, and  M\"{u}ller and Mueller methods. In the work that follows, we use the Gardener method because it is least sensitive to carrier phase offsets. The gardener method defines the error signal $e(k)$ as follows:
 
 \begin{equation}
 \begin{split}
@@ -175,6 +179,34 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 	&\text{Im}(x((k-1/2)T_s+\tau))\left[\text{Im}(x((k-1)T_s+\tau)) -\text{Im}(x(kT_s+\tau))\right]
 \end{split}
 \end{equation}
+
+\subsubsection{Loop Filter}
+
+\noindent The timing error detector output is then fed into a loop filter which produces a stable signal for the controller. The loop filter uses a proportional integral (PI) filter, which is defined as follows:
+
+\begin{equation}
+	y(n) = G_1x(n) + G_2\sum_{k=0}^{n}{x(k)}
+\end{equation}
+
+\noindent In the above equations, $G_1$ and $G2$ are constants and are defined as follows:
+
+\begin{align}
+	G_1 = \frac{-4\zeta\theta}{G_DN\Delta} && G_2 = \frac{-4\theta^2}{G_DN\Delta}
+\end{align}
+
+\noindent where $\theta$ and $\Delta$ are given by:
+\begin{align}
+	\theta = \frac{B_{\text{Loop}}}{M(\zeta + 0.25/\zeta)} && \Delta = 1 + 2\zeta\theta + \theta^2
+\end{align}
+
+\noindent In the above equations:
+
+\begin{itemize}
+	\item $B_{\text{Loop}}$ is the normalized loop bandwidth
+	\item $\zeta$ is the damping factor
+	\item $N$ is the samples per symbol
+	\item $G_D$ is the detector gain (scaling factor for correction)
+\end{itemize}
 
 %   to the symbols.
 

@@ -54,12 +54,12 @@ In this section, we provide background information on XM radio modulation. XM ra
 	\label{fig::xm_satellite_config}
 \end{figure}
 
-\noindent The center frequencies and bandwidths for each XM radio signal are detailed below:
+\noindent The center frequencies and bandwidths for each subregion of the spectrum are given in Table \ref{table::center_freq_and_bw}:
 \vspace{-12pt}
 \begin{table}[H]
 	\begin{center}
 	\caption{XM Radio Center Frequencies and Bandwidths \cite{andreas_2010_us8594559b2}}
-	\label{table::nand_gate_noise_analysis}
+	\label{table::center_freq_and_bw}
 	\begin{tabular}{| c | c | c |}
 		\hline
 		\textbf{Name} & $\mathbf{f_c}$ & \textbf{BW}\\
@@ -81,14 +81,24 @@ In this section, we provide background information on XM radio modulation. XM ra
 \end{table}
 
 % We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure
-\ref{fig::tdm_receiver}.
+% \ref{fig::tdm_receiver}.
 
 % XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal. We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure \ref{fig::tdm_receiver}. 
 
+\iffalse
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{tdm_receiver.png}}}
 	\caption{TDM Receiver Architecture \cite{a2008_us8260192b2}}
 	\label{fig::tdm_receiver}
+\end{figure}
+\fi
+
+In this report, we concentrate specifically on the SAT channels (TDM channels). A sample TDM receiver architecture is shown in Figure \ref{fig::tdm_receiver_architecture}. In this architecture, We start perform a coarse frequency compensation to remove large carrier offsets. Next, we pass the signal through a matched filter to maximize the SNR. Then, we perform timing recovery to ensure we are sampling in the middle of symbol transitions. We also perform carrier recovery to get rid of any residual phase or frequency offsets. Finally, we perform frame synchronization to form frames of data with the correct set of samples.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_receiver_architecture.png}}}
+	\caption{TDM Receiver Architecture}
+	\label{fig::tdm_receiver_architecture}
 \end{figure}
 
 \begin{figure}[H]

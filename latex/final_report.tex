@@ -135,9 +135,9 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
  
 \begin{equation}
 	h(t) = \begin{cases}
-		\frac{1}{\sqrt{T_s}}\left(1 - \beta + 4\frac{\beta}{\pi}\right), & t = 0 \\
-		\frac{\beta}{\sqrt{2T_s}}\left[\left(1 + \frac{2}{\pi}\right)\sin\left(\frac{\pi}{4\beta}\right)+ \left(1-\frac{2}{\pi}\right)\cos\left(\frac{\pi}{4\beta}\right)\right], & t = \pm\frac{T_s}{4\beta} \\
-		\frac{1}{\sqrt{T_s}}\frac{\sin\left[\pi\frac{t}{T_s}(1-\beta)\right]+4\beta\frac{t}{T_s}\cos\left[\pi\frac{t}{T_s}(1+\beta)\right]}{\pi\frac{t}{T_s}\left[1 - \left(4\beta\frac{t}{T_s}\right)^2\right]}, & \text{otherwise}
+		\dfrac{1}{\sqrt{T_s}}\left(1 - \beta + 4\dfrac{\beta}{\pi}\right), & t = 0 \\[12pt]
+		\dfrac{\beta}{\sqrt{2T_s}}\left[\left(1 + \dfrac{2}{\pi}\right)\sin\left(\dfrac{\pi}{4\beta}\right)+ \left(1-\dfrac{2}{\pi}\right)\cos\left(\dfrac{\pi}{4\beta}\right)\right], & t = \pm\dfrac{T_s}{4\beta} \\[12pt]
+		\dfrac{1}{\sqrt{T_s}}\dfrac{\sin\left[\pi\dfrac{t}{T_s}(1-\beta)\right]+4\beta\dfrac{t}{T_s}\cos\left[\pi\dfrac{t}{T_s}(1+\beta)\right]}{\pi\dfrac{t}{T_s}\left[1 - \left(4\beta\dfrac{t}{T_s}\right)^2\right]}, & \text{otherwise}
 	\end{cases}
 	\label{eq::srrc_filter}
 \end{equation}
@@ -199,6 +199,7 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 	\theta = \frac{B_{\text{Loop}}}{M(\zeta + 0.25/\zeta)} && \Delta = 1 + 2\zeta\theta + \theta^2
 \end{align}
 
+\subsubsection{Interpolation Controller}
 
 %   to the symbols.
 

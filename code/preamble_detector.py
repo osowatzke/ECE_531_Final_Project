@@ -16,8 +16,8 @@ class preamble_detector(gr.basic_block):
     docstring for block preamble_detector
     """
     
-    FSP = [-1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,
-        1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1] 
+    # FSP = [-1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,
+    #     1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1] 
     
     def __init__(self, fsp=[1,1,1,-1,-1,1,-1]):
         gr.basic_block.__init__(self,
@@ -25,42 +25,28 @@ class preamble_detector(gr.basic_block):
             in_sig=[np.complex64],
             #out_sig=[np.float32])
             out_sig=[(np.float32, 3456)])
-            
-        # self.mf = np.array([1, -1, -1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, 1, -1, 1, -1])
-        # print(self.mf.shape)
-        self.mf = np.flip(np.conj(np.array(self.FSP)))
-        # print(self.mf.shape)
+
+        self.mf = np.flip(np.conj(np.array(fsp)))
         self.sample_buffer = np.array([],dtype=np.complex64)
-        # self.output_buffer = np.zeros([],dtype=np.complex64)
-        # self.mf = np.flip(np.conj(np.array(fsp,dtype=np.complex64)))
         self.filter_state = np.zeros(len(self.mf)-1,dtype=np.complex64)
 
     def general_work(self, input_items, output_items):
-        #print(len(input_items[0]))
         
         self.sample_buffer = np.concatenate((self.sample_buffer, input_items[0]))
         produced = 0
+        
         while len(self.sample_buffer) >= 3456:
-            # print(self.filter_state.shape)
-            # print(self.sample_buffer.shape)
             x = self.sample_buffer[:3456]
             self.sample_buffer = self.sample_buffer[3456:]
-            # print(self.sample_buffer.shape)
             y = np.convolve(x,self.mf,mode='full')
             y[:len(self.filter_state)] = y[:len(self.filter_state)] + self.filter_state
             output_items[0][:] = np.abs(y[:-len(self.filter_state)])
-            # idx = np.argmax(output_items[0])
             self.filter_state = y[-len(self.filter_state):]
             produced += 1
-            '''
-            self.add_item_tag(0, # Write to output port 0
-              self.nitems_written(0) + idx, # Index of the tag in absolute terms
-              pmt.intern("FSP"), # Key of the tag
-              pmt.from_double(np.double(1)) # output_items[0][idx])) # Value of the tag
-             )
-             '''
+
         self.consume(0, len(input_items[0]))
         return produced
+        
         '''
         x = np.array(input_items[0])
         y = np.convolve(x,self.mf,mode='full')

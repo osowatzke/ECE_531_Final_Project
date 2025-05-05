@@ -328,6 +328,15 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 \noindent Therefore, to use it for cross-correlation, we need the filter $h(k)$ to be $x^*(-k)$. To simplify the thresholding, we can normalize the signal so it has unit average power over the correlation window.
 
+\section{Procedure}
+
+We use our Pluto SDR to capture XM radio data using an active antenna in the configuration shown in Figure \ref{fig::active_antenna_setup}.
+
+\begin{figure}[H]	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{example-image-a}}}
+	\caption{Pluto SDR Setup with Active Antenna}
+	\label{fig::active_antenna_setup}
+\end{figure}
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

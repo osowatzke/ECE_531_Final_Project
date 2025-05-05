@@ -46,7 +46,7 @@ XM is one of two satellite radio services that recieved FCC licenses in the U.S.
 \section{TDM Signal Collection Setup}
 A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to collect the satellite signal at 2335.305MHz.   An active antenna is useful to maximize the signal to noise ratio for a satellite to earth transmission.  XM active antenna typically have around 25dB of gain with an approximately 1dB  noise figure.  The PlutoSDR has a relatively high noise figure on the receive port and attaching an active antenna in front reduces the overall noise into the receiver.  To enable the collection of the best signal possible, the setup in Figure \ref{fig::gnu_hardware} was used.  To get power to the antenna, a RF bias-T was used.  After testing that the signal was sufficiently strong, a recording of about 20 seconds was made.
 \begin{figure}[H]
-	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_collect_gnc.png}}}
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_collect_grc.png}}}
 	\caption{GNU Radio collection GRC}
 	\label{fig::gnu_collect}
 \end{figure}

@@ -1,0 +1,237 @@
+\documentclass[conference,onecolumn]{IEEEtran}
+\usepackage{enumitem}
+%\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{./images}}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{sources.bib}
+
+\title{XM Radio Reception with SDR}
+
+\author{
+\IEEEauthorblockN{Owen Sowatzke}
+\IEEEauthorblockA{\textit{Electrical Engineering Department} \\
+\textit{University of Arizona}\\
+Tucson, USA \\
+osowatzke@arizona.edu}
+\and
+\IEEEauthorblockN{Glenn Alan Walker}
+\IEEEauthorblockA{\textit{Electrical Engineering Department} \\
+\textit{University of Arizona}\\
+Tucson, USA \\
+gaw@arizona.edu}}
+
+\begin{document}
+\maketitle
+
+\section{Introduction} The final report covers the development and implementation of a software defined radio for the XM satellite radio service.  This report covers the basics of the XM radio signal from a physical layer standpoint.  The software included can capture and tune a single satellite signal to baseband bits.  The project covered all the labs in the ECE531 class with the exception of the radar lab.  The XM satellite radio system is proprietary and the project leverages the available U.S. patents and other publications to understand and decode the satellite signal.  These patents and publication are not specifications and could contain erronious information.  Care was taken to test each block to verify applicability to the published patents.  
+
+\section{XM Satellite Radio Background}
+
+XM is one of two satellite radio services that recieved FCC licenses in the U.S. to transmit digital radio services across the country.  XM received 12.5MHz of spectrum from 2332.5MHz to 2345MHz to operate in the U.S.  The XM system leverages a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites transmit QSPK-modulated symbols, and the terrestrial repeaters leverage COFDM modulation \cite{5586866}.  As illustrated in Figure \ref{fig::xm_satellite_config}, XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B).  When the service was launched in 2001, this service allocation allowed a receiver to tune to a single Ensemble reducing the hardware requirements.  Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.  A total of 6 different digital transmissions are contained in the XM frequency band, 4 satellites signals and 2 terrestrial signals.  
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{xm_satellite_config.png}}}
+	\caption{XM Radio Satellite Configuration \cite{5586866}}
+	\label{fig::xm_satellite_config}
+\end{figure}
+
+\section{TDM Signal Collection} The report focuses on the satellite QPSK signals referred to as TDM (time division multiplex) signals. A more detailed spectrum allocation for the XM services is shown in Figure \ref{fig::xm_spectrum}.  The PlutoSDR is capable of recieving signals from a few hundred MHz to nearly 6GHz.  The signals from XM fall well within this frequency capture range.  The satellite signal at 2335.305MHz was chosen as the test signal.  \\
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{xm_spectrum.png}}}
+	\caption{XM Radio Spectrum \cite{a1999_us6724827b1}}
+	\label{fig::xm_spectrum}
+\end{figure}
+\section{TDM Signal Collection Setup}
+A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to collect the satellite signal at 2335.305MHz.   An active antenna is useful to maximize the signal to noise ratio for a satellite to earth transmission.  XM active antenna typically have around 25dB of gain with an approximately 1dB  noise figure.  The PlutoSDR has a relatively high noise figure on the receive port and attaching an active antenna in front reduces the overall noise into the receiver.  To enable the collection of the best signal possible, the setup in Figure \ref{fig::gnu_hardware} was used.  To get power to the antenna, a RF bias-T was used.  After testing that the signal was sufficiently strong, a recording of about 20 seconds was made.
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_collect_gnc.png}}}
+	\caption{GNU Radio collection GRC}
+	\label{fig::gnu_collect}
+\end{figure}
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{capture_setup.png}}}
+	\caption{GNU Radio collection setup hardware}
+	\label{fig::gnu_hardware}
+\end{figure}
+
+\section{TDM Signal Demodulation}
+In order to demodulate the XM satellite signal, the following details of the XM signal found in Table 1 of US patent 8,260,192 \cite{a2008_us8260192b2} are shown in Figure \ref {fig::physical_layer_info}.  The collection used 2 times oversampling of the symbol rate.  
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_INFO.png}}}
+	\caption{TDM Signal Path \cite{a2008_us8260192b2}}
+	\label{fig::physical_layer_info}
+\end{figure}
+An example satellite TDM receiver is shown Figure\ref{{fig::TDM_receiver2_8920000}} from \cite{marko_2012_us8667344b2} with the details of the QPSK demodulator shown in Figure \ref{fig::TDM_receiver_STA400} taken from the XM STA\_400a channel decoder chip specification.
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{TDM_receiver2_8920000.png}}}
+	\caption{TDM Receiver Architecture \cite{marko_2012_us8667344b2}}
+	\label{fig::TDM_receiver2_8920000}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{STA_400_TDM_BLOCK_DIAGRAM.png}}}
+	\caption{TDM Receiver Demodulator Details }
+	\label{fig::TDM_receiver_STA400}
+\end{figure}
+\subsection{GNU Radio architecture}
+
+The GNU radio version of Figure \ref{fig::TDM_receiver_STA400} is shown in Figure\ref{fig::timing_carrier_sync2}.  As can be seen in the GNU radio flowchart, the carrier recovery blocks in the STA400a chipset were replaced by a course frequency output estimator and Costas loop.  The GNU radio used the same type root-raised-cosine filtering followed by an AGC circuit.  Finally, a Gardner timing error detector was used in place of the STA400a timing recovery circuit.
+
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync2.png}}}
+	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}
+	\label{fig::timing_carrier_sync2}
+\end{figure}
+\subsection{GNU Radio Filtering and Course Frequency Estimation}
+
+The frequency domain output of the RRC filter is shown in Figure \ref{fig::rrc_output}.  Note the upper right shows the course frequency output at -15.715 kHz.  The PlutoSDR does not have an accurate crystal oscillor and the CFO was required to pull the signal within the range of the Costas loop.
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{received_spectrum.png}}}
+	\caption{XM RRC Frequency output}
+	\label{fig::rrc_output}
+\end{figure}
+
+% START ADDING DETAILS BELOW.
+
+ Additionally, it will extend the material covered in class to forward error correction. XM radio is a proprietary signal, and the technical details are documented only in patents such as \cite{a2008_us8260192b2, marko_2012_us8667344b2}. Major milestones for our project include: performing timing and frequency synchronization, extracting the master frame preamble (MFP) and frame synchronization preamble (FSP), and demodulating the signal from a single satellite. Additional stretch goals that will be addressed only if time permits include: demodulating the COFDM signals from terrestrial repeaters, combining the returns from multiple satellites and/or the terrestrial repeaters, and playing XM channel 1 audio (free preview channel). We believe that this project will reinforce what we learned in the course and provide invaluable experience performing FEC and OFDM demodulation.
+
+
+
+
+ We concentrate specifically on the TDM receiver. An example of its architecture is displayed in Figure \ref{fig::tdm_receiver}. 
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{tdm_receiver.png}}}
+	\caption{TDM Receiver Architecture \cite{a2008_us8260192b2}}
+	\label{fig::tdm_receiver}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
+	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}
+	\label{fig::timing_carrier_sync}
+\end{figure}
+
+The XM radio signal is transmitted through a square-root raised cosine filter, which limit the signal bandwidth [ADD A CITATION HERE]. Because of this, the receiver needs a matching square root raised cosine filter. The root-raised cosine filter is a type II Nyquist filter, which results in zero intersymbol interference when the received signal is sampled at the midpoint of each symbol period. When the PlutoSDR samples the received signal, this condition is not strictly enforced. This results in significant spreading in our constellation as illustrated in Figure \ref{fig::constellation_no_timing_comp}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_no_timing_comp.png}}}
+	\caption{Received Constellation Before Timing Synchronization}
+	\label{fig::constellation_no_timing_comp}
+\end{figure}
+
+We can correct for this timing offset using a timing synchronization block. For this purpose, we use a GNU radio symbol sync block. This symbol sync block can be subdivided into 4 blocks: interpolator, timing error detector, loop filter, and controller. The interpolator applies a fractional delay. The timing error detector measures the timing offset. The loop filter stabilizes the process. And the controller manages the interpolation process. For our work, we specifically choose a Gardner Timing Error detector because it is robust to frequency errors. Our constellation after timing compensation is shown in Figure \ref{fig::constellation_after_timing_comp}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_timing_comp.png}}}
+	\caption{Received Constellation After Timing Synchronization}
+	\label{fig::constellation_after_timing_comp}
+\end{figure}
+
+After timing compensation, we see that the amplitude of the constellation has stabilized. However, the resulting constellation is a ring. This occurs because after phase and frequency errors. The phase error leads to a static tilt of the constellation and the frequency offset causes our constellation to rotate. To correctly demodulate the signal, we must also remove the frequency offset in the signal. We do this in 2 stages: coarse frequency compensation and fine frequency compensation. We implement the coarse frequency compensation algorithm using a custom GNU radio python block. This block raises our received data to the fourth power to remove the QPSK modulation. Then, it takes an FFT of the resulting signal. The peak index of the FFT provides us with an estimate of the coarse frequency error. When solving for the error we also must divide the frequency error by 4 to account for raising the received data to the 4th power prior to the FFT. The FFT output and the corresponding frequency error for one frame of data is shown in Figure \ref{fig::cfo_frequency_estimate}. Examining the Figure, we observe a frequency error of roughly 15 kHz [CHECK SIGN].
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{cfo_frequency_estimate.png}}}
+	\caption{Coarse Frequency FFT Output}
+	\label{fig::cfo_frequency_estimate}
+\end{figure}
+
+The coarse frequency compensation is limited by the FFT size and the rate at which the frequency drifts. We add an additional fine frequency compensation block to resolve the rest of the error. We use the GNU radio Costas Loop block for this analysis. The GNU radio Costas Loop closely resembles the timing synchronization block. It includes a phase error detector, a loop filter, a direct digital synthesizer and a phase rotator.
+The phase rotator adjusts the phase of the received signal by multiplying it with a phasor. The phase error detector then detects the phase error, which is fed into a loop filter for stabilization. Finally the Direct Digital Synthesizer creates a coherent phasor which removes residual phase and frequency offsets. The constellation after fine frequency compensation is shown in Figure \ref{fig::constellation_after_fine_carrier_comp}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_fine_carrier_comp.png}}}
+	\caption{Received Constellation After Fine Carrier Synchronization}
+	\label{fig::constellation_after_fine_carrier_comp}
+\end{figure}
+
+XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
+	\caption{TDM Frame Format \cite{a2008_us8260192b2}}
+	\label{fig::tdm_frame_format}
+\end{figure}
+
+The patents we referenced did not provide the MFP or FSP. As a result, we identified them ourselves using the auto-correlation of our signal. We considered the FSP first because it occurred more frequently in our collected data. To compute the FSP, we correlated an FSP duration of samples with a copy delayed by the FSP separation. By sweeping the starting index until we maximized the auto-correlation, we were able to effectively identify the start of our FSP. Our approach is illustrated in Figure \ref{fig::finding_fsp} and the best auto-correlation is shown in Figure \ref{fig::fsp_correlation}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_fsp.png}}}
+	\caption{Algorithm for Indentifying FSP}
+	\label{fig::finding_fsp}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_correlation.png}}}
+	\caption{Auto-Correlation of Optimum FSP Selection}
+	\label{fig::fsp_correlation}
+\end{figure}
+
+We can also examine some of the properties of the FSP by looking at its constellation. In Figure \ref{fig::fsp_constellation}, we show the constellation of the FSP symbols and data symbols.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_constellation.png}}}
+	\caption{Constellation of FSP Symbols vs Data Symbols}
+	\label{fig::fsp_constellation}
+\end{figure}
+
+Examining the figure, we see that the FSP uses bi-phase modulation (phase-shifted BPSK) instead of QPSK modulation like the proceeding signals. To 
+improve our correlation performance going forward, we demodulate each of the FSP constellation points. Note that our results are ambiguous by $180^{\circ}$, so we assume a leading 1 in the FSPs. Errors reported by the Reed Solomon decoder (when implemented) can be used to resolve this ambiguity. If we receive high error counts, we know to rotate the phase of our FSP by $180^{\circ}$.
+
+We can perform a similar procedure to identify the MFP. However, to avoid false alarms from our FSP, we take advantage of the MFP located illustrated in Figure \ref{fig::tdm_frame_format}. We specifically know that the MFP will always be located right before the FSP. Therefore, we consider only MFP positions right before the FSP as illustrated in Figure \ref{fig::finding_mfp}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_mfp.png}}}
+	\caption{Algorithm for Indentifying MFP}
+	\label{fig::finding_mfp}
+\end{figure}
+
+The base case auto-correlation provides the location of the MFP. For our data, the best case auto-correlation is shown in Figure \ref{fig::mfp_correlation} and the resulting constellation is shown in Figure \ref{fig::mfp_constellation}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}
+	\caption{Auto-Correlation of Optimum MFP Selection}
+	\label{fig::mfp_correlation}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_constellation.png}}}
+	\caption{Constellation of MFP Symbols vs Data Symbols}
+	\label{fig::mfp_constellation}
+\end{figure}
+
+Examining the constellation, we see that the MFP is also bi-phase. To 
+improve our correlation performance going forward, we demodulate each of the MFP constellation points. Note that our results are ambiguous by $180^{\circ}$ as described above. For now we assume a leading 1 in the MFPs.
+
+% Add plot of FSP in constellation w/ different color
+
+% Add picture of setup
+
+\begin{itemize}
+	\item Nyquist Filter
+	\item Timing Synchronization
+	\item Carrier Compensation
+	\begin{itemize}
+		\item Coarse
+		\item Fine
+	\end{itemize}
+	\item Frame Synchronization
+\end{itemize}
+
+
+
+\printbibliography
+
+%\nocite{5586866}
+%\nocite{a2008_us8260192b2}
+%nocite{marko_2012_us8667344b2}
+%nocite{collins_2018_softwaredefined}
+%nocite{chaudhari_2022_timing}
+%nocite{650240}
+%bibliographystyle{IEEEtran}
+%\bibliography{sources}{}
+%\bibliographystyle{ieeetr}
+\end{document}

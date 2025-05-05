@@ -755,12 +755,12 @@ blocks:
     label2: Const. before Timing Comp
     label3: Const. after Timing Comp
     label4: Const. after Phase Comp
-    label5: Tab 5
+    label5: Correlation with FSP
     label6: Tab 6
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '5'
+    num_tabs: '6'
   states:
     bus_sink: false
     bus_source: false
@@ -797,7 +797,7 @@ blocks:
     color9: '"dark green"'
     comment: ''
     grid: 'False'
-    gui_hint: ''
+    gui_hint: qtgui_tab_widget_0@5
     label1: ''
     label10: ''
     label2: ''

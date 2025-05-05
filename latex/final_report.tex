@@ -326,9 +326,8 @@ XM radio divides its transmitted data into frames. These frames include two diff
 	z(k) = \sum_{m}{y_n(m)h(k - m)}
 \end{equation}
 
-\noindent Therefore, to use it for cross-correlation, we need to let the filter $h(k) = x^*(-k)$.
+\noindent Therefore, to use it for cross-correlation, we need the filter $h(k)$ to be $x^*(-k)$. To simplify the thresholding, we can normalize the signal so it has unit average power over the correlation window.
 
-If we threshold our 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}

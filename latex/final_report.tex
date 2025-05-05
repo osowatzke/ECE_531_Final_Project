@@ -308,7 +308,27 @@ XM radio divides its transmitted data into frames. These frames include two diff
 	\label{fig::tdm_frame_format}
 \end{figure}
 
+\noindent We can detect both of these preambles by cross-correlating our received data with each preamble. The cross-correlation is specifically given by:
 
+\begin{equation}
+	C_{xy}(k) = \sum_m{x^*(m)y_n(m+k)}
+\end{equation}
+
+\noindent The peak of the cross-correlation output should correspond to the delay of the preamble. If the cross-correlation function is like MATLAB's \text{xcorr} function and outputs the correlation for positive and negative values of $m$, then the delay ($\hat{p}$) should be given by
+
+\begin{equation}
+	\hat{p} =  \underset{k}{\text{argmax}}\ C_{xy}(k) - L_r
+\end{equation}
+
+\noindent where $L_r$ is the length of the longest input sequence. We can also use the \texttt{filter} command to more efficiently compute the cross-correlation for short input sequences. The \texttt{filter} command performs convolution, which is given by the following formula:
+
+\begin{equation}
+	z(k) = \sum_{m}{y_n(m)h(k - m)}
+\end{equation}
+
+\noindent Therefore, to use it for cross-correlation, we need to let the filter $h(k) = x^*(-k)$.
+
+If we threshold our 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{timing_carrier_sync.png}}}
 	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}
@@ -349,12 +369,6 @@ The phase rotator adjusts the phase of the received signal by multiplying it wit
 \end{figure}
 
 XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
-
-\begin{figure}[H]
-	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_frame_format.png}}}
-	\caption{TDM Frame Format \cite{a2008_us8260192b2}}
-	\label{fig::tdm_frame_format}
-\end{figure}
 
 The patents we referenced did not provide the MFP or FSP. As a result, we identified them ourselves using the auto-correlation of our signal. We considered the FSP first because it occurred more frequently in our collected data. To compute the FSP, we correlated an FSP duration of samples with a copy delayed by the FSP separation. By sweeping the starting index until we maximized the auto-correlation, we were able to effectively identify the start of our FSP. Our approach is illustrated in Figure \ref{fig::finding_fsp} and the best auto-correlation is shown in Figure \ref{fig::fsp_correlation}.
 

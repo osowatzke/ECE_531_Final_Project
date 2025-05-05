@@ -15,6 +15,9 @@ data
 *.npy
 *.mat
 
+# Ignore backup files
+*.bak
+
 # Ignore Python Cache
 __pycache__
 

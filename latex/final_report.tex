@@ -1,11 +1,13 @@
 \documentclass[conference,onecolumn]{IEEEtran}
 \usepackage{enumitem}
-\usepackage{cite}
+%\usepackage{cite}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath, nccmath, bm}
 \usepackage{amssymb}
 \graphicspath{{./images}}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{sources.bib}
 
 \title{XM Radio Reception with the PlutoSDR}
 
@@ -443,6 +445,9 @@ improve our correlation performance going forward, we demodulate each of the MFP
 	\item Frame Synchronization
 \end{itemize}
 
+\printbibliography
+
+\iffalse
 \nocite{5586866}
 \nocite{a2008_us8260192b2}
 \nocite{marko_2012_us8667344b2}
@@ -452,4 +457,5 @@ improve our correlation performance going forward, we demodulate each of the MFP
 \bibliographystyle{IEEEtran}
 \bibliography{sources}{}
 %\bibliographystyle{ieeetr}
+\fi
 \end{document}

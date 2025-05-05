@@ -352,6 +352,12 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 \section{Procedure}
 
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{xm_radio_processing.png}}}
+	\caption{XM Radio Data Flow}
+	\label{fig::xm_radio_processing}
+\end{figure}
+
 \subsection{TDM Signal Collection}
 
 A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to collect the satellite signal at 2335.305MHz.  An active antenna is useful to maximize the signal to noise ratio for a satellite to earth transmission.  XM active antenna typically have around 25dB of gain with an approximately 1dB  noise figure.  The PlutoSDR has a relatively high noise figure on the receive port and attaching an active antenna in front reduces the overall noise into the receiver.  To enable the collection of the best signal possible, the setup in Figure \ref{fig::gnu_hardware} was used.  To get power to the antenna, a RF bias-T was used.  After testing that the signal was sufficiently strong, a recording of about 20 seconds was made.

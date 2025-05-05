@@ -40,7 +40,9 @@ In this project, we demodulate XM radio transmissions and perform forward error 
 
 \section{Background}
 
-In this section, we provide background information on XM radio modulation. XM radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble contains half of the XM radio channels and uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.
+% In this section, we provide background information on XM radio modulation. XM radio divides their content across two separate ensembles (Ensemble A and Ensemble B), which are illustrated in Figure \ref{fig::xm_satellite_config}. Each ensemble contains half of the XM radio channels and uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.
+
+XM is one of two satellite radio services that received FCC licenses in the U.S. to transmit digital radio services across the country.  XM received 12.5MHz of spectrum from 2332.5MHz to 2345MHz to operate in the U.S.  The XM system leverages a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites transmit QSPK-modulated symbols, and the terrestrial repeaters leverage COFDM modulation \cite{5586866}.  As illustrated in Figure \ref{fig::xm_satellite_config}, XM Radio divides their content across two separate ensembles (Ensemble A and Ensemble B).  When the service was launched in 2001, this service allocation allowed a receiver to tune to a single Ensemble reducing the hardware requirements.  Each ensemble uses transmitter diversity to improve signal quality and prevent dropouts. The diversity scheme specifically uses QPSK-modulated signals from two separate satellites and a terrestrial COFDM-modulated signal.  A total of 6 different digital transmissions are contained in the XM frequency band, 4 satellites signals and 2 terrestrial signals.
 
 \iffalse
 \begin{figure}[H]
@@ -56,27 +58,27 @@ In this section, we provide background information on XM radio modulation. XM ra
 	\label{fig::xm_satellite_config}
 \end{figure}
 
-\noindent The center frequencies and bandwidths for each subregion of the spectrum are given in Table \ref{table::center_freq_and_bw}:
+	\noindent The center frequencies and bandwidths for each signal in the spectrum have been derived from \cite{andreas_2010_us8594559b2} and are listed in Table \ref{table::center_freq_and_bw}:
 \vspace{-12pt}
 \begin{table}[H]
 	\begin{center}
-	\caption{XM Radio Center Frequencies and Bandwidths \cite{andreas_2010_us8594559b2}}
+	\caption{XM Radio Center Frequencies and Bandwidths}
 	\label{table::center_freq_and_bw}
 	\begin{tabular}{| c | c | c |}
 		\hline
 		\textbf{Name} & $\mathbf{f_c}$ & \textbf{BW}\\
 		\hline
-		SAT1A	& 2333.465 MHz & 1.886 MHz\\
+		SAT1A & 2333.465 MHz & 1.886 MHz\\
 		\hline
-		SAT2A	& 2335.305 MHz & 1.886 MHz\\
+		SAT2A & 2335.305 MHz & 1.886 MHz\\
 		\hline
 		TERRA & 2337.490 MHz & 2.51 MHz \\
 		\hline
 		TERRB & 2340.020 MHz & 2.51 MHz \\
 		\hline
-		SAT1B	& 2342.205 MHz & 1.886 MHz\\
+		SAT1B & 2342.205 MHz & 1.886 MHz\\
 		\hline
-		SAT2B	& 2344.045 MHz & 1.886 MHz\\
+		SAT2B & 2344.045 MHz & 1.886 MHz\\
 		\hline
 	\end{tabular}
 	\end{center}
@@ -95,13 +97,31 @@ In this section, we provide background information on XM radio modulation. XM ra
 \end{figure}
 \fi
 
-In this report, we concentrate specifically on the SAT channels (TDM channels). A sample TDM receiver architecture is shown in Figure \ref{fig::tdm_receiver_architecture}. In this architecture, We start by performing coarse frequency compensation to remove large carrier offsets. Next, we pass the signal through a matched filter to maximize the SNR. Then, we perform timing recovery to ensure we are sampling the symbols in the ideal positions (midway between symbol transitions). We also perform carrier recovery to get rid of any residual phase or frequency offsets. Finally, we perform frame synchronization to form frames of data with the correct set of samples.
+The report focuses on the satellite QPSK signals referred to as TDM (time division multiplex) signals. The TDM receiver architecture is illustrated in Figure \ref{fig::TDM_receiver2_8920000}. It is composed of a QPSK demodulator followed by a de-interleaver, Viterbi decoder, and Reed-Solomon decoder. An example QPSK demodulator is provided in the XM STA\_400a channel decoder chip specification and is attached for reference in Figure \ref{fig::TDM_receiver_STA400}. 
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{TDM_receiver2_8920000.png}}}
+	\caption{TDM Receiver Architecture \cite{marko_2012_us8667344b2}}
+	\label{fig::TDM_receiver2_8920000}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{STA_400_TDM_BLOCK_DIAGRAM.png}}}
+	\caption{TDM QPSK Demodulator Details \cite{alldatasheetcom_2015_sta400a}}
+	\label{fig::TDM_receiver_STA400}
+\end{figure}
+
+We can replace the structures from this datasheet with a more familiar architecture from class, which is shown in Figure \ref{fig::tdm_receiver_architecture}. In this updated figure, the carrier NCO block has been replaced with a coarse frequency correction block. The RRC interpolator filter has been replaced by a combination of the the matched filter block and the timing synchronization block, which does interpolation. The timing loop filter has also been included in the timing synchronization block, and the carrier loop filter has been replaced with a carrier recovery block. Additional background on each of these blocks is provided in the sections below.
+
+% We also perform frame synchronization, which is not included in the XM STA\_400a block diagram. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_receiver_architecture.png}}}
-	\caption{TDM Receiver Architecture}
+	\caption{TDM QPSK Demodulator Using Blocks from the Course}
 	\label{fig::tdm_receiver_architecture}
 \end{figure}
+
+% In this report, we concentrate specifically on the SAT channels (TDM channels). A sample TDM receiver architecture is shown in Figure \ref{fig::tdm_receiver_architecture}. In this architecture, We start by performing coarse frequency compensation to remove large carrier offsets. Next, we pass the signal through a matched filter to maximize the SNR. Then, we perform timing recovery to ensure we are sampling the symbols in the ideal positions (midway between symbol transitions). We also perform carrier recovery to get rid of any residual phase or frequency offsets. Finally, we perform frame synchronization to form frames of data with the correct set of samples.
 
 \subsection{Coarse Frequency Compensation}
 
@@ -332,9 +352,24 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 \section{Procedure}
 
-We use our Pluto SDR to capture XM radio data using an active antenna in the configuration shown in Figure \ref{fig::active_antenna_setup}.
+\subsection{TDM Signal Collection}
 
-\begin{figure}[H]	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{example-image-a}}}
+A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to collect the satellite signal at 2335.305MHz.  An active antenna is useful to maximize the signal to noise ratio for a satellite to earth transmission.  XM active antenna typically have around 25dB of gain with an approximately 1dB  noise figure.  The PlutoSDR has a relatively high noise figure on the receive port and attaching an active antenna in front reduces the overall noise into the receiver.  To enable the collection of the best signal possible, the setup in Figure \ref{fig::gnu_hardware} was used.  To get power to the antenna, a RF bias-T was used.  After testing that the signal was sufficiently strong, a recording of about 20 seconds was made.
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_collect_grc.png}}}
+	\caption{GNU Radio Collection GRC}
+	\label{fig::gnu_collect}
+\end{figure}
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{capture_setup.png}}}
+	\caption{Hardware Setup for GNU Radio Collection}
+	\label{fig::gnu_hardware}
+\end{figure}
+
+We used our Pluto SDR to capture XM radio data using an active antenna in the configuration shown in Figure \ref{fig::active_antenna_setup}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{example-image-a}}}
 	\caption{Pluto SDR Setup with Active Antenna}
 	\label{fig::active_antenna_setup}
 \end{figure}

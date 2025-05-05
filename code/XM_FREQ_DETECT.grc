@@ -57,32 +57,6 @@ blocks:
     coordinate: [328, 8.0]
     rotation: 0
     state: enabled
-- name: agc_sink
-  id: virtual_sink
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: AGC Out
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [968, 312.0]
-    rotation: 0
-    state: enabled
-- name: agc_source
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: AGC Out
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1424, 136.0]
-    rotation: 0
-    state: enabled
 - name: analog_agc_xx_0
   id: analog_agc_xx
   parameters:
@@ -100,7 +74,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 192.0]
+    coordinate: [1144, 208.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -123,7 +97,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 28.0]
+    coordinate: [496, 280.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -141,7 +115,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 536.0]
+    coordinate: [1992, 232.0]
     rotation: 0
     state: disabled
 - name: blocks_file_source_0
@@ -181,7 +155,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1624, 88.0]
+    coordinate: [736, 224.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -202,33 +176,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 208.0]
-    rotation: 0
-    state: enabled
-- name: cfc_sink
-  id: virtual_sink
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: CFC Out
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1832, 88.0]
-    rotation: 0
-    state: enabled
-- name: cfc_source
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: CFC Out
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 536.0]
+    coordinate: [504, 208.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
@@ -246,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 472.0]
+    coordinate: [1704, 160.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_0
@@ -273,7 +221,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 476.0]
+    coordinate: [1352, 172.0]
     rotation: 0
     state: enabled
 - name: filter_fft_rrc_filter_0
@@ -296,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 164.0]
+    coordinate: [880, 180.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0
@@ -388,7 +336,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 448.0]
+    coordinate: [1992, 144.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0_0
@@ -480,7 +428,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 376.0]
+    coordinate: [1696, 304.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0_0_0
@@ -572,7 +520,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 104.0]
+    coordinate: [1352, 368.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -591,7 +539,7 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
-    average: '0.2'
+    average: '1.0'
     axislabels: 'True'
     bw: samp_rate
     color1: '"blue"'
@@ -610,11 +558,11 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: qtgui_tab_widget_0@0
+    gui_hint: qtgui_tab_widget_0@1
     label: Relative Gain
-    label1: Before RRC Filter
+    label1: Input Signal
     label10: ''''''
-    label2: After RRC Filter
+    label2: RRC Filter Output
     label3: ''''''
     label4: ''''''
     label5: ''''''
@@ -646,14 +594,14 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '-20'
-    ymin: '-160'
+    wintype: window.WIN_BLACKMAN
+    ymax: '10'
+    ymin: '-140'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 80.0]
+    coordinate: [1144, 104.0]
     rotation: 0
     state: enabled
 - name: qtgui_number_sink_0
@@ -685,7 +633,7 @@ blocks:
     factor8: '1'
     factor9: '1'
     graph_type: qtgui.NUM_GRAPH_NONE
-    gui_hint: 'qtgui_tab_widget_0@1: 0,0,1,1'
+    gui_hint: 'qtgui_tab_widget_0@0: 0,0,1,1'
     label1: ''
     label10: ''
     label2: ''
@@ -716,7 +664,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 192.0]
+    coordinate: [488, 416.0]
     rotation: 0
     state: enabled
 - name: qtgui_tab_widget_0
@@ -725,8 +673,8 @@ blocks:
     alias: ''
     comment: ''
     gui_hint: ''
-    label0: Spectrum
-    label1: CFO FFT Output
+    label0: CFO FFT Output
+    label1: Spectrum
     label10: Tab 10
     label11: Tab 11
     label12: Tab 12
@@ -737,94 +685,20 @@ blocks:
     label17: Tab 17
     label18: Tab 18
     label19: Tab 19
-    label2: Input Constellation
+    label2: Const. before Timing Comp
     label3: Const. after Timing Comp
     label4: Const. after Phase Comp
-    label5: FSP Correlation
+    label5: Tab 5
     label6: Tab 6
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '6'
+    num_tabs: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [160, 8.0]
-    rotation: 0
-    state: enabled
-- name: qtgui_vector_sink_f_0
-  id: qtgui_vector_sink_f
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    grid: 'False'
-    gui_hint: ''
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    ref_level: '0'
-    showports: 'False'
-    update_time: '0.10'
-    vlen: '3456'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    x_axis_label: '"x-Axis"'
-    x_start: '0'
-    x_step: '1.0'
-    x_units: '""'
-    y_axis_label: '"y-Axis"'
-    y_units: '""'
-    ymax: '40'
-    ymin: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1224, 648.0]
     rotation: 0
     state: enabled
 - name: qtgui_vector_sink_f_1
@@ -843,7 +717,7 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
-    average: '0.1'
+    average: '0.2'
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -856,7 +730,7 @@ blocks:
     color9: '"dark green"'
     comment: ''
     grid: 'False'
-    gui_hint: 'qtgui_tab_widget_0@1: 1,0,10,1'
+    gui_hint: 'qtgui_tab_widget_0@0: 1,0,10,1'
     label1: ''
     label10: ''
     label2: ''
@@ -892,30 +766,13 @@ blocks:
     x_units: '""'
     y_axis_label: Magnitude (dB)
     y_units: '""'
-    ymax: '10'
-    ymin: '-80'
+    ymax: '-60'
+    ymin: '-120'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 316.0]
-    rotation: 0
-    state: enabled
-- name: xm_module_preamble_detector_0
-  id: xm_module_preamble_detector
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    fsp: '[-1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1, 1, -1,  1,
-      -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1]'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [936, 672.0]
+    coordinate: [496, 536.0]
     rotation: 0
     state: enabled
 - name: xm_module_qpsk_fft_cfo_est_0
@@ -932,29 +789,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 200.0]
+    coordinate: [224, 328.0]
     rotation: 0
     state: enabled
 
 connections:
-- [agc_source, '0', blocks_multiply_xx_0, '1']
-- [analog_agc_xx_0, '0', agc_sink, '0']
+- [analog_agc_xx_0, '0', digital_symbol_sync_xx_0, '0']
 - [analog_agc_xx_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
-- [analog_agc_xx_0, '0', xm_module_qpsk_fft_cfo_est_0, '0']
-- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
 - [blocks_file_source_0, '0', blocks_throttle2_0, '0']
-- [blocks_multiply_xx_0, '0', cfc_sink, '0']
-- [blocks_throttle2_0, '0', filter_fft_rrc_filter_0, '0']
-- [blocks_throttle2_0, '0', qtgui_freq_sink_x_0, '0']
-- [cfc_source, '0', digital_symbol_sync_xx_0, '0']
+- [blocks_file_source_0, '0', xm_module_qpsk_fft_cfo_est_0, '0']
+- [blocks_multiply_xx_0, '0', filter_fft_rrc_filter_0, '0']
+- [blocks_multiply_xx_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_throttle2_0, '0', blocks_multiply_xx_0, '0']
 - [digital_costas_loop_cc_0, '0', blocks_file_sink_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0_0, '0']
-- [digital_costas_loop_cc_0, '0', xm_module_preamble_detector_0, '0']
 - [digital_symbol_sync_xx_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_const_sink_x_0_0_0, '0']
 - [filter_fft_rrc_filter_0, '0', analog_agc_xx_0, '0']
 - [filter_fft_rrc_filter_0, '0', qtgui_freq_sink_x_0, '1']
-- [xm_module_preamble_detector_0, '0', qtgui_vector_sink_f_0, '0']
 - [xm_module_qpsk_fft_cfo_est_0, '0', qtgui_number_sink_0, '0']
 - [xm_module_qpsk_fft_cfo_est_0, '1', qtgui_vector_sink_f_1, '0']
 - [xm_module_qpsk_fft_cfo_est_0, freq_msg, analog_sig_source_x_0, cmd]

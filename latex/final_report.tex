@@ -352,6 +352,8 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 \section{Procedure}
 
+In this section, we provide the procedure for our project. The procedural flow through each of the major blocks in our system is illustrated in Figure \ref{fig::xm_radio_processing}. Note that the most of the stages have been broken up with files. These files allow us to incrementally develop our algorithms and generate repeatable results in each stage of processing. Once the system is complete, these files can be removed and all the logic can be consolidated into a GNU radio flowchart with custom blocks.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{xm_radio_processing.png}}}
 	\caption{XM Radio Data Flow}

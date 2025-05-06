@@ -440,7 +440,7 @@ Taking the MFP aligned blocks, the first PRC (5440 bits) of satellite 2 was extr
 
 \subsection{Reed Solomon Decoder}
 
-Reed Solomon codes are block-based. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors.
+Reed Solomon codes are block-based. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors. Because the Reed Solomon code operates on bytes, it is very good at correcting bursts of errors which can occur in an environment with fading.
 
 \section{Results}
 

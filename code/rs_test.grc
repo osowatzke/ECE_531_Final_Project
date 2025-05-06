@@ -50,19 +50,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 8.0]
+    coordinate: [280, 4.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: '10000'
+    value: (2040*258)/0.432
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [168, 8.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_1
@@ -79,7 +79,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [832, 440.0]
+    coordinate: [848, 440.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_1_0
@@ -96,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1360, 240.0]
+    coordinate: [1008, 240.0]
     rotation: 0
     state: enabled
 - name: blocks_file_source_1
@@ -134,7 +134,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1096, 240.0]
+    coordinate: [856, 240.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_1
@@ -152,7 +152,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 448.0]
+    coordinate: [272, 448.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0_0
@@ -173,7 +173,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 232.0]
+    coordinate: [256, 232.0]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0
@@ -189,7 +189,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [816, 240.0]
+    coordinate: [680, 240.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_to_stream_0
@@ -207,7 +207,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 448.0]
+    coordinate: [664, 448.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_decoder_cb_0
@@ -223,7 +223,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 240.0]
+    coordinate: [440, 240.0]
     rotation: 0
     state: enabled
 - name: dtv_dvbt_reed_solomon_dec_0
@@ -239,14 +239,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     n: '255'
-    p: '2'
+    p: '0'
     s: '0'
     t: '16'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 380.0]
+    coordinate: [448, 380.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -304,8 +304,8 @@ blocks:
     marker9: '-1'
     name: '""'
     nconnections: '1'
-    size: '512'
-    srate: '1'
+    size: 223*2
+    srate: samp_rate
     stemplot: 'False'
     style1: '1'
     style10: '1'
@@ -343,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1104, 424.0]
+    coordinate: [1016, 424.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -401,8 +401,8 @@ blocks:
     marker9: '-1'
     name: '""'
     nconnections: '1'
-    size: '512'
-    srate: '1'
+    size: 255*2
+    srate: samp_rate
     stemplot: 'False'
     style1: '1'
     style10: '1'
@@ -440,7 +440,33 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1600, 224.0]
+    coordinate: [1168, 224.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Received Symbols
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 176.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: Received Symbols
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 440.0]
     rotation: 0
     state: enabled
 
@@ -449,13 +475,14 @@ connections:
 - [blocks_char_to_float_1_0, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_file_source_1, '0', blocks_throttle2_0_0, '0']
 - [blocks_pack_k_bits_bb_0_0, '0', blocks_char_to_float_1_0, '0']
-- [blocks_pack_k_bits_bb_0_0, '0', blocks_stream_to_vector_1, '0']
+- [blocks_pack_k_bits_bb_0_0, '0', virtual_sink_0, '0']
 - [blocks_stream_to_vector_1, '0', dtv_dvbt_reed_solomon_dec_0, '0']
 - [blocks_throttle2_0_0, '0', digital_constellation_decoder_cb_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', blocks_pack_k_bits_bb_0_0, '0']
 - [blocks_vector_to_stream_0, '0', blocks_char_to_float_1, '0']
 - [digital_constellation_decoder_cb_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [dtv_dvbt_reed_solomon_dec_0, '0', blocks_vector_to_stream_0, '0']
+- [virtual_source_0, '0', blocks_stream_to_vector_1, '0']
 
 metadata:
   file_format: 1

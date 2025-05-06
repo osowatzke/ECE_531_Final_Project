@@ -380,7 +380,7 @@ XM uses a non-recursive convolutional encoder/decoder as part of the concatenate
 
 \subsection{Reed Solomon Decoder}
 
-Reed Solomon codes are block-based. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors. Because the Reed Solomon code operates on bytes, it is very good at correcting bursts of errors which can occur in an environment with fading.
+Reed Solomon codes are block-based. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors \cite{a2008_us8260192b2}. Because the Reed Solomon code operates on bytes, it is very good at correcting bursts of errors which can occur in an environment with fading.
 
 \section{Procedure}
 
@@ -441,6 +441,18 @@ We can perform a similar procedure to identify the MFP. However, to avoid false 
 % Once we find the FSP and MFP, we can break our data up into MFP-aligned blocks. We specifically examined the first PRC (5440 bits) of the satellite 2 signal following the description of the time interleaver. The first PRC mentioned at the TSCC (time slot control channel) and should contain a frame counter
 
 Taking the MFP aligned blocks, the first PRC (5440 bits) of satellite 2 was extracted following the description of the time interleaver.  These are mentioned at the TSCC (time slot control channel) and should contain a frame counter.  This was chosen as the best PRC to use as the channel structure is not expected to change constantly through a shorter time frame.  Because we were examining a single satellite, the time interleaver output to several frames to have enough transmitted bits to test against a Matlab Viterbi decoder.  With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, one would chose to run the Viterbi as a rate 1/3 code rate.  With a single satellite one can use a rate 1/2 Viterbi with correct puncturing.  For a single satellite, the effective convolutional encoder rate is 3/4.  I.e. for every 4 received bits, there will be 3 usable information bits.  The decoder needs more than 3 transmission bits in order to determine the state of the trellis.
+
+\subsection{Reed Solomon Decoder}
+
+To familiarize ourselves with the Reed Solomon Decoder, we instantiate a Reed Solomon Decoder in GNU radio and test it on MATLAB-generated data with and without errors. Our flowchart is shown in Figure \ref{fig::rs_test_grc}. 
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{RS_test_grc.png}}}
+	\caption{GRC Flowchart to Test RS Decoder}
+	\label{fig::rs_test_grc}
+\end{figure}
+
+	Note that for this experiment, we use the DVB-T Reed-Solomon Decoder that is provided by the  Digital Television Library. By default, this decoder uses a (255, 239) RS code (N=255 and K=239) with a shortening size of 51. To make it compatible with the XM radio specification, we let K=223 and set the shortening size to 0. We also set t=16 to correct for the maximum number of errors. This flowchart is a piece of the overall system and can be fed the Viterbi decoder output once the rest of the system is functional.
 
 \section{Results}
 
@@ -624,6 +636,10 @@ At this point we re-examined the documentation and discovered that the STA400a c
 	\caption{XM potential scrambler}
 	\label{fig::scrambler}
 \end{figure}
+
+%\subsection{Reed Solomon Decoding}
+
+%In this section, we experiment with
 
 \iffalse
 \begin{itemize}

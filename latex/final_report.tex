@@ -407,6 +407,8 @@ We can perform a similar procedure to identify the MFP. However, to avoid false 
 
 \section{Results}
 
+\subsection{QPSK Demodulation}
+
 In this section, we highlight the results from each of our experiments. We start by analyzing the QPSK demodulator. The spectrum of the received signal before and after applying the root raised cosine (RRC) filter is shown in Figure \ref{fig::root_raised_cosine_spectrum}.
 
 \begin{figure}[H]
@@ -446,6 +448,8 @@ The coarse frequency compensation is limited by the FFT size and the rate at whi
 	\caption{Received Constellation After Fine Carrier Synchronization}
 	\label{fig::constellation_after_fine_carrier_comp}
 \end{figure}
+
+\noindent After carrier synchronization, the constellation cleans up and we see the QPSK symbols with a PSK hierarchical modulation of $\pm15^{\circ}$. For the purposes of this report, we ignore the hierarchical modulation and consider only the QPSK symbols. In this configuration, we can treat the hierarchical modulation as "additional phase noise".
 
 % The XM radio signal is transmitted through a square-root raised cosine filter, which limit the signal bandwidth [ADD A CITATION HERE]. Because of this, the receiver needs a matching square root raised cosine filter. The root-raised cosine filter is a type II Nyquist filter, which results in zero intersymbol interference when the received signal is sampled at the midpoint of each symbol period. When the PlutoSDR samples the received signal, this condition is not strictly enforced. This results in significant spreading in our constellation as illustrated in Figure \ref{fig::constellation_no_timing_comp}.
 

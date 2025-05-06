@@ -439,6 +439,14 @@ After timing compensation, we see that the amplitude of the constellation has st
 	\label{fig::cfo_frequency_estimate}
 \end{figure}
 
+The coarse frequency compensation is limited by the FFT size and the rate at which the frequency drifts. We add an additional fine frequency compensation block to resolve the rest of the error. We use the GNU radio Costas Loop block for this analysis. The GNU radio Costas Loop block implements a algorithm similar to the fine carrier compensation block. It includes a phase error detector, a loop filter, a direct digital synthesizer and a phase rotator. The constellation after fine frequency compensation is shown in Figure \ref{fig::constellation_after_fine_carrier_comp}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_fine_carrier_comp.png}}}
+	\caption{Received Constellation After Fine Carrier Synchronization}
+	\label{fig::constellation_after_fine_carrier_comp}
+\end{figure}
+
 % The XM radio signal is transmitted through a square-root raised cosine filter, which limit the signal bandwidth [ADD A CITATION HERE]. Because of this, the receiver needs a matching square root raised cosine filter. The root-raised cosine filter is a type II Nyquist filter, which results in zero intersymbol interference when the received signal is sampled at the midpoint of each symbol period. When the PlutoSDR samples the received signal, this condition is not strictly enforced. This results in significant spreading in our constellation as illustrated in Figure \ref{fig::constellation_no_timing_comp}.
 
 %\begin{figure}[H]
@@ -463,14 +471,13 @@ After timing compensation, we see that the amplitude of the constellation has st
 %	\label{fig::cfo_frequency_estimate}
 %\end{figure}
 
-The coarse frequency compensation is limited by the FFT size and the rate at which the frequency drifts. We add an additional fine frequency compensation block to resolve the rest of the error. We use the GNU radio Costas Loop block for this analysis. The GNU radio Costas Loop closely resembles the timing synchronization block. It includes a phase error detector, a loop filter, a direct digital synthesizer and a phase rotator.
-The phase rotator adjusts the phase of the received signal by multiplying it with a phasor. The phase error detector then detects the phase error, which is fed into a loop filter for stabilization. Finally the Direct Digital Synthesizer creates a coherent phasor which removes residual phase and frequency offsets. The constellation after fine frequency compensation is shown in Figure \ref{fig::constellation_after_fine_carrier_comp}.
+% The coarse frequency compensation is limited by the FFT size and the rate at which the frequency drifts. We add an additional fine frequency compensation block to resolve the rest of the error. We use the GNU radio Costas Loop block for this analysis. The GNU radio Costas Loop closely resembles the timing synchronization block. It includes a phase error detector, a loop filter, a direct digital synthesizer and a phase rotator. The phase rotator adjusts the phase of the received signal by multiplying it with a phasor. The phase error detector then detects the phase error, which is fed into a loop filter for stabilization. Finally the Direct Digital Synthesizer creates a coherent phasor which removes residual phase and frequency offsets. The constellation after fine frequency compensation is shown in Figure \ref{fig::constellation_after_fine_carrier_comp}.
 
-\begin{figure}[H]
-	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_fine_carrier_comp.png}}}
-	\caption{Received Constellation After Fine Carrier Synchronization}
-	\label{fig::constellation_after_fine_carrier_comp}
-\end{figure}
+%\begin{figure}[H]
+%	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{constellation_after_fine_carrier_comp.png}}}
+%	\caption{Received Constellation After Fine Carrier Synchronization}
+%	\label{fig::constellation_after_fine_carrier_comp}
+%\end{figure}
 
 XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
 

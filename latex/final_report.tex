@@ -351,6 +351,41 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 \noindent Therefore, to use it for cross-correlation, we need the filter $h(k)$ to be $x^*(-k)$. To simplify the thresholding, we can normalize the signal so it has unit average power over the correlation window.
 
+\subsection{Time Interleaver}
+
+XM requires time diversity in its service to ensure minimum dropouts for paying customers.  To accomplish this, XM uses a convolutional time interleaver to spread the transmitted bits over a wide period time (specifically 4.69 seconds).  Time diversity allows the receiver to recover the transmitted signal with large signal blockage time. 
+
+In the XM radio MFP structure, the data is partitioned into PRC ``prime rate channels'' which consist of 258 PRC's grouped as 5440 transmitted bits each as seen in Figure {same as MFP/FSP figure}.  These 5440 bits PRS are the results of the FEC encoding which uses a RS(255,223) block code (Reed Solomon) followed by a convolutional encoding at rate 3/8.  A RS (255,223) encoder produces 2040 transmitted bits and the rate 3/8 convolution encoding increases the transmitted bits to 5440.  Each satellite transmits 1/2 the bits or 2720 bits.  Details of the FEC encoding will follow in FEC section.\\
+Each PRC of 5440 bits per satellite is the result of 2 RS codewords.  As can be seen in Figure \ref{fig::time_interleaver} obtained from {CITE XM PATENT}, XM uses a separate convolutional time interleaver on each PRC.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{XM_TIME_INTERLEAVER_DETAILS_no_label.png}}}
+	\caption{XM Time Interleaver}
+	\label{fig::time_interleaver}
+\end{figure}
+
+Figure \ref{fig::time_interleaver} shows the time interleaver from the transmission point of view.  The receiver follows in reverse. As can be seen each satellite can be processed independently or combined in a receiver through this time interleaver mechanism.  For the test, we used a single satellite (sat2) as the source and inserted zeros for the other satellite (sat1). Highlighted in block 36 is the punctured bits maked by an X and satellite 1 bits 1-4 and satellite 2 bits 5-8.  As can be seen in Figure \ref{fig::time_interleaver}, when one uses 5440 bits per MFP (.432mS) and calculates the maximum delay through the 4 buffers, the result is an interleaver delay of 4.698s described in the XM chipset STA400a section 1.4 TDM DECODING {CITE}.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{XM_TIME_INTERLEAVER_DETAILS_no_label.png}}}
+	\caption{XM Time Interleaver}
+	\label{fig::time_interleaver}
+\end{figure}
+
+Figure \ref{fig::time_interleaver} shows the time interleaver from the transmission point of view.  The receiver follows in reverse. As can be seen each satellite can be processed independently or combined in a receiver through this time interleaver mechanism.  For the test, we used a single satellite (sat2) as the source and inserted zeros for the other satellite (sat1). Highlighted in block 36 is the punctured bits maked by an X and satellite 1 bits 1-4 and satellite 2 bits 5-8.  As can be seen in Figure \ref{fig::time_interleaver}, when one uses 5440 bits per MFP (.432mS) and calcuates the maximum delay through the 4 buffers, the result is an interleaver delay of 4.698s described in the XM chipset STA400a section 1.4 TDM DECODING {CITE}.
+
+\subsection{Convolutional Decoder}
+
+A convolutional encoder/decoder uses a concept similar to FIR/IIR filters where the information bits are spead over time using GF(2).  These codes have been around since the 1950's.  These codes use registers to keep track of the state of the system.  They can be both recursive and non-recursive feedback polynomials to spread the information bits across time.  Non-recursive convolutional codes are commonly decoded with the Viterbi algorithm and recursive polynomials are commonly used in Turbo codes.
+
+XM uses a non-recursive convolutional encoder/decoder as part of the concatenated coding.  Concatenated codes typically use an inner convolutional code with an outer block code.  For the XM sytem, they employ a complementary convolutional encoder.  This is a way to split the transmitted information across the two satellites as well as the terrestrial signal.  Figure \ref{fig::Viterbi} shows details of the convolution encoder described in XM patent {cite}.  This encoder takes in 3 information bits and create 9 transmitted bits.  The bits labeled ``A'', ``B'', ``C'' and ``D'' are sent to satellite 1 and bits ``F'', ``G'', ``H'' and ``J'' are sent to satellite 2.  The terrestrial signal uses the same bits as satellite 2 with the addition of bit ``E''.
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_encoder.png}}}
+	\caption{XM Convolutional Encoder}
+	\label{fig::Viterbi}
+\end{figure}
+
 \section{Procedure}
 
 In this section, we provide the procedure for our project. The procedural flow through each of the major blocks in our system is illustrated in Figure \ref{fig::xm_radio_processing}. Note that the most of the stages have been broken up with files. These files allow us to incrementally develop our algorithms and generate repeatable results in each stage of processing. Once the system is complete, these files can be removed and all the logic can be consolidated into a GNU radio flowchart with custom blocks.

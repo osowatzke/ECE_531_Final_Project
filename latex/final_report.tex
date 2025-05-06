@@ -483,9 +483,9 @@ The coarse frequency compensation is limited by the FFT size and the rate at whi
 %	\label{fig::constellation_after_fine_carrier_comp}
 %\end{figure}
 
-XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
+\subsection{Finding the FSP and MFP}
 
-
+In this section, we compute the FSP and MFP using the algorithms illustrated in Figures \ref{fig::finding_fsp} and \ref{fig::finding_mfp} respectively. In Figure \ref{fig::fsp_correlation}, we show the peak FSP auto-correlation.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_correlation.png}}}
@@ -493,7 +493,7 @@ XM radio divides its transmitted data into frames. These frames are marked by tw
 	\label{fig::fsp_correlation}
 \end{figure}
 
-We can also examine some of the properties of the FSP by looking at its constellation. In Figure \ref{fig::fsp_constellation}, we show the constellation of the FSP symbols and data symbols.
+\noindent We can use the peak location of the auto-correlation output to determine the location of the FSP in our data. In Figure \ref{fig::fsp_constellation}, We show the constellation for our FSP samples against the contellation points for the rest of the symbols in the payload.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_constellation.png}}}
@@ -501,10 +501,9 @@ We can also examine some of the properties of the FSP by looking at its constell
 	\label{fig::fsp_constellation}
 \end{figure}
 
-Examining the figure, we see that the FSP uses bi-phase modulation (phase-shifted BPSK) instead of QPSK modulation like the proceeding signals. To 
-improve our correlation performance going forward, we demodulate each of the FSP constellation points. Note that our results are ambiguous by $180^{\circ}$, so we assume a leading 1 in the FSPs. Errors reported by the Reed Solomon decoder (when implemented) can be used to resolve this ambiguity. If we receive high error counts, we know to rotate the phase of our FSP by $180^{\circ}$.
+\noindent Examining the constellation, we see that the FSP is using BPSK modulation with a phase rotation of $45^{\circ}$. If we demodulate each of our points, we can create a noise-free estimate of our FSP. Note that the resulting FSP is ambiguous by $90n^{\circ}$, where $n \in \mathcal{Z}$. This is not important for detecting the start of frames, but is important for applications such as EQ.
 
-The base case auto-correlation provides the location of the MFP. For our data, the best case auto-correlation is shown in Figure \ref{fig::mfp_correlation} and the resulting constellation is shown in Figure \ref{fig::mfp_constellation}.
+We can apply a similar algorithm to find the MFP. However, we now only consider the possible MFP positions (right before the FSP). Doing so, significantly reduces the computation time. The peak MFP auto-correlation is shown in Figure \ref{fig::mfp_correlation}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}
@@ -512,19 +511,55 @@ The base case auto-correlation provides the location of the MFP. For our data, t
 	\label{fig::mfp_correlation}
 \end{figure}
 
+\noindent As we did for the FSP, we can use the peak location of the auto-correlation output to determine the location of the MFP. In Figure \ref{fig::mfp_constellation}, we extract the constellation for our MFP and plot it alongside the constellation for the rest of the preamble.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_constellation.png}}}
 	\caption{Constellation of MFP Symbols vs Data Symbols}
 	\label{fig::mfp_constellation}
 \end{figure}
 
-Examining the constellation, we see that the MFP is also bi-phase. To 
-improve our correlation performance going forward, we demodulate each of the MFP constellation points. Note that our results are ambiguous by $180^{\circ}$ as described above. For now we assume a leading 1 in the MFPs.
+\noindent Similar to the FSP, we see that the MFP is using BPSK modulation with a phase rotation of $45^{\circ}$. If we demodulate each of our points, we can create a noise-free estimate of our MFP. Note that the resulting MFP is also ambiguous by $90n^{\circ}$, where $n \in \mathcal{Z}$. This is not important for detecting the start of frames, but is important for applications such as EQ.
+
+% \noindent Examining the figure, we see that the MFP XM radio divides its transmitted data into frames. These frames are marked by two different preambles: the MFP (master frame preamble) and the FSP (fast synchronization preamble). The FSP marks the start of the data portion and corrects for ambiguities, while the MFP is used to align the signal from each satellite \cite{a2008_us8260192b2}. Both preambles and their relative timing are illustrated in Figure \ref{fig::tdm_frame_format}.
+
+%\begin{figure}[H]
+%	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_correlation.png}}}
+%	\caption{Auto-Correlation of Optimum FSP Selection}
+%	\label{fig::fsp_correlation}
+%\end{figure}
+
+%We can also examine some of the properties of the FSP by looking at its constellation. In Figure \ref{fig::fsp_constellation}, we show the constellation of the FSP symbols and data symbols.
+
+%\begin{figure}[H]
+%	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_constellation.png}}}
+%	\caption{Constellation of FSP Symbols vs Data Symbols}
+%	\label{fig::fsp_constellation}
+%\end{figure}
+
+%Examining the figure, we see that the FSP uses bi-phase modulation (phase-shifted BPSK) instead of QPSK modulation like the proceeding signals. To improve our correlation performance going forward, we demodulate each of the FSP constellation points. Note that our results are ambiguous by $180^{\circ}$, so we assume a leading 1 in the FSPs. Errors reported by the Reed Solomon decoder (when implemented) can be used to resolve this ambiguity. If we receive high error counts, we know to rotate the phase of our FSP by $180^{\circ}$.
+
+% The base case auto-correlation provides the location of the MFP. For our data, the best case auto-correlation is shown in Figure \ref{fig::mfp_correlation} and the resulting constellation is shown in Figure \ref{fig::mfp_constellation}.
+
+%\begin{figure}[H]
+%	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation.png}}}
+%	\caption{Auto-Correlation of Optimum MFP Selection}
+%	\label{fig::mfp_correlation}
+%\end{figure}
+
+%\begin{figure}[H]
+%	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_constellation.png}}}
+%	\caption{Constellation of MFP Symbols vs Data Symbols}
+%	\label{fig::mfp_constellation}
+%\end{figure}
+
+%Examining the constellation, we see that the MFP is also bi-phase. To improve our correlation performance going forward, we demodulate each of the MFP constellation points. Note that our results are ambiguous by $180^{\circ}$ as described above. For now we assume a leading 1 in the MFPs.
 
 % Add plot of FSP in constellation w/ different color
 
 % Add picture of setup
 
+\iffalse
 \begin{itemize}
 	\item Nyquist Filter
 	\item Timing Synchronization
@@ -535,6 +570,7 @@ improve our correlation performance going forward, we demodulate each of the MFP
 	\end{itemize}
 	\item Frame Synchronization
 \end{itemize}
+\fi
 
 \printbibliography
 

@@ -368,16 +368,21 @@ XM radio divides its transmitted data into frames. These frames include two diff
 
 XM requires time diversity in its service to ensure minimum dropouts for paying customers.  To accomplish this, XM uses a convolutional time interleaver to spread the transmitted bits over a wide period time (specifically 4.69 seconds).  Time diversity allows the receiver to recover the transmitted signal with large signal blockage time. 
 
-In the XM radio MFP structure, the data is partitioned into PRC ``prime rate channels'' which consist of 258 PRC's grouped as 5440 transmitted bits each as seen in Figure {same as MFP/FSP figure}.  These 5440 bits PRS are the results of the FEC encoding which uses a RS(255,223) block code (Reed Solomon) followed by a convolutional encoding at rate 3/8.  A RS (255,223) encoder produces 2040 transmitted bits and the rate 3/8 convolution encoding increases the transmitted bits to 5440.  Each satellite transmits 1/2 the bits or 2720 bits.  Details of the FEC encoding will follow in FEC section.\\
-Each PRC of 5440 bits per satellite is the result of 2 RS codewords.  As can be seen in Figure \ref{fig::time_interleaver} obtained from {CITE XM PATENT}, XM uses a separate convolutional time interleaver on each PRC.
+In the XM radio MFP structure, the data is partitioned into PRC ``prime rate channels'' which consist of 258 PRC's grouped as 5440 transmitted bits each as seen in Figure \ref{fig::tdm_frame_format}.  These 5440 bits PRCs are the results of the FEC encoding, which uses a RS(255,223) block code (Reed Solomon) followed by a convolutional encoding at rate 3/8.  A RS (255,223) encoder produces 2040 transmitted bits and the rate 3/8 convolution encoding increases the transmitted bits to 5440.  Each satellite transmits 1/2 the bits or 2720 bits. 
+
+% Details of the FEC encoding will follow in FEC section (what FEC section?)
+
+Each PRC of 5440 bits per satellite is the result of 2 RS codewords.  As can be seen in Figure \ref{fig::time_interleaver} obtained from \cite{marko_2012_us8667344b2}, XM radio uses a separate convolutional time interleaver on each PRC.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{XM_TIME_INTERLEAVER_DETAILS_no_label.png}}}
-	\caption{XM Time Interleaver}
+	\caption{XM Time Interleaver \cite{marko_2012_us8667344b2}}
 	\label{fig::time_interleaver}
 \end{figure}
 
-Figure \ref{fig::time_interleaver} shows the time interleaver from the transmission point of view.  The receiver follows in reverse. As can be seen each satellite can be processed independently or combined in a receiver through this time interleaver mechanism.  For the test, we used a single satellite (sat2) as the source and inserted zeros for the other satellite (sat1). Highlighted in block 36 is the punctured bits maked by an X and satellite 1 bits 1-4 and satellite 2 bits 5-8.  As can be seen in Figure \ref{fig::time_interleaver}, when one uses 5440 bits per MFP (.432mS) and calculates the maximum delay through the 4 buffers, the result is an interleaver delay of 4.698s described in the XM chipset STA400a section 1.4 TDM DECODING {CITE}.
+% Explain how we can process the satellite independently
+
+Figure \ref{fig::time_interleaver} shows the time interleaver from the transmitter's point of view.  The receiver follows in reverse. As can be seen, each satellite can be processed independently or combined in a receiver through this time interleaver mechanism.  For our tests, we used a single satellite (sat2) as the source and inserted zeros for the other satellite (sat1). Block 36 highlights the punctured bits (marked by an X), satellite 1 bits (1-4), and satellite 2 bits (5-8).  As can be seen in Figure \ref{fig::time_interleaver}, when one uses 5440 bits per MFP (0.432 ms) and calculates the maximum delay through the 4 buffers, the result is an interleaver delay of 4.698 seconds described in the XM chipset STA400a section 1.4 TDM DECODING \cite{alldatasheetcom_2015_sta400a}.
 
 \subsection{Convolutional Decoder}
 

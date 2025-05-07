@@ -755,7 +755,7 @@ blocks:
     bus_structure: null
     coordinate: [488, 416.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_tab_widget_0
   id: qtgui_tab_widget
   parameters:
@@ -937,7 +937,7 @@ blocks:
     bus_structure: null
     coordinate: [496, 536.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: xm_module_preamble_detector_0
   id: xm_module_preamble_detector
   parameters:
@@ -970,7 +970,7 @@ blocks:
     bus_structure: null
     coordinate: [224, 328.0]
     rotation: 0
-    state: disabled
+    state: enabled
 
 connections:
 - [analog_agc_xx_0, '0', digital_symbol_sync_xx_0, '0']

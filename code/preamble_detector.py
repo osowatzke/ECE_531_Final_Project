@@ -26,9 +26,10 @@ class preamble_detector(gr.basic_block):
             #out_sig=[np.float32])
             out_sig=[(np.float32, 3456)])
 
-        self.mf = np.flip(np.conj(np.array(fsp)))
+        fsp_taps = np.flip(np.conj(np.array(fsp)))
+        self.fsp_filt = filt(fsp_taps)
+        
         self.sample_buffer = np.array([],dtype=np.complex64)
-        self.filter_state = np.zeros(len(self.mf)-1,dtype=np.complex64)
 
     def general_work(self, input_items, output_items):
         
@@ -37,40 +38,23 @@ class preamble_detector(gr.basic_block):
         
         while len(self.sample_buffer) >= 3456:
             x = self.sample_buffer[:3456]
+            output_items[0][:] = np.abs(self.fsp_filt(x))
             self.sample_buffer = self.sample_buffer[3456:]
-            y = np.convolve(x,self.mf,mode='full')
-            y[:len(self.filter_state)] = y[:len(self.filter_state)] + self.filter_state
-            output_items[0][:] = np.abs(y[:-len(self.filter_state)])
-            self.filter_state = y[-len(self.filter_state):]
             produced += 1
 
         self.consume(0, len(input_items[0]))
         return produced
-        
-        '''
-        x = np.array(input_items[0])
-        y = np.convolve(x,self.mf,mode='full')
-        y[:len(self.filter_state)] = y[:len(self.filter_state)] + self.filter_state
-        #print(len(y))
-        #print(len(y[:-len(self.filter_state)]))
-        output_items[0][:] = np.abs(y[:-len(self.filter_state)])
-        idx = np.argmax(output_items[0])
-        #print(len(output_items[0]))
-        self.filter_state = y[-len(self.filter_state):]
-        #print(self.filter_state)
-        self.consume(0, len(input_items[0])) # len(x))
-        self.add_item_tag(0, # Write to output port 0
-          self.nitems_written(0) + idx, # Index of the tag in absolute terms
-          pmt.intern("FSP"), # Key of the tag
-          pmt.from_double(np.double(np.abs(y[idx]))) # output_items[0][idx])) # Value of the tag
-         )
-        #print(len(x),len(y),len(output_items[0]))
-        return len(output_items[0])
-        '''
-        # For this sample code, the general block is made to behave like a sync block
-        #ninput_items = min([len(items) for items in input_items])
-        #noutput_items = min(len(output_items[0]), ninput_items)
-        #output_items[0][:noutput_items] = input_items[0][:noutput_items]
-        #self.consume_each(noutput_items)
-        #return noutput_items
 
+
+class filt:
+    def __init__(self, taps):
+        self.taps = np.array(taps)
+        self.filter_state = np.zeros(len(taps)-1, dtype=np.complex64)
+        
+    def __call__(self, x):
+        x = np.array(x)
+        y = np.convolve(x,self.taps,'full')
+        y[:len(self.filter_state)] = y[:len(self.filter_state)] + self.filter_state
+        self.filter_state = y[-len(self.filter_state):]
+        y = y[:-len(self.filter_state)]
+        return y

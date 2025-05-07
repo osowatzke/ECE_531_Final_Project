@@ -386,19 +386,19 @@ Figure \ref{fig::time_interleaver} shows the time interleaver from the transmitt
 
 \subsection{Convolutional Decoder}
 
-A convolutional encoder/decoder uses a concept similar to FIR/IIR filters where the information bits are spead over time using GF(2).  These codes have been around since the 1950's.  These codes use registers to keep track of the state of the system.  They can be both recursive and non-recursive feedback polynomials to spread the information bits across time.  Non-recursive convolutional codes are commonly decoded with the Viterbi algorithm and recursive polynomials are commonly used in Turbo codes.
+A convolutional encoder/decoder uses a concept similar to FIR/IIR filters, where the information bits are spead over time using GF(2).  These codes have been around since the 1950's.  These codes use registers to keep track of the state of the system.  They can use both recursive and non-recursive feedback polynomials to spread the information bits across time.  Non-recursive convolutional codes are commonly decoded with the Viterbi algorithm and recursive polynomials are commonly used in Turbo codes.
 
-XM uses a non-recursive convolutional encoder/decoder as part of the concatenated coding.  Concatenated codes typically use an inner convolutional code with an outer block code.  For the XM sytem, they employ a complementary convolutional encoder.  This is a way to split the transmitted information across the two satellites as well as the terrestrial signal.  Figure \ref{fig::Viterbi} shows details of the convolution encoder described in XM patent {cite}.  This encoder takes in 3 information bits and create 9 transmitted bits.  The bits labeled ``A'', ``B'', ``C'' and ``D'' are sent to satellite 1 and bits ``F'', ``G'', ``H'' and ``J'' are sent to satellite 2.  The terrestrial signal uses the same bits as satellite 2 with the addition of bit ``E''.
+XM uses a non-recursive convolutional encoder/decoder as part of the concatenated coding.  Concatenated codes typically use an inner convolutional code with an outer block code.  For the XM sytem, they employ a complementary convolutional encoder.  This is a way to split the transmitted information across the two satellites as well as the terrestrial signal.  Figure \ref{fig::Viterbi} shows details of the convolution encoder described in XM patent \cite{marko_2012_us8667344b2}.  This encoder takes in 3 information bits and create 9 transmitted bits.  The bits labeled ``A'', ``B'', ``C'' and ``D'' are sent to satellite 1 and bits ``F'', ``G'', ``H'' and ``J'' are sent to satellite 2.  The terrestrial signal uses the same bits as satellite 2 with the addition of bit ``E''.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_encoder.png}}}
-	\caption{XM Convolutional Encoder}
+	\caption{XM Convolutional Encoder \cite{marko_2012_us8667344b2}}
 	\label{fig::Viterbi}
 \end{figure}
 
 \subsection{Reed Solomon Decoder}
 
-Reed Solomon codes are block-based. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors \cite{a2008_us8260192b2}. Because the Reed Solomon code operates on bytes, it is very good at correcting bursts of errors which can occur in an environment with fading.
+Reed Solomon codes are block-based error correction codes. For XM radio, they define their Reed Solomon code over $\text{GF}\left(2^8\right)$. They specifically use a (255,223) Reed Solomon code. In other words they encode 223 data symbols in 255 symbols, where the extra 32 symbols serve as parity. This allows the XM radio to correct up to 16 symbol errors \cite{a2008_us8260192b2}. Because the Reed Solomon code operates on bytes, it is also very good at correcting bursts of errors, which can occur when there is fading.
 
 \section{Procedure}
 

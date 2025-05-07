@@ -146,7 +146,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1632, 560.0]
+    coordinate: [1320, 568.0]
     rotation: 0
     state: enabled
 - name: blocks_file_source_0
@@ -169,21 +169,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [24, 184.0]
-    rotation: 0
-    state: enabled
-- name: blocks_message_debug_0
-  id: blocks_message_debug
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    en_uvec: 'True'
-    log_level: info
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1400, 752.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0
@@ -218,7 +203,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1632, 680.0]
+    coordinate: [1320, 688.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -752,6 +737,69 @@ blocks:
     coordinate: [488, 416.0]
     rotation: 0
     state: enabled
+- name: qtgui_number_sink_0_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_NONE
+    gui_hint: 'qtgui_tab_widget_0@6: 0,0,1,1'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '1'
+    min: '-1'
+    name: Frame Count
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 760.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_tab_widget_0
   id: qtgui_tab_widget
   parameters:
@@ -774,11 +822,11 @@ blocks:
     label3: Const. after Timing Comp
     label4: Const. after Phase Comp
     label5: Correlation with FSP
-    label6: Tab 6
+    label6: Correlation with MFP
     label7: Tab 7
     label8: Tab 8
     label9: Tab 9
-    num_tabs: '6'
+    num_tabs: '7'
   states:
     bus_sink: false
     bus_source: false
@@ -857,7 +905,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 768.0]
+    coordinate: [840, 768.0]
     rotation: 0
     state: enabled
 - name: qtgui_vector_sink_f_1
@@ -963,7 +1011,7 @@ blocks:
     color9: '"dark green"'
     comment: ''
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'qtgui_tab_widget_0@6: 1,0,10,1'
     label1: ''
     label10: ''
     label2: ''
@@ -1005,7 +1053,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1408, 648.0]
+    coordinate: [1096, 656.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
@@ -1046,7 +1094,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1416, 608.0]
+    coordinate: [1104, 616.0]
     rotation: 0
     state: enabled
 - name: xm_module_mfp_align_0
@@ -1061,7 +1109,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 656.0]
+    coordinate: [848, 656.0]
     rotation: 0
     state: enabled
 - name: xm_module_preamble_detector_0
@@ -1120,7 +1168,7 @@ connections:
 - [xm_module_extract_data_bits_0, '0', blocks_null_sink_0, '0']
 - [xm_module_mfp_align_0, '0', xm_module_extract_data_bits_0, '0']
 - [xm_module_mfp_align_0, '1', qtgui_vector_sink_f_2, '0']
-- [xm_module_mfp_align_0, frame_count, blocks_message_debug_0, log]
+- [xm_module_mfp_align_0, '2', qtgui_number_sink_0_0, '0']
 - [xm_module_preamble_detector_0, '0', xm_module_mfp_align_0, '0']
 - [xm_module_preamble_detector_0, '1', qtgui_vector_sink_f_0_0, '0']
 - [xm_module_preamble_detector_0, '2', qtgui_vector_sink_f_0_0, '1']

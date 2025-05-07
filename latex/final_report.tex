@@ -444,7 +444,7 @@ Taking the MFP aligned blocks, the first PRC (5440 bits) of satellite 2 was extr
 
 \subsection{Reed Solomon Decoder}
 
-To familiarize ourselves with the Reed Solomon Decoder, we instantiate a Reed Solomon Decoder in GNU radio and test it on MATLAB-generated data with and without errors. Our flowchart is shown in Figure \ref{fig::rs_test_grc}. 
+To familiarize ourselves with the Reed Solomon Decoder, we instantiate a Reed Solomon Decoder in GNU radio and test it with data generated in MATLAB. Our flowchart is shown in Figure \ref{fig::rs_test_grc}. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{RS_test_grc.png}}}
@@ -452,7 +452,7 @@ To familiarize ourselves with the Reed Solomon Decoder, we instantiate a Reed So
 	\label{fig::rs_test_grc}
 \end{figure}
 
-	Note that for this experiment, we use the DVB-T Reed-Solomon Decoder that is provided by the  Digital Television Library. By default, this decoder uses a (255, 239) RS code (N=255 and K=239) with a shortening size of 51. To make it compatible with the XM radio specification, we let K=223 and set the shortening size to 0. We also set t=16 to correct for the maximum number of errors. This flowchart is a piece of the overall system and can be fed the Viterbi decoder output once the rest of the system is functional.
+	Note that for this experiment, we use the DVB-T Reed-Solomon Decoder that is provided by the  Digital Television Library. By default, this decoder uses a (255, 239) RS code (N=255 and K=239) with a shortening size of 51. To make it compatible with the XM radio specification, we let K=223 and set the shortening size to 0. We also set t=16 to correct for the maximum number of errors. Once we have the flowchart working on MATLAB-generated data, we can use it to decode the Viterbi decoder output. To make this transition we simply need to remove the constellation decoder and directly input a stream of bits.
 
 \section{Results}
 
@@ -637,7 +637,9 @@ At this point we re-examined the documentation and discovered that the STA400a c
 	\label{fig::scrambler}
 \end{figure}
 
-%\subsection{Reed Solomon Decoding}
+\subsection{Reed Solomon Decoding}
+
+Because the Viterbi decoder output did not show the frame counter, we use only MATLAB generated data to test the functionality of our Reed Solomon decoder.
 
 %In this section, we experiment with
 

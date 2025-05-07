@@ -155,10 +155,10 @@ Coarse frequency synchronization corrects for large carrier offsets, which can o
 
 \noindent Then, to compensate for the coarse frequency offset, we can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and mix our signal with the result. Following the work of \cite{collins_2018_softwaredefined}, we specifically place our coarse frequency correction at the beginning of the chain to ensure that it operates on the largest possible bandwidth.
  
-\subsection{Timing Synchronization}
+\subsection{Matched Filter}
 
-Nyquist filters are used to minimize intersymbol interference (ISI). The impulse response of a Nyquist filter is zero at symbol intervals (i.e. $h(nT_s) = 0 \ \forall\ n \neq 0$). A sinc function is a type I Nyquist filter and has a perfectly bandlimited frequency response. However, the impulse response is infinite time and decays with $1/t$, which does not converge in the presence of intersymbol errors. As a result, we typically use a type II Nyquist filter, which has a finite impulse response that decays faster with time. However, type II Nyquist filters are not perfectly bandlimited in the frequency domain and have some rolloff and excess bandwidth. A common Nyquist filter is the square-root raised cosine (SRRC) filter, which is defined as follows:
- 
+The XM radio TDM signals use a square-root raised cosine (SRRC) filter for their matched filter with an excess bandwidth of 15\% \cite{a2008_us8260192b2}. The SRRC filter is a common type II Nyquist filter that is defined as follows:
+
 \begin{equation}
 	h(t) = \begin{cases}
 		\dfrac{1}{\sqrt{T_s}}\left(1 - \beta + 4\dfrac{\beta}{\pi}\right), & t = 0 \\[12pt]
@@ -168,7 +168,11 @@ Nyquist filters are used to minimize intersymbol interference (ISI). The impulse
 	\label{eq::srrc_filter}
 \end{equation}
 
-\noindent Nyquist filters only result in zero ISI, when they are properly sampled at the midpoint of symbol transitions. Timing synchronization is used to compensate for imperfect sampling. The timing synchronization algorithm is illustrated in Figure \ref{fig::timing_synchronization}.
+	Nyquist filters result in zero intersymbol interference (ISI), when they are correctly sampled at the midpoint of symbol transitions.  The Nyquist filter achieves zero ISI because its impulse response is zero at symbol intervals (i.e. $h(nT_s) = 0 \ \forall\ n \neq 0$). The sinc function is an example of type I Nyquist filter. Compared to the SRRC filter, it achieves a perfectly bandlimited frequency response. However, the impulse response is infinite time and decays with $1/t$, which does not converge in the presence of intersymbol errors. As a result, systems such as XM radio, use type II Nyquist filters, which have a finite impulse response that decays faster with time. However, compared to type I Nyquist filters, their frequency response is not perfectly bandlimited and will contain rolloff and excess bandwidth.
+ 
+\subsection{Timing Synchronization}
+
+	Nyquist filters, such as the SRRC filter, only result in zero ISI, when they are properly sampled at the midpoint of symbol transitions. Timing synchronization is used to compensate for imperfect sampling. The timing synchronization algorithm is illustrated in Figure \ref{fig::timing_synchronization}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.6\textwidth]{timing_synchronization.png}}}

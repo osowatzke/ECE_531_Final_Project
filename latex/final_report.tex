@@ -708,7 +708,15 @@ In the input data, we observed our transmitted message and parity bits (noisy sp
 
 Examining the input data, we see that it has byte errors in addition to the preamble. However, after running the Reed Solomon decoder, we have shown that we can correct for each of these errors. While not fully integrated with the XM radio chain, our Reed Solomon decoder can easily be added once the descrambler is in place.
 
-%In this section, we experiment with
+\section{Conclusion}
+
+In this project, we performed XM radio demodulation and forward error correction (FEC) on data collected with our PlutoSDR. We specifically concentrated on the signal originating from a single satellite, which leveraged QPSK modulation. To demodulate this signal, we leveraged concepts from the course, which included timing synchronization, carrier synchronization, and frame synchronization. We also extended the material from class to forward error correction. As part of this effort, we performed time deinterleaving, Viterbi decoding, and Reed Solomon decoding.
+
+Because XM radio is a proprietary signal, we had to leverage patents and datasheets to understand and decode the signal. Because some of the details were missing from our references, we had to reverse engineer portions of the system. We specifically designed and implemented a algorithm, which allowed us to successfully find the FSP and MFP. The effectiveness of our FEC was also impacted by the lack of documentation. An undocumented descrambler specifically prevented us from correctly recovering a frame counter in the time slot control channel, which would have proven the validity of our FEC implementation. 
+
+Future work would involve reverse-engineering the descrambler and integrating each of the remaining software blocks with GNU radio. During the project, we were able to integrate each of our software blocks through frame synchronization in GNU radio. Additional integration with GNU radio would make our work more accessible for future contributors.
+
+Throughout the project, we have demonstrated a strong understanding of the material presented in the course, which we were able to successfully put it into practice by demodulating a satellite XM radio signal captured with our PlutoSDR. We also gained invaluable experience working with FEC and should be able to transfer that knowledge into future projects.
 
 \iffalse
 \begin{itemize}

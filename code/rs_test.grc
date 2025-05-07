@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [8, 16.0]
     rotation: 0
     state: enabled
 
@@ -50,19 +50,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 4.0]
+    coordinate: [280, 12.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: (2040*258)/0.432
+    value: '100e3 #(2040*258)/0.432'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [168, 8.0]
+    coordinate: [168, 16.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_1
@@ -79,7 +79,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 440.0]
+    coordinate: [848, 448.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_1_0
@@ -96,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 240.0]
+    coordinate: [1008, 248.0]
     rotation: 0
     state: enabled
 - name: blocks_file_source_1
@@ -107,7 +107,7 @@ blocks:
     begin_tag: pmt.PMT_NIL
     comment: ''
     file: ../data/data_mod.dat
-    length: '4096'
+    length: 255*8*2
     maxoutbuf: '1024'
     minoutbuf: '0'
     offset: '0'
@@ -118,7 +118,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [56, 208.0]
+    coordinate: [56, 216.0]
     rotation: 0
     state: enabled
 - name: blocks_pack_k_bits_bb_0_0
@@ -134,7 +134,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [856, 240.0]
+    coordinate: [848, 248.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_1
@@ -145,14 +145,14 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: '255'
+    num_items: 255*1
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [272, 448.0]
+    coordinate: [272, 456.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0_0
@@ -173,7 +173,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 232.0]
+    coordinate: [264, 240.0]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0
@@ -189,7 +189,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 240.0]
+    coordinate: [680, 248.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_to_stream_0
@@ -200,14 +200,14 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: '223'
+    num_items: 223*1
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 448.0]
+    coordinate: [664, 456.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_decoder_cb_0
@@ -223,7 +223,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 240.0]
+    coordinate: [440, 248.0]
     rotation: 0
     state: enabled
 - name: dtv_dvbt_reed_solomon_dec_0
@@ -239,14 +239,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     n: '255'
-    p: '0'
+    p: '2'
     s: '0'
     t: '16'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [448, 380.0]
+    coordinate: [464, 388.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -281,7 +281,7 @@ blocks:
     entags: 'True'
     grid: 'False'
     gui_hint: ''
-    label1: Signal 1
+    label1: Decoded Data
     label10: Signal 10
     label2: Signal 2
     label3: Signal 3
@@ -343,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 424.0]
+    coordinate: [1016, 432.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -378,7 +378,7 @@ blocks:
     entags: 'True'
     grid: 'False'
     gui_hint: ''
-    label1: Signal 1
+    label1: Received Data
     label10: Signal 10
     label2: Signal 2
     label3: Signal 3
@@ -440,7 +440,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1168, 224.0]
+    coordinate: [1168, 232.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
@@ -453,7 +453,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 176.0]
+    coordinate: [984, 184.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -466,7 +466,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 440.0]
+    coordinate: [48, 448.0]
     rotation: 0
     state: enabled
 

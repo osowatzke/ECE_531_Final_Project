@@ -259,9 +259,9 @@ The interpolation controller computes a fractional delay and a strobe which indi
 	\mu(k) = \frac{c(n)}{W(n)}
 \end{equation}
 
-\subsection{Carrier Synchronization}
+\subsection{Carrier Recovery}
 
-In this section, we describe the carrier recovery algorithm. The carrier recovery block is responsible for fine frequency synchronization as opposed to the coarse frequency compensation block at the front of the chain. An overview of the fine frequency synchronization is displayed in Figure \ref{fig::carrier_synchronization}.
+In this section, we describe the carrier recovery block. The carrier recovery block is responsible for fine frequency synchronization as opposed to the coarse frequency compensation block at the front of the chain. An overview of the fine frequency synchronization is displayed in Figure \ref{fig::carrier_synchronization}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{carrier_synchronization.png}}}
@@ -269,21 +269,21 @@ In this section, we describe the carrier recovery algorithm. The carrier recover
 	\label{fig::carrier_synchronization}
 \end{figure}
 
-The carrier synchronization architecture is very similar to the the timing synchronization architecture. It uses a phase error detector (PED) to detect phase offsets in the received data. Then, it stabilizes the error signal in the loop filter before it is fed into a direct digital synthesizer (DDS). The DDS generates the correction signal which is applied in the phase rotator.
+The carrier synchronization architecture is very similar to the the timing synchronization architecture. It uses a phase error detector (PED) to detect phase offsets in the received data. Then, it stabilizes the error signal in the loop filter, which feeds a direct digital synthesizer (DDS). The DDS generates a correction signal which is applied in the phase rotator.
 
 \subsubsection{Phase Error Detector}
 
-The phase error detector is specific to the modulation scheme. The TDM we receive uses QPSK modulation. Therefore, we should use the compute the error signal ($e(k)$) as follows:
+The phase error detector is chosen based on the modulation scheme. The TDM receiver uses QPSK modulation. Therefore, we compute the error signal ($e(k)$) as follows:
 
 \begin{equation}
 	e(k) = \text{sign}(\text{Re}(y(k))) \times \text{Im}(y(k)) - \text{sign}(\text{Im}(y(k))) \times \text{Re}(y(k))
 \end{equation}
 
-\noindent The error signal should be zero when, $\text{Re}(y(k)) = \pm\text{Im}(y(k))$. The algorithm should specifically try to force the received data to the nearest QPSK constellation point.
+\noindent In the above equation, the error signal is zero when, $\text{Re}(y(k)) = \pm\text{Im}(y(k))$. By minimizing the error signal, fine frequency synchronization will force the received data to the nearest QPSK constellation point.
 
 \subsubsection{Loop Filter}
 
-The loop filter is responsible for stabilizing the error signal. It uses the same proportional-plus integrator (PI) filter that was presented in Equation \ref{eq::loop_filter} with updated values for $G_1$ and $G_2$. The updated constants are specifically defined in terms of the damping factor ($\zeta$), the loop bandwidth $B_{\text{Loop}}$, and the modulation order ($M$).
+The loop filter is responsible for stabilizing the error signal. It uses the same proportional-plus integrator (PI) filter that was presented in Equation \ref{eq::loop_filter} with updated values for $G_1$ and $G_2$. The updated constants are defined in terms of the damping factor ($\zeta$), the loop bandwidth $B_{\text{Loop}}$, and the modulation order ($M$).
 
 \begin{align}
 	G_1 = \frac{4\zeta\theta/\Delta}{M} && G_2 = \frac{(4/M)\theta^2/\Delta}{M}
@@ -295,7 +295,7 @@ The loop filter is responsible for stabilizing the error signal. It uses the sam
 	\theta = \frac{B_{\text{Loop}}}{M(\zeta + 0.25/\zeta)} && \Delta = 1 + 2\zeta\theta + \theta^2
 \end{align}
 
-The selection of $\zeta$ affects the responsive and stability of the PLL:
+\noindent The selection of $\zeta$ affects the responsive and stability of the PLL:
 
 \begin{equation}
 \zeta = \begin{cases}
@@ -316,7 +316,7 @@ The selection of $\zeta$ affects the responsive and stability of the PLL:
 
 \subsubsection{Direct Digital Synthesizer}
 
-The direct digital synthesizer creates a tone using the phase output by the loop filter. It specifically performs phase accumulation to determine the instantaneous phase of the correction signal. The z-transform of the the DDS is specifically given by:
+The direct digital synthesizer creates a tone using the phase output by the loop filter. It specifically performs phase accumulation to determine the instantaneous phase of the correction signal. The transfer function for the DDS is specifically given by:
 
 \begin{equation}
 	D(z) = G_3\frac{z^{-1}}{1 - z^{-1}}
@@ -326,7 +326,7 @@ The direct digital synthesizer creates a tone using the phase output by the loop
 
 \subsubsection{Phase Rotator}
 
-The phase rotator creates a tone from the phase output by the DDS using a lookup table (LUT). The received signal is then multiplied with the tone to remove the phase offset.
+The phase rotator creates a tone from the phase output by the DDS using a lookup table (LUT). The received signal is then multiplied with this tone to remove the phase and frequency offsets.
 
 \subsection{Frame Synchronization}
 

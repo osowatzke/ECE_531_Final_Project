@@ -113,10 +113,11 @@ The report focuses on the satellite QPSK signals referred to as TDM (time divisi
 	\label{fig::TDM_receiver_STA400}
 \end{figure}
 
-We can replace the structures from this datasheet with a more familiar architecture from class, which is shown in Figure \ref{fig::tdm_receiver_architecture}. In this updated figure, the carrier NCO block has been replaced with a coarse frequency correction block. The RRC interpolator filter has been replaced by a combination of the the matched filter block and the timing synchronization block, which does interpolation. The timing loop filter has also been included in the timing synchronization block, and the carrier loop filter has been replaced with a carrier recovery block. Additional background on each of these blocks is provided in the sections below.
+We can replace the structures from this datasheet with a more familiar architecture from class, which is shown in Figure \ref{fig::tdm_receiver_architecture}. In this updated figure, the carrier NCO block has been replaced with a coarse frequency correction block. The RRC interpolator filter has been replaced by the matched filter, and its interpolation has been moved into the timing synchronization block, which also includes the timing loop filter. Finally, the carrier loop filter has been replaced with a carrier recovery block. Additional background on each of these blocks is provided in the sections below.
 
 % We also perform frame synchronization, which is not included in the XM STA\_400a block diagram. 
 
+% SHOULD WE INCLUDE AGC HERE
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{tdm_receiver_architecture.png}}}
 	\caption{TDM QPSK Demodulator Using Blocks from the Course}

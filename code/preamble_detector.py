@@ -10,6 +10,7 @@
 import numpy as np
 from gnuradio import gr
 import pmt
+import time
 
 class preamble_detector(gr.basic_block):
     """
@@ -41,24 +42,29 @@ class preamble_detector(gr.basic_block):
     def general_work(self, input_items, output_items):
         
         buffer_size = min(len(output_items[0]), len(output_items[1]), len(output_items[2]))
-        samples_consumed = min(buffer_size*self.FSP_SEP - len(self.sample_buffer) - 1, len(input_items[0]))
+        samples_consumed = min(buffer_size*self.FSP_SEP - len(self.sample_buffer) - 2, len(input_items[0]))
         self.sample_buffer = np.concatenate((self.sample_buffer, input_items[0][:samples_consumed]))
+        #print(self.sample_buffer[1028::3456], samples_consumed)
         produced = 0
         
         while len(self.sample_buffer) >= self.FSP_SEP:
         
             x = self.sample_buffer[:self.FSP_SEP]
-            self.sample_buffer = self.sample_buffer[self.FSP_SEP:]                
+            #print(x[1028])
+            self.sample_buffer = self.sample_buffer[self.FSP_SEP:]      
+            #print(x[1028])
             self.output_buffer = np.concatenate((self.output_buffer[self.FSP_SEP:], x))
+            #print(x[1028], self.output_buffer[1028], self.output_buffer[1028+3456], self.output_buffer[1028+3456*2])
+            time.sleep(0.1)
             
             corr = np.abs(self.fsp_filt(x))
             idx = np.argmax(corr)
             avg_pwr = np.sum(np.abs(corr))/len(corr)
             
             if (corr[idx]/avg_pwr > 4):
-                idx -= self.fsp_len - 1
-                if idx < 0:
-                    idx += self.FSP_SEP
+                idx += self.FSP_SEP - self.fsp_len + 1
+                #if idx < 0:
+                #    idx += self.FSP_SEP
             else:
                 idx = -1
             
@@ -66,12 +72,15 @@ class preamble_detector(gr.basic_block):
             self.idx = np.concatenate((self.idx[1:], np.array([idx])))
             
             idx = self.idx[1]
+            self.last_idx = idx
             if idx < 0:
                 idx = self.last_idx
                 
+            # print(idx)
             self.last_idx = idx
             
             if idx > 0:
+                # print(self.output_buffer[idx])
                 output_items[0][produced][:] = self.output_buffer[idx:(idx + self.FSP_SEP)]              
                 output_items[1][produced][:] = self.corr_buffer[self.FSP_SEP:2*self.FSP_SEP]
                 output_items[2][produced][:] = self.corr_buffer[idx:(idx + self.FSP_SEP)]

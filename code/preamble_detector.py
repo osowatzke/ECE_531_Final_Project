@@ -19,12 +19,14 @@ class preamble_detector(gr.basic_block):
     # FSP = [-1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,
     #     1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1] 
     
+    FSP_SEP = 3456
+    
     def __init__(self, fsp=[1,1,1,-1,-1,1,-1]):
         gr.basic_block.__init__(self,
             name="preamble_detector",
             in_sig=[np.complex64],
             #out_sig=[np.float32])
-            out_sig=[(np.float32, 3456)])
+            out_sig=[(np.float32, self.FSP_SEP)])
 
         fsp_taps = np.flip(np.conj(np.array(fsp)))
         self.fsp_filt = filt(fsp_taps)
@@ -36,10 +38,10 @@ class preamble_detector(gr.basic_block):
         self.sample_buffer = np.concatenate((self.sample_buffer, input_items[0]))
         produced = 0
         
-        while len(self.sample_buffer) >= 3456:
-            x = self.sample_buffer[:3456]
+        while len(self.sample_buffer) >= self.FSP_SEP:
+            x = self.sample_buffer[:self.FSP_SEP]
             output_items[0][:] = np.abs(self.fsp_filt(x))
-            self.sample_buffer = self.sample_buffer[3456:]
+            self.sample_buffer = self.sample_buffer[self.FSP_SEP:]
             produced += 1
 
         self.consume(0, len(input_items[0]))

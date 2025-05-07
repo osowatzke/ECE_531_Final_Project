@@ -9,6 +9,7 @@
 
 import numpy as np
 from gnuradio import gr
+import pmt
 
 class mfp_align(gr.basic_block):
     """
@@ -27,11 +28,13 @@ class mfp_align(gr.basic_block):
             in_sig=[(np.complex64, self.FSP_SEP)],
             out_sig=[(np.complex64, self.FSP_SEP), (np.float32, self.FSP_SEP)])
 
+        self.message_port_register_out(pmt.intern("frame_count"))
         mfp_taps = np.flip(np.conj(np.array(self.mfp)))
         self.mfp_filt = filt(mfp_taps, dtype=np.complex64)
         self.mfp_len = len(mfp_taps)
         self.mfp_found = False
         self.fsps_left = self.NUM_FSP 
+        self.frame_count = 0
         
     def general_work(self, input_items, output_items):
         
@@ -52,6 +55,9 @@ class mfp_align(gr.basic_block):
                     self.fsps_left = self.NUM_FSP
                     output_items[1][num_out[1]][:] = corr
                     num_out[1] += 1
+                    self.frame_count += 1
+                    msg = pmt.to_pmt({'frame_count': self.frame_count})
+                    self.message_port_pub(pmt.intern("frame_count"), msg)
                 output_items[0][num_out[0]][:] = item
                 num_out[0] += 1
             elif corr[idx]/avg_power > 4 and idx == (len(corr) - 1):
@@ -63,7 +69,7 @@ class mfp_align(gr.basic_block):
         self.produce(0,num_out[0])
         self.produce(1,num_out[1])            
         self.consume(0, samples_consumed)
-        
+            
         return 0 #num_out[1] # 0 #gr.basic_block.WORK_DONE
 
 class filt:

@@ -169,6 +169,21 @@ blocks:
     coordinate: [24, 184.0]
     rotation: 0
     state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2712, 408.0]
+    rotation: 0
+    state: enabled
 - name: blocks_multiply_xx_0
   id: blocks_multiply_xx
   parameters:
@@ -1100,7 +1115,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2528, 272.0]
+    coordinate: [2624, 280.0]
     rotation: 0
     state: enabled
 - name: xm_module_mfp_align_0
@@ -1175,6 +1190,7 @@ connections:
 - [pfb_decimator_ccf_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
 - [xm_module_mfp_align_0, '0', blocks_null_sink_0, '0']
 - [xm_module_mfp_align_0, '1', qtgui_vector_sink_f_2, '0']
+- [xm_module_mfp_align_0, frame_count, blocks_message_debug_0, log]
 - [xm_module_preamble_detector_0, '0', xm_module_mfp_align_0, '0']
 - [xm_module_preamble_detector_0, '1', qtgui_vector_sink_f_0_0, '0']
 - [xm_module_preamble_detector_0, '2', qtgui_vector_sink_f_0_0, '1']

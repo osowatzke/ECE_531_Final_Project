@@ -47,6 +47,9 @@ outputs:
   dtype: float
   vlen: 3456
 
+- label: frame_count
+  domain: message
+  dtype: float
 #- label: ...
 #  domain: ...
 #  dtype: ...

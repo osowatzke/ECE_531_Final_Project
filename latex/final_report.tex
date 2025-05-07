@@ -128,7 +128,7 @@ We can replace the structures from this datasheet with a more familiar architect
 
 \subsection{Coarse Frequency Compensation}
 
-We can write our base band signal with a frequency offset $f_o$ as follows:
+Coarse frequency synchronization corrects for large carrier offsets, which can occur due to LO mismatches. We can write our base band signal with a frequency offset $f_o$ as follows:
 
 \begin{equation}
 	r(k) = s(k)e^{j(2{\pi}f_okT + \theta)}
@@ -140,7 +140,7 @@ We can write our base band signal with a frequency offset $f_o$ as follows:
 	\theta = \frac{2{\pi}n}{M},\quad n \in 0,1,...,M-1
 \end{equation}
 
-\noindent where $M$ is the constellation order. If we raise our received data to the M-th power, we can strip the modulation from our received data.
+\noindent where $M$ is the constellation order. To determine the carrier frequency offset, we can raise our received data to the M-th power, which strips the modulation from our received data.
 
 \begin{equation}
 	r^M(k) = s^M(k)e^{j(2{\pi}f_okT + \theta)M} = s^M(k)e^{j2{\pi}Mf_okT}
@@ -153,7 +153,7 @@ We can write our base band signal with a frequency offset $f_o$ as follows:
 	\label{eq::cfo_estimate}
 \end{equation}
 
-\noindent Then, we can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and remove the coarse frequency offset. Following the work of \cite{collins_2018_softwaredefined}, the coarse frequency offset correction is placed at the start of the chain to ensure that it operates on the largest possible bandwidth.
+\noindent Then, to compensate for the coarse frequency offset, we can feed a negated copy of the coarse frequency offset ($-\hat{f}_o$) into an NCO and mix our signal with the result. Following the work of \cite{collins_2018_softwaredefined}, we specifically place our coarse frequency correction at the beginning of the chain to ensure that it operates on the largest possible bandwidth.
  
 \subsection{Timing Synchronization}
 

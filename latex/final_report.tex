@@ -458,7 +458,9 @@ We can perform a similar procedure to identify the MFP. However, to reduce the a
 
 % Once we find the FSP and MFP, we can break our data up into MFP-aligned blocks. We specifically examined the first PRC (5440 bits) of the satellite 2 signal following the description of the time interleaver. The first PRC mentioned at the TSCC (time slot control channel) and should contain a frame counter
 
-Taking the MFP aligned blocks, the first PRC (5440 bits) of satellite 2 was extracted following the description of the time interleaver.  These are mentioned at the TSCC (time slot control channel) and should contain a frame counter.  This was chosen as the best PRC to use as the channel structure is not expected to change constantly through a shorter time frame.  Because we were examining a single satellite, the time interleaver output to several frames to have enough transmitted bits to test against a Matlab Viterbi decoder.  With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, one would chose to run the Viterbi as a rate 1/3 code rate.  With a single satellite one can use a rate 1/2 Viterbi with correct puncturing.  For a single satellite, the effective convolutional encoder rate is 3/4.  I.e. for every 4 received bits, there will be 3 usable information bits.  The decoder needs more than 3 transmission bits in order to determine the state of the trellis.
+After we have the FSP and MFP, we can create MFP aligned blocks of 5440 bits. According to the XM chipset STA400a \cite{alldatasheetcom_2015_sta400a}, there should be a TSCC (time slot control channel) in the first PRC (5440 bits) that contains a frame counter. We specifically consider the first PRC of satellite 2, which we extracted following the description of the time interleaver. Since only one satellite was used, multiple frames were processed through the time interleaver to accumulate enough bits for testing with a Matlab Viterbi decoder.
+
+	% Taking the MFP aligned blocks, the first PRC (5440 bits) of satellite 2 was extracted following the description of the time interleaver.  These are mentioned at the TSCC (time slot control channel) and should contain a frame counter.  This was chosen as the best PRC to use as the channel structure is not expected to change constantly through a shorter time frame.  Because we were examining a single satellite, the time interleaver output to several frames to have enough transmitted bits to test against a Matlab Viterbi decoder.  With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, one would chose to run the Viterbi as a rate 1/3 code rate.  With a single satellite one can use a rate 1/2 Viterbi with correct puncturing.  For a single satellite, the effective convolutional encoder rate is 3/4.  I.e. for every 4 received bits, there will be 3 usable information bits.  The decoder needs more than 3 transmission bits in order to determine the state of the trellis.
 
 \subsection{Reed Solomon Decoder}
 
@@ -650,32 +652,39 @@ We also have included correlation results with the MFP, which are attached in Fi
 
 % Add picture of setup
 
-\subsection{Convolutional and Virterbi Decoder}
+\subsection{Convolutional Decoder}
+
+In this section, we examine the Viterbi decoder output for a frame counter in the TSCC. With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, the Viterbi is run at a rate 1/3 code rate.  When using a single satellite, the Viterbi decoder operates at an effective code rate of 1/2 with correct puncturing. This corresponds to a 3/4 encoder rate-meaning that for every 4 received bits, 3 are usable as information bits.  The decoder however, consistently needs more than 3 transmission bits in order to determine the state of the trellis.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_insufficient_bits.png}}}
 	\caption{XM Insufficient Data into Decoder}
 	\label{fig::Viterbi_1}
 \end{figure}
+
+In Figure \ref{fig::Viterbi_1}, there is an insuffient number of input bits to a Viterbi decoder as the time interleaver is not completely full.  Since we are only using 1 satellite, the FEC is not capable of decoding this PRC block.  In Figure \ref{fig::Viterbi_2}, which is later in time, there is sufficient transmitted bits to use in the Viterbi decoder.
+
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_sufficient_bits.png}}}
 	\caption{XM Sufficient Data into Decoder}
 	\label{fig::Viterbi_2}
 \end{figure}
 
-In Figure \ref{fig::Viterbi_1}, there is an insuffient number of input bits to a Viterbi decoder as the time interleaver is not completely full.  Since we are only using 1 satellite, the FEC is not capable of decoding this PRC block.  In Figure \ref{fig::Viterbi_2}, which is later in time, there is sufficient transmitted bits to use in the Viterbi decoder.\\
+Over portions of the frame with sufficient, we looked at the Viterbi output for satellite 2.  This was done using the Matlab SPY plot.  As can be seen in Figure \ref{fig::Viterbi_spy}, the output does not show any structure in the vertical domain.  A frame counter was expected and not found.
 
-Next we looked at the Viterbi output for satellite 2.  This was done using the Matlab SPY plot.  As can be seen in Figure \ref{fig::Viterbi_spy}, the output does not show any structure in the vertical domain.  A frame counter was expected and not found.  
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_SPY.png}}}
 	\caption{XM Viterbi SPY output}
 	\label{fig::Viterbi_spy}
 \end{figure}
-At this point we re-examined the documentation and discovered that the STA400a chipset showed a potential scrambler.  This was not included in any patent descriptions, not any mention in the STA400a document of the scrambler implementation.  So solve this unknown was outside the scope of the project.
+
+At this point we re-examined the documentation and discovered that the STA400a chipset showed a potential scrambler.  This was not included in any patent descriptions, nor was there any mention in the STA400a document of the scrambler implementation.  Resolving this unknown scrambler was outside the scope of our project.  A scrambler is sometimes used in digital communication systems to disperse energy so the timing and carrier recovery algorithms have transitions in the received symbols.  These are typically done with Linear Feedback Shift Registers (LFSR) and create a pseudo random sequence that is added to the original codeword in GF(2) space prior to transmission.  By applying the same pseudo random sequence at the receiver, the scrambling is removed.  This would be done between the timing/carrier recovery algorithm and FEC algorithm.
+
+The absence of a descrambler would explain why no recognizable frame structure was observed in the Viterbi output, despite correct decoding procedures.  There was also mention of a RS block interleaver that was also undocumented except overview descriptions in the STA400a chipset.  Resolving the descrambler is required prior to resolving the block interleaver algorithm. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{XM_scrambler.png}}}
-	\caption{XM potential scrambler}
+	\caption{XM potential scrambler \cite{alldatasheetcom_2015_sta400a}}
 	\label{fig::scrambler}
 \end{figure}
 

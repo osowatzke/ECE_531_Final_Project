@@ -36,7 +36,9 @@ gaw@arizona.edu}}
 
 \section{Introduction}
 
-In this project, we demodulate XM radio transmissions and perform forward error correction (FEC) with our Pluto SDR. XM radio uses a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites use QPSK modulation, and the terrestrial repeaters use coded orthogonal frequency domain multiplexing (COFDM). Our work focuses on the time-division multiplexed (TDM) signal from a single satellite. To demodulate this signal we leverage concepts from the course such as time synchronization, carrier synchronization, and frame synchronization. We also perform FEC, which was not covered in the course. With respect to FEC, we perform time deinterleaving, Virterbi decoding, and Reed Solomon Decoding. Because XM radio is a proprietary signal, it is documented only in patents such as \cite{a2008_us8260192b2, marko_2012_us8667344b2}. However, the patents leave out portions of the details, which require us to reverse-engineer portions of the system.
+The final report covers the development and implementation of a software defined radio for the XM satellite radio service.  This report covers the basics of the XM radio signal from a physical layer standpoint.  The software included can capture and tune a single satellite signal to baseband bits.  The project covered all the labs in the ECE531 class with the exception of the radar lab.  The XM satellite radio system is proprietary and the project leverages the available U.S. patents and other publications to understand and decode the satellite signal.  These patents and publication are not specifications and could contain erronious information.  Care was taken to test each block to verify applicability to the published patents.
+
+% In this project, we demodulate XM radio transmissions and perform forward error correction (FEC) with our Pluto SDR. XM radio uses a combination of satellites and terrestrial repeaters to diversify its transmitted signal. The satellites use QPSK modulation, and the terrestrial repeaters use coded orthogonal frequency domain multiplexing (COFDM). Our work focuses on the time-division multiplexed (TDM) signal from a single satellite. To demodulate this signal we leverage concepts from the course such as time synchronization, carrier synchronization, and frame synchronization. We also perform FEC, which was not covered in the course. With respect to FEC, we perform time deinterleaving, Virterbi decoding, and Reed Solomon Decoding. Because XM radio is a proprietary signal, it is documented only in patents such as \cite{a2008_us8260192b2, marko_2012_us8667344b2}. However, the patents leave out portions of the details, which require us to reverse-engineer portions of the system.
 
 \section{Background}
 
@@ -58,7 +60,7 @@ XM is one of two satellite radio services that received FCC licenses in the U.S.
 	\label{fig::xm_satellite_config}
 \end{figure}
 
-	\noindent The center frequencies and bandwidths for each signal in the spectrum have been derived from \cite{andreas_2010_us8594559b2} and are listed in Table \ref{table::center_freq_and_bw}:
+	\noindent The center frequencies and bandwidths for each of the XM radio signals shown above have been derived from \cite{andreas_2010_us8594559b2} and are listed in Table \ref{table::center_freq_and_bw}:
 \vspace{-12pt}
 \begin{table}[H]
 	\begin{center}

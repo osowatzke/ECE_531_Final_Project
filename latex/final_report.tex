@@ -415,7 +415,7 @@ In this section, we provide the procedure for our project. The procedural flow t
 A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to collect the satellite signal at 2335.305MHz.  An active antenna is useful to maximize the signal to noise ratio for satellite to earth transmission.  XM radio active antennas typically have around 25dB of gain with an approximately 1dB  noise figure.  The PlutoSDR has a relatively high noise figure on the receive port and attaching an active antenna in front reduces the overall noise into the receiver.  To enable the collection of the best signal possible, the setup in Figure \ref{fig::gnu_hardware} was used.  To get power to the antenna, a RF bias-T was used.  After confirming that the signal was sufficiently strong, a recording of about 20 seconds was made.
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{XM_collect_grc.png}}}
-	\caption{GNU Radio Collection GRC}
+	\caption{GNU Radio Flowchart for Signal Collection}
 	\label{fig::gnu_collect}
 \end{figure}
 \begin{figure}[H]
@@ -428,17 +428,17 @@ A GNU radio companion setup was created (see Figure \ref{fig::gnu_collect}) to c
 
 \subsection{QPSK Demodulation}
 
-We use the flowchart shown in Figure \ref{fig::timing_carrier_sync} to demodulate the received signal. Following the work in the background, we include coarse carrier synchronization, a root raised cosine filter, AGC, symbol synchronization, and fine carrier synchronization. At each stage of processing, we implement add plots of the constellations and other helpful plots to visualize the affects of each processing stage. 
+After collecting the XM radio signal, we use the flowchart shown in Figure \ref{fig::timing_carrier_sync} to demodulate the received signal. Following the work in the background, we include coarse carrier synchronization, a root raised cosine filter, AGC, symbol synchronization, and fine carrier synchronization. At each stage of processing, we add plots of the constellations and frequency response to visualize the affects of each processing stage. 
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.9\textwidth]{timing_carrier_sync.png}}}
-	\caption{GNU Radio Flowchart That Implements Timing and Carrier Synchronization}
+	\caption{GNU Radio Flowchart for QPSK Demodulation}
 	\label{fig::timing_carrier_sync}
 \end{figure}
 
 \subsection{Finding the FSP and MFP}
 
-The patents we referenced did not provide the MFP or FSP. As a result, we identified them ourselves using the auto-correlation of our synchronized data. We considered the FSP first because it occurred more frequently in our collected data. To compute the FSP, we selected 32 samples (for FSP duration) and correlated them with a copy of the signal delayed by 3456 samples (the FSP separation). Then, to identify the FSP, we swept our sample selection until the auto correlation was maximized. This approach is illustrated in Figure \ref{fig::finding_fsp}.
+The patents we referenced did not provide the MFP or FSP. As a result, we identified them ourselves using the auto-correlation of our synchronized data. We considered the FSP first because it occurred more frequently in our collected data. To compute the FSP, we selected 32 samples (the FSP duration) and correlated them with a copy of the signal delayed by 3456 samples (the FSP separation). Then, to identify the FSP, we swept our sample selection until the auto correlation was maximized. This approach is illustrated in Figure \ref{fig::finding_fsp}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_fsp.png}}}
@@ -446,7 +446,7 @@ The patents we referenced did not provide the MFP or FSP. As a result, we identi
 	\label{fig::finding_fsp}
 \end{figure}
 
-We can perform a similar procedure to identify the MFP. However, to avoid false alarms from our FSP, we take advantage of the MFP location illustrated in Figure \ref{fig::tdm_frame_format}. We specifically know that the MFP will always be located right before the FSP. Therefore, we consider only MFP positions right before the FSP as illustrated in Figure \ref{fig::finding_mfp}.
+We can perform a similar procedure to identify the MFP. However, to reduce the amount of processing, we take advantage of the MFP location illustrated in Figure \ref{fig::tdm_frame_format}. We specifically know that the MFP will always be located right before the FSP. Therefore, we compute the auto-correlation considering these positions only as illustrated in Figure \ref{fig::finding_mfp}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{finding_mfp.png}}}

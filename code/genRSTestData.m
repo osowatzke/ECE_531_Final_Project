@@ -5,6 +5,9 @@ clc;
 % Specify whether to add errors
 add_errors = true;
 
+% Random number generator seed
+rng(0);
+
 % Create data
 data = uint8(0:255).';
 data = repmat(data,223,1);
@@ -26,14 +29,17 @@ bits_enc = enc(bits(:));
 % Add random errors to input data of data
 if add_errors
 
+    % Number of errors to generate
+    num_errors = 15;
+
     % Reshape bits into a matrix
     bits_enc = reshape(bits_enc,255*8,[]);
 
-    % Specify the bytes indices for 16 random errors
-    error_idx = randi([0 254],16,size(bits_enc,2));
+    % Specify the bytes indices for random errors
+    error_idx = randi([0 254],num_errors,size(bits_enc,2));
 
     % Corrupt all bits in bytes
-    error_idx = reshape(error_idx,16,[],size(error_idx,2));
+    error_idx = reshape(error_idx,num_errors,[],size(error_idx,2));
     error_idx = 8*error_idx + (1:8);
     error_idx = reshape(error_idx,[],size(error_idx,3));
 

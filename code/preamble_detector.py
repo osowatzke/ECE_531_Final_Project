@@ -10,7 +10,6 @@
 import numpy as np
 from gnuradio import gr
 import pmt
-import time
 
 class preamble_detector(gr.basic_block):
     """
@@ -55,7 +54,6 @@ class preamble_detector(gr.basic_block):
             #print(x[1028])
             self.output_buffer = np.concatenate((self.output_buffer[self.FSP_SEP:], x))
             #print(x[1028], self.output_buffer[1028], self.output_buffer[1028+3456], self.output_buffer[1028+3456*2])
-            time.sleep(0.1)
             
             corr = np.abs(self.fsp_filt(x))
             idx = np.argmax(corr)

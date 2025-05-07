@@ -64,7 +64,7 @@ class mfp_align(gr.basic_block):
                 self.mfp_found = True
                 self.fsps_left = self.NUM_FSP
                 output_items[1][num_out[1]][:] = corr
-                print(corr[idx])
+                # print(item[idx], corr[idx])
                 num_out[1] += 1        
         
         self.produce(0,num_out[0])

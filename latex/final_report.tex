@@ -182,7 +182,7 @@ The XM radio TDM signals use a square-root raised cosine (SRRC) filter for their
 
 \subsubsection{Interpolator}
 
-\noindent The interpolator applies a fractional delay to the input samples. We specifically use a piecewise polynomial filter (PPF), which interpolates the input data as follows:
+\noindent The interpolator applies a fractional delay to the input samples. For our interpolator, we specifically use a piecewise polynomial filter (PPF), which interpolates the input data as follows:
 
 \begin{equation}
 	x(kT_s + \mu(k)T_s) = \sum_{n=-2}^{1}{h(n)x((k-n)T_s)}
@@ -201,7 +201,7 @@ The XM radio TDM signals use a square-root raised cosine (SRRC) filter for their
 
 \subsubsection{Timing Error Detector}
 
-\noindent The timing error detector (TED) measures the timing offset in the data. There are a few different methods for measuring these offsets. They include the zero crossing, Gardener, and  M\"{u}ller and Mueller methods. In the work that follows, we use the Gardener method because it is least sensitive to carrier phase offsets. The gardener method defines the error signal $e(k)$ as follows:
+\noindent The timing error detector (TED) measures the timing offset in the data. There are a few different methods for measuring these offsets. They include the zero crossing, Gardener, and  M\"{u}ller and Mueller methods. In the work that follows, we use the Gardener method because it is least sensitive to carrier phase offsets. The Gardener method defines the error signal $e(k)$ as follows:
 
 \begin{equation}
 \begin{split}
@@ -238,7 +238,7 @@ The interpolation controller computes a fractional delay and a strobe which indi
 	W(n) = v(n) + \frac{1}{N}
 \end{equation}
 
-\noindent Using the decrement, the counter is updated as follows:
+\noindent Using the decrement value, the counter is updated as follows:
 
 \begin{equation}
 	c(n + 1) = (c(n) - W(n))\ \text{mod}\ 1

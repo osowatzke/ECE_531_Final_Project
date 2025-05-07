@@ -654,7 +654,7 @@ We have also included correlation results with the MFP, which are attached in Fi
 
 \subsection{Convolutional Decoder}
 
-In this section, we examine the Viterbi decoder output for a frame counter in the TSCC. With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, the Viterbi is run at a rate 1/3 code rate.  When using a single satellite, the Viterbi decoder operates at an effective code rate of 1/2 with correct puncturing. This corresponds to a 3/4 encoder rate-meaning that for every 4 received bits, 3 are usable as information bits.  The decoder however, consistently needs more than 3 transmission bits in order to determine the state of the trellis.
+In this section, we examine the Viterbi decoder output for a frame counter in the TSCC. With a single satellite, one can use either the top portion of the Viterbi decoder or the bottom portion depending on the chosen satellite.  With both satellites, the Viterbi is run at a rate 1/3 code rate.  When using a single satellite, the Viterbi decoder operates at an effective code rate of 1/2 with correct puncturing. This corresponds to a 3/4 encoder rate -- meaning that for every 4 received bits, 3 are usable as information bits.  The decoder however, consistently needs more than 3 transmission bits in order to determine the state of the trellis.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_insufficient_bits.png}}}
@@ -670,7 +670,7 @@ In Figure \ref{fig::Viterbi_1}, there is an insuffient number of input bits to a
 	\label{fig::Viterbi_2}
 \end{figure}
 
-Over portions of the frame with sufficient, we looked at the Viterbi output for satellite 2.  This was done using the Matlab SPY plot.  As can be seen in Figure \ref{fig::Viterbi_spy}, the output does not show any structure in the vertical domain.  A frame counter was expected and not found.
+Over portions of the frame with sufficient data, we looked at the Viterbi output for satellite 2.  This was done using a MATLAB SPY plot.  As can be seen in Figure \ref{fig::Viterbi_spy}, the output does not show any structure in the vertical domain.  A frame counter was expected and not found.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{Viterbi_SPY.png}}}
@@ -684,7 +684,7 @@ The absence of a descrambler would explain why no recognizable frame structure w
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{XM_scrambler.png}}}
-	\caption{XM potential scrambler \cite{alldatasheetcom_2015_sta400a}}
+	\caption{XM Potential Scrambler \cite{alldatasheetcom_2015_sta400a}}
 	\label{fig::scrambler}
 \end{figure}
 

@@ -128,7 +128,7 @@ blocks:
     bus_structure: null
     coordinate: [1944, 432.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -187,6 +187,23 @@ blocks:
     coordinate: [736, 224.0]
     rotation: 0
     state: enabled
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '3456'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2312, 400.0]
+    rotation: 0
+    state: enabled
 - name: blocks_stream_to_vector_0
   id: blocks_stream_to_vector
   parameters:
@@ -204,7 +221,7 @@ blocks:
     bus_structure: null
     coordinate: [2120, 432.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -290,7 +307,7 @@ blocks:
     bus_structure: null
     coordinate: [1752, 408.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: filter_fft_rrc_filter_0
   id: filter_fft_rrc_filter
   parameters:
@@ -861,7 +878,81 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2336, 472.0]
+    coordinate: [2344, 472.0]
+    rotation: 0
+    state: disabled
+- name: qtgui_vector_sink_f_0_0
+  id: qtgui_vector_sink_f
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'True'
+    average: '1.0'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: qtgui_tab_widget_0@5
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '2'
+    ref_level: '0'
+    showports: 'False'
+    update_time: '0.10'
+    vlen: '3456'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    x_axis_label: '"x-Axis"'
+    x_start: '0'
+    x_step: '1.0'
+    x_units: '""'
+    y_axis_label: '"y-Axis"'
+    y_units: '""'
+    ymax: '40'
+    ymin: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2312, 536.0]
     rotation: 0
     state: enabled
 - name: qtgui_vector_sink_f_1
@@ -951,7 +1042,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1928, 512.0]
+    coordinate: [1928, 520.0]
     rotation: 0
     state: enabled
 - name: xm_module_qpsk_fft_cfo_est_0
@@ -993,7 +1084,9 @@ connections:
 - [filter_fft_rrc_filter_0, '0', analog_agc_xx_0, '0']
 - [filter_fft_rrc_filter_0, '0', qtgui_freq_sink_x_0, '1']
 - [pfb_decimator_ccf_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
-- [xm_module_preamble_detector_0, '0', qtgui_vector_sink_f_0, '1']
+- [xm_module_preamble_detector_0, '0', blocks_null_sink_0, '0']
+- [xm_module_preamble_detector_0, '1', qtgui_vector_sink_f_0_0, '0']
+- [xm_module_preamble_detector_0, '2', qtgui_vector_sink_f_0_0, '1']
 - [xm_module_qpsk_fft_cfo_est_0, '0', qtgui_number_sink_0, '0']
 - [xm_module_qpsk_fft_cfo_est_0, '1', qtgui_vector_sink_f_1, '0']
 - [xm_module_qpsk_fft_cfo_est_0, freq_msg, analog_sig_source_x_0, cmd]

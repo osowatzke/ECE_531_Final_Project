@@ -38,9 +38,19 @@ inputs:
 #  optional: ...
 
 outputs:
+
 - label: out
+  dtype: complex
+  vlen: 3456
+  
+- label: corr
   dtype: float
   vlen: 3456
+  
+- label: corr_adj
+  dtype: float
+  vlen: 3456
+  
 #- label: ...
 #  domain: ...
 #  dtype: ...

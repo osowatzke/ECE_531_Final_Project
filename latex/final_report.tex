@@ -590,15 +590,15 @@ We can apply a similar algorithm to find the MFP. However, we now only consider 
 
 \noindent Similar to the FSP, we see that the MFP is using BPSK modulation with a phase rotation of $45^{\circ}$. If we demodulate each of our points, we can create a noise-free estimate of our MFP. Note that the resulting MFP is also ambiguous by $90n^{\circ}$, where $n \in \mathcal{Z}$. This is not important for detecting the start of frames, but is important for applications such as EQ.
 
-We can update our flowchart to include correlation with the FSP and MFP and to just output the aligned data bits. This results in the flowchart shown in Figure \ref{fig::frame_align}.
+We can also update our flowchart to cross-correlate our received data with the FSP and MFP. By thresholding the peaks of the correlation, we can output only the aligned data bits, which will be fed into the FEC algorithms. In our initial approach this was done with standalone python scripts. However, this is an incremental step in creating a GNU Radio flowchart for the entire system. The updated flowchart is shown in Figure \ref{fig::frame_align}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.9\textwidth]{frame_align.png}}}
-	\caption{Modified GNU Flowchart that Outputs Aligned Data Bits}
+	\caption{Updated GNU Flowchart that Outputs Only the Aligned Data Bits}
 	\label{fig::frame_align}
 \end{figure}
 
-The first added block correlates the input data with the FSP and aligns the data such that the FSP shows up at the start of the frame. The second block correlates the signal with the MFP and outputs the data such that the MFP for the first frame occurs right before the first output sample. In Figure \ref{fig::fsp_correlation_gnu_radio}, we have attached the cross-correlation results with the FSP. We also show the FSP position after frame alignment. Note that the peak after alignment occurs at sample 31 instead of sample 0 because we are using the \texttt{filter} command for correlation.
+The first new block in our flowchart correlates the input data with the FSP and aligns the data such that the FSP shows up at the start of the frame. The second block correlates the signal with the MFP and outputs the data only when the first MFP immediately proceeds the frame. In Figure \ref{fig::fsp_correlation_gnu_radio}, we have attached the cross-correlation results with the FSP. We also show the FSP position after frame alignment. Note that the correlation peak after alignment occurs at sample 31 instead of sample 0 because we are using the \texttt{filter} command for correlation.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{fsp_correlation_gnu_radio.png}}}
@@ -606,7 +606,7 @@ The first added block correlates the input data with the FSP and aligns the data
 	\label{fig::fsp_correlation_gnu_radio}
 \end{figure}
 
-We also have included correlation results with the MFP, which are attached in Figure \ref{fig::fsp_correlation_gnu_radio}. Note that the correlation peak occurs on the last sample because the MFP is placed at the very end of the frame and because we are using the \texttt{filter} command instead of the \texttt{xcorr} command.
+We have also included correlation results with the MFP, which are attached in Figure \ref{fig::fsp_correlation_gnu_radio}. Note that the correlation peak occurs on the last sample because the MFP is placed at the end of each frame and because we are using the \texttt{filter} command instead of the \texttt{xcorr} command.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.5\textwidth]{mfp_correlation_gnu_radio.png}}}

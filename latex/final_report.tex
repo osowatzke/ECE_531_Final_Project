@@ -639,7 +639,15 @@ At this point we re-examined the documentation and discovered that the STA400a c
 
 \subsection{Reed Solomon Decoding}
 
-Because the Viterbi decoder output did not show the frame counter, we use only MATLAB generated data to test the functionality of our Reed Solomon decoder.
+Because the Viterbi decoder output did not show the frame counter, we use only MATLAB generated data in our Reed Solomon decoder. In MATLAB, we generate a free running counter output which wraps into the range [0, 255].
+
+\begin{figure}[H]
+	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{RS_decoder_output.png}}}
+	\caption{RS Decoder Input and Output for a Free-Running Counter}
+	\label{fig::RS_decoder_output}
+\end{figure}
+
+In the input data, we observe our transmitted message and the parity bits (noisy spikes). Because there are no errors in our transmitted message, the Reed Solomon decoder output is simply the first 223 bytes in the received data. We can also experiment with the error correction capabilities by inserting random errors into our input data.
 
 %In this section, we experiment with
 

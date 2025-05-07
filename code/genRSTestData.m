@@ -2,6 +2,9 @@
 clear;
 clc;
 
+% Specify whether to add errors
+add_errors = true;
+
 % Create data
 data = uint8(0:255).';
 data = repmat(data,223,1);
@@ -19,6 +22,29 @@ bits = de2bi(data,'left-msb').';
 
 % Perform Reed Solomon Encoding
 bits_enc = enc(bits(:));
+
+% Add random errors to input data of data
+if add_errors
+
+    % Reshape bits into a matrix
+    bits_enc = reshape(bits_enc,255*8,[]);
+
+    % Specify the bytes indices for 16 random errors
+    error_idx = randi([0 254],16,size(bits_enc,2));
+
+    % Corrupt all bits in bytes
+    error_idx = reshape(error_idx,16,[],size(error_idx,2));
+    error_idx = 8*error_idx + (1:8);
+    error_idx = reshape(error_idx,[],size(error_idx,3));
+
+    % Apply errors
+    for i = 1:size(error_idx,2)
+        bits_enc(error_idx(:,i),i) = randi([0 1], size(error_idx,1), 1);
+    end
+    
+    % Reshape back into a vector
+    bits_enc = bits_enc(:);
+end
 
 % Perform modulation
 data_mod = qammod(bits_enc,4,'InputType','bit');

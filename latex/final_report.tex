@@ -690,7 +690,7 @@ The absence of a descrambler would explain why no recognizable frame structure w
 
 \subsection{Reed Solomon Decoding}
 
-Because the Viterbi decoder output did not show the frame counter, we use only MATLAB generated data in our Reed Solomon decoder. In MATLAB, we generate a free running counter output which wraps into the range [0, 255].
+Because the Viterbi decoder output did not show the frame counter, we used only MATLAB generated data in our Reed Solomon decoder. In MATLAB, we specifically generated a free running counter output which wrapped into the range [0, 255].
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{RS_decoder_output.png}}}
@@ -698,7 +698,7 @@ Because the Viterbi decoder output did not show the frame counter, we use only M
 	\label{fig::RS_decoder_output}
 \end{figure}
 
-In the input data, we observe our transmitted message and the parity bits (noisy spikes). Because there are no errors in our transmitted message, the Reed Solomon decoder output is simply the first 223 bytes in the received data. We can also experiment with the error correction capabilities by inserting random errors into our input data. The inputs and outputs with the additional errors are illustrated below in Figure \ref{fig::RS_decoder_output_errors}.
+In the input data, we observed our transmitted message and parity bits (noisy spikes). Because there were no errors in our transmitted message, the Reed Solomon decoder output was simply the first 223 bytes in the received data. We also experimented with the error correction capabilities of the RS decoder by inserting random errors into our input data. The inputs and outputs with the additional errors are illustrated below in Figure \ref{fig::RS_decoder_output_errors}.
 
 \begin{figure}[H]
 	\centerline{\fbox{\includegraphics[width=0.8\textwidth]{RS_decoder_output_errors.png}}}
@@ -706,7 +706,7 @@ In the input data, we observe our transmitted message and the parity bits (noisy
 	\label{fig::RS_decoder_output_errors}
 \end{figure}
 
-Examining the input data, we see that it has byte errors in addition to the preamble. However, after running the Reed Solomon decoder, we have shown that we can correct for each of these errors.
+Examining the input data, we see that it has byte errors in addition to the preamble. However, after running the Reed Solomon decoder, we have shown that we can correct for each of these errors. While not fully integrated with the XM radio chain, our Reed Solomon decoder can easily be added once the descrambler is in place.
 
 %In this section, we experiment with
 

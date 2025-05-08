@@ -13,11 +13,10 @@ import pmt
 
 class preamble_detector(gr.basic_block):
     """
-    docstring for block preamble_detector
-    """
+    Frame Synchronization Preamble (FSP) Detector
     
-    # FSP = [-1,  1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,
-    #     1, -1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1] 
+    Detects FSP and aligns data so FSP occurs on 1st output sample
+    """
     
     FSP_SEP = 3456
     
@@ -43,17 +42,13 @@ class preamble_detector(gr.basic_block):
         buffer_size = min(len(output_items[0]), len(output_items[1]), len(output_items[2]))
         samples_consumed = min(buffer_size*self.FSP_SEP - len(self.sample_buffer) - 2, len(input_items[0]))
         self.sample_buffer = np.concatenate((self.sample_buffer, input_items[0][:samples_consumed]))
-        #print(self.sample_buffer[1028::3456], samples_consumed)
         produced = 0
         
         while len(self.sample_buffer) >= self.FSP_SEP:
         
             x = self.sample_buffer[:self.FSP_SEP]
-            #print(x[1028])
             self.sample_buffer = self.sample_buffer[self.FSP_SEP:]      
-            #print(x[1028])
             self.output_buffer = np.concatenate((self.output_buffer[self.FSP_SEP:], x))
-            #print(x[1028], self.output_buffer[1028], self.output_buffer[1028+3456], self.output_buffer[1028+3456*2])
             
             corr = np.abs(self.fsp_filt(x))
             idx = np.argmax(corr)
@@ -61,24 +56,22 @@ class preamble_detector(gr.basic_block):
             
             if (corr[idx]/avg_pwr > 4):
                 idx += self.FSP_SEP - self.fsp_len + 1
-                #if idx < 0:
-                #    idx += self.FSP_SEP
             else:
                 idx = -1
             
             self.corr_buffer = np.concatenate((self.corr_buffer[self.FSP_SEP:], corr))
             self.idx = np.concatenate((self.idx[1:], np.array([idx])))
             
+            # Keep track of last good index
+            # Replace up to 1 missing detection in a row
             idx = self.idx[1]
             self.last_idx = idx
             if idx < 0:
                 idx = self.last_idx
                 
-            # print(idx)
             self.last_idx = idx
             
             if idx > 0:
-                # print(self.output_buffer[idx])
                 output_items[0][produced][:] = self.output_buffer[idx:(idx + self.FSP_SEP)]              
                 output_items[1][produced][:] = self.corr_buffer[self.FSP_SEP:2*self.FSP_SEP]
                 output_items[2][produced][:] = self.corr_buffer[idx:(idx + self.FSP_SEP)]

@@ -9,11 +9,12 @@
 
 import numpy as np
 from gnuradio import gr
-# import pmt
 
 class mfp_align(gr.basic_block):
     """
-    docstring for block mfp_align
+    Master Frame Preamble (MFP) Detector
+    
+    Detects MFP and aligns data so MFP occurs immediately before frame
     """
     
     FSP_SEP = 3456
@@ -28,7 +29,6 @@ class mfp_align(gr.basic_block):
             in_sig=[(np.complex64, self.FSP_SEP)],
             out_sig=[(np.complex64, self.FSP_SEP), (np.float32, self.FSP_SEP), np.float32])
 
-        # self.message_port_register_out(pmt.intern("frame_count"))
         mfp_taps = np.flip(np.conj(np.array(self.mfp)))
         self.mfp_filt = filt(mfp_taps, dtype=np.complex64)
         self.mfp_len = len(mfp_taps)
@@ -52,37 +52,25 @@ class mfp_align(gr.basic_block):
             
             if self.mfp_found:
                 self.fsps_left -= 1
+                
+                # Update plot for each MFP
                 if self.fsps_left == 0:
                     self.fsps_left = self.NUM_FSP
                     self.plot_data = corr
                     self.frame_count += 1
                     
-                    #output_items[1][num_out[1]][:] = corr
-                    #output_items[2][num_out[1]] = np.float32(self.frame_count)
-                    #num_out[1] += 1
-                    #self.frame_count += 1
-                    # msg = pmt.to_pmt({'frame_count': self.frame_count})
-                    # self.message_port_pub(pmt.intern("frame_count"), msg)
+                # Plot routine is happiest when it gets multiple inputs
                 output_items[0][produced][:] = item
                 output_items[1][produced][:] = self.plot_data
                 output_items[2][produced] = np.float32(self.frame_count)
                 produced += 1
-                #output_items[0][num_out[0]][:] = item
-                #num_out[0] += 1
+                
             elif corr[idx]/avg_power > 4 and idx == (len(corr) - 1):
                 self.mfp_found = True
                 self.fsps_left = self.NUM_FSP
                 self.plot_data = corr
-                    
-                #output_items[1][num_out[1]][:] = corr
-                #output_items[2][num_out[1]] = np.float32(self.frame_count)
-                # print(item[idx], corr[idx])
-                #num_out[1] += 1        
-        #self.produce(0,num_out[0])
-        #self.produce(1,num_out[1])
-        #self.produce(2,num_out[1])
+                     
         self.consume(0, samples_consumed)
-            
         return produced #min(length for length in num_out) #num_out[1] # 0 #gr.basic_block.WORK_DONE
 
 class filt:

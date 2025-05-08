@@ -11,8 +11,9 @@ from gnuradio import gr
 
 class extract_data_bits(gr.basic_block):
     """
-    docstring for block extract_data_bits
+    Function forms 258 groups of 5440 bits per frame
     """
+    
     def __init__(self):
         gr.basic_block.__init__(self,
             name="extract_data_bits",

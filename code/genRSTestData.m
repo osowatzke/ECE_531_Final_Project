@@ -62,7 +62,7 @@ data_mod = single(complex(data_mod));
 data_packed = reshape([real(data_mod(:).'); imag(data_mod(:).')],[],1);
 
 % Save binary data to file
-fid = fopen('data_mod.dat','w');
+fid = fopen('../data/data_mod.dat','w');
 fwrite(fid,data_packed(:),'single');
 fclose(fid);
 

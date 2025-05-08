@@ -1,7 +1,7 @@
 clc
 clear all
 close all
-sat=1
+sat=1; % sat0=SAT1A, sat1=SAT1B, we are using SAT1B
 if sat==0
     load('mfp_deinterleave') %samples in 10880 bit frames
 else
@@ -31,18 +31,12 @@ else
         trellis = poly2trellis(7, [135 147]);
     end
 end
-conEnc = comm.ConvolutionalEncoder(trellis);
-modBPSK = comm.BPSKModulator;
-chan = comm.AWGNChannel('NoiseMethod','Signal to noise ratio (SNR)','SNR',10);
-demodBPSK = comm.BPSKDemodulator('PhaseOffset',0,'DecisionMethod','Log-likelihood ratio');
 vDec = comm.ViterbiDecoder(trellis);
 vDec.TerminationMethod="Terminated"
-vDec.ResetInputPort=1;
+%vDec.ResetInputPort=1;
 
-error = comm.ErrorRate('ComputationDelay',3,'ReceiveDelay',34);
 decoded_data=[];
-decoded_data2=[];
-flip=-1;
+flip=1; % flip to test 180 ambiguity
 for counter = 1:frames
     temp_data=zeros(1,255*8*2*2);
     for loop = 1:frame_length2/4
@@ -65,17 +59,13 @@ for counter = 1:frames
             end
         end
     end
-    %re-arrange
-    %puncture effect initial state =  1, -1, -1, -1, -1,  1
+    %re-arrange for block interleave if needed
+    %RS block 1
     receivedBits = vDec(temp_data(1:4080)');
     decoded_data=[decoded_data;receivedBits'];
+    %RS block 2
     receivedBits = vDec(temp_data(4080+1:2*4080)');
     decoded_data=[decoded_data;receivedBits'];
-    %errors = error(data,receivedBits);
 end
-%errors(1)
-%errors(2)
-%decoded_data=reshape(decoded_data,2*frames,frame_length*rate/2 );
 size(decoded_data)
-%figure()
-%spy(RS_block(:,1:8:end))
+spy(decoded_data(:,1:200))

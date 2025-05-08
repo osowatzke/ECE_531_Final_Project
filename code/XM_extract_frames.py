@@ -6,11 +6,11 @@ import XM_constants as XM
 import os
 
 # Remove old data file
-if os.path.exists('mfp_data.npy'):
-    os.remove('mfp_data.npy')
+if os.path.exists('../data/mfp_data.npy'):
+    os.remove('../data/mfp_data.npy')
 
 # Create a new data file
-mfp_file = open('mfp_data.npy', 'ab')
+mfp_file = open('../data/mfp_data.npy', 'ab')
 
 # Allow user to exit out of script early
 def signal_handler(sig, frame):
@@ -143,7 +143,7 @@ if True:
 
     # Read all data from a .mat file
     data = []
-    with open('mfp_data.npy', 'rb') as mfp_data:
+    with open('../data/mfp_data.npy', 'rb') as mfp_data:
         while True:
             try:
                 data.append(np.load(mfp_data))
@@ -154,4 +154,4 @@ if True:
 
     # Save to .mat file
     import scipy.io as sio
-    sio.savemat('mfp_data.mat',{'data': data})
+    sio.savemat('../data/mfp_data.mat',{'data': data})

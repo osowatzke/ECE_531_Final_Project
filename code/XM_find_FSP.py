@@ -16,7 +16,7 @@ XM=XM.XM_sat()
 XM.print_config()
 
 # Load samples from file
-filename = "XM_test_x2_sync.dat"
+filename = "../data/XM_test_x2_sync.dat"
 data_type = np.complex64
 with open(filename, "rb") as file:
     data_array = np.fromfile(file, dtype=data_type)

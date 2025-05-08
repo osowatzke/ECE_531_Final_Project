@@ -65,3 +65,12 @@ Finally, these files can be run through the Viterbi decoder in MATLAB by
 running:
 
     Viterbi_mfp.m
+
+The Reed Solomon Decoder input can be generated in MATLAB using
+
+    genRSTestData.m
+
+To test the GNU Radio Reed Solomon Decoder in an XM Radio configuration, we can run
+the following flowchart:
+
+    rs_test.grc

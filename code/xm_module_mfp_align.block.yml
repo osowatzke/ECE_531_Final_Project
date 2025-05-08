@@ -12,14 +12,6 @@ templates:
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
-#parameters:
-#- id: parametername_replace_me
-#  label: FIX ME:
-#  dtype: string
-#  default: You need to fill in your grc/xm_module_mfp_align.block.yaml
-#- id: ...
-#  label: ...
-#  dtype: ...
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -32,12 +24,7 @@ inputs:
 - label: in
   dtype: complex
   vlen: 3456
- 
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
-
+  
 outputs:
 - label: out
   dtype: complex
@@ -49,12 +36,6 @@ outputs:
 
 - label: frame_count
   dtype: float
-  
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

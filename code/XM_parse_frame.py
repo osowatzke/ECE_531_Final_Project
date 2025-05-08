@@ -4,18 +4,29 @@ import sys
 import signal
 import os
 import XM_constants as XM
+
 def signal_handler(sig, frame):
     global mfp_file
     print('You pressed Ctrl+C!')
     mfp_file.close()
     sys.exit(0)
+
 signal.signal(signal.SIGINT, signal_handler)
 XM=XM.XM_sat()
+
 interleaver1=XM.XM_interleaver(54400, 2)
 interleaver2=XM.XM_interleaver(680, 16)
 interleaver3=XM.XM_interleaver(1360, 8)
 interleaver4=XM.XM_interleaver(2720, 1)
-mfp_file = open('../data/mfp_data.npy', 'rb')
+
+# Specify whether to use GNU radio data or not
+use_gnu_radio_data = False
+if use_gnu_radio_data:
+    filename = '../data/XM_test_x2_bits.dat'
+else:
+    filename = '../data/mfp_data.npy'
+
+mfp_file = open(filename, 'rb')
 mfp_bit_length=2*((XM.FSP_per_frame-1)*XM.data_symbols + XM.data_symbols_last)
 
 sat=1
@@ -31,7 +42,11 @@ except:
 
 mfp_out_file = open(filename, 'wb')
 
-data_array = np.load(mfp_file)
+if use_gnu_radio_data:
+    data_array = np.fromfile(mfp_file, dtype=np.float32, count=5440*258)
+else:
+    data_array = np.load(mfp_file)
+
 TSCC_in=np.zeros(5440*2, dtype=float)
 TSCC_out=np.zeros(5440*2, dtype=float)
 mfp_index=0
@@ -49,8 +64,14 @@ while(len(data_array)>0):
         TSCC_out[tscc_idx]=out
     #load next frame
     np.save(mfp_out_file,TSCC_out)
-    try: data_array = np.load(mfp_file)
-    except: break
+    try: 
+        if use_gnu_radio_data:
+            data_array = np.fromfile(mfp_file, dtype=np.float32, count=5440*258)
+            if len(data_array) < (5440*258): break
+        else:
+            data_array = np.load(mfp_file)
+    except:
+        break
     print("MFP FRAME = ", mfp_index)
     mfp_index+=1
 

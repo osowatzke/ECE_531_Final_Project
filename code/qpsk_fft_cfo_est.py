@@ -11,7 +11,6 @@ import numpy as np
 import pmt # for message strobe to send to signal source
 
 
-
 class qpsk_fft_cfo_est(gr.basic_block):
     """
     All-in-One QPSK FFT-Based CFO Estimator

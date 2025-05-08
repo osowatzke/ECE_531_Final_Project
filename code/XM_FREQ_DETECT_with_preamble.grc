@@ -120,7 +120,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: XM_test_x2_sync.dat
+    file: ../data/XM_test_x2_sync.dat
     type: complex
     unbuffered: 'False'
     vlen: '1'
@@ -138,7 +138,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: xm_data_bits2.dat
+    file: ../data/XM_test_x2_bits.dat
     type: float
     unbuffered: 'False'
     vlen: '5440'

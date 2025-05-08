@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import sys
 import signal
 import os
-sys.path.append("/media/sf_VM_shared/ECE531/Final/python_tools")
 import XM_constants as XM
 def signal_handler(sig, frame):
     global mfp_file
@@ -16,22 +15,22 @@ interleaver1=XM.XM_interleaver(54400, 2)
 interleaver2=XM.XM_interleaver(680, 16)
 interleaver3=XM.XM_interleaver(1360, 8)
 interleaver4=XM.XM_interleaver(2720, 1)
-mfp_file = open('mfp_data.npy', 'rb')
-mfp_bit_length=2*((XM.FSP_per_frame-1)*XM.Data_symbols + XM.Data_symbols_last)
+mfp_file = open('../data/mfp_data.npy', 'rb')
+mfp_bit_length=2*((XM.FSP_per_frame-1)*XM.data_symbols + XM.data_symbols_last)
 
-sat=0
+sat=1
 if sat==1:
-    try:
-        os.remove('mfp_deinterleave2.npy')
-    except:
-        pass
-    mfp_out_file = open('mfp_deinterleave2.npy', 'wb')
+    filename = '../data/mfp_deinterleave2.npy'
 else:
-    try:
-        os.remove('mfp_deinterleave.npy')
-    except:
-        pass
-    mfp_out_file = open('mfp_deinterleave.npy', 'wb')
+    filename = '../data/mfp_deinterleave.npy'
+
+try:
+    os.remove(filename)
+except:
+    pass
+
+mfp_out_file = open(filename, 'wb')
+
 data_array = np.load(mfp_file)
 TSCC_in=np.zeros(5440*2, dtype=float)
 TSCC_out=np.zeros(5440*2, dtype=float)
@@ -54,4 +53,28 @@ while(len(data_array)>0):
     except: exit()
     print("MFP FRAME = ", mfp_index)
     mfp_index+=1
+
+# Close numpy file
+mfp_out_file.close()
+
+# Save data to .mat file
+if True:
+
+    # Read all data from a .mat file
+    data = []
+    with open(filename, 'rb') as mfp_out_file:
+        while True:
+            try:
+                data.append(np.load(mfp_out_file))
+            except:
+                break
+
+    data = np.array(data)
+
+    # Save to .mat file
+    import scipy.io as sio
+    if sat==1:
+        sio.savemat('../data/mfp_deinterleave2.mat',{'data': data})
+    else:
+        sio.savemat('../data/mfp_deinterleave.mat',{'data': data})
  

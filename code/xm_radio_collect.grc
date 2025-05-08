@@ -124,7 +124,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: XM_test_x2.dat
+    file: ../data/XM_test_x2.dat
     type: complex
     unbuffered: 'False'
     vlen: '1'

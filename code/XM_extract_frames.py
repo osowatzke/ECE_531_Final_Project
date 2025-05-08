@@ -25,7 +25,7 @@ signal.signal(signal.SIGINT, signal_handler)
 XM=XM.XM_sat()
 
 # Specs for input file
-filename = "XM_test_x2_sync.dat"
+filename = "../data/XM_test_x2_sync.dat"
 data_type = np.complex64
 
 # Flags to specify whether data is synchronized

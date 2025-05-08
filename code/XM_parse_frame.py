@@ -61,20 +61,20 @@ mfp_out_file.close()
 if True:
 
     # Read all data from a .mat file
-    samples = []
+    data = []
     with open(filename, 'rb') as mfp_out_file:
         while True:
             try:
-                samples.append(np.load(mfp_out_file))
+                data.append(np.load(mfp_out_file))
             except:
                 break
 
-    samples = np.array(samples)
+    data = np.array(data)
 
     # Save to .mat file
     import scipy.io as sio
     if sat==1:
-        sio.savemat('../data/mfp_deinterleave2.mat',{'data': samples})
+        sio.savemat('../data/mfp_deinterleave2.mat',{'samples': data})
     else:
-        sio.savemat('../data/mfp_deinterleave.mat',{'data': samples})
+        sio.savemat('../data/mfp_deinterleave.mat',{'samples': data})
  

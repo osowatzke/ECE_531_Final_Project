@@ -50,7 +50,7 @@ while(len(data_array)>0):
     #load next frame
     np.save(mfp_out_file,TSCC_out)
     try: data_array = np.load(mfp_file)
-    except: exit()
+    except: break
     print("MFP FRAME = ", mfp_index)
     mfp_index+=1
 
@@ -61,20 +61,20 @@ mfp_out_file.close()
 if True:
 
     # Read all data from a .mat file
-    data = []
+    samples = []
     with open(filename, 'rb') as mfp_out_file:
         while True:
             try:
-                data.append(np.load(mfp_out_file))
+                samples.append(np.load(mfp_out_file))
             except:
                 break
 
-    data = np.array(data)
+    samples = np.array(samples)
 
     # Save to .mat file
     import scipy.io as sio
     if sat==1:
-        sio.savemat('../data/mfp_deinterleave2.mat',{'data': data})
+        sio.savemat('../data/mfp_deinterleave2.mat',{'data': samples})
     else:
-        sio.savemat('../data/mfp_deinterleave.mat',{'data': data})
+        sio.savemat('../data/mfp_deinterleave.mat',{'data': samples})
  

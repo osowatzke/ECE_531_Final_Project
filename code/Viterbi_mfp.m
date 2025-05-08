@@ -3,9 +3,9 @@ clear all
 close all
 sat=1; % sat0=SAT1A, sat1=SAT1B, we are using SAT1B
 if sat==0
-    load('mfp_deinterleave') %samples in 10880 bit frames
+    load('../data/mfp_deinterleave') %samples in 10880 bit frames
 else
-    load('mfp_deinterleave2') %samples in 10880 bit frames
+    load('../data/mfp_deinterleave2') %samples in 10880 bit frames
 end
 [frames, frame_length]=size(samples);
 %removing other sat

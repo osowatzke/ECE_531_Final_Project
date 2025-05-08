@@ -107,7 +107,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: XM_test_x2_sync.dat
+    file: ../data/XM_test_x2_sync.dat
     type: complex
     unbuffered: 'False'
     vlen: '1'

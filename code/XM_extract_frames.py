@@ -47,22 +47,15 @@ with open(filename, "rb") as file:
     # Loop until all the samples have been read from the file
     while(1):
 
-        data_array = np.fromfile(file, dtype=data_type,  count=1*samples)
         # Grab data between FSP symbols
-        # if not FSP_SYNC:
-        #     data_array = np.fromfile(file, dtype=data_type,  count=1*samples)
-        # else:
-        #     data_array = np.fromfile(file, dtype=data_type,  count=8*samples)
-
+        data_array = np.fromfile(file, dtype=data_type,  count=1*samples)
+        
         # Synchronize to FSP
         if not FSP_SYNC:
 
-            temp = 0
-
             # Find the peak correlation index
             corr_out=np.correlate(data_array,XM.FSP)
-            #plt.plot(corr_out)
-            #plt.show()
+
             max_index=np.argmax(np.abs(corr_out))
             
             # Use the average energy to set a threshold
@@ -76,7 +69,6 @@ with open(filename, "rb") as file:
                 
                 # Print some stats when FSP is found
                 print(int(idx/8)+max_index, max_index, np.abs(corr_out[max_index])/ave)
-                print(data_array[max_index])
                 
                 # Navigate to start of FSP
                 # Multiply by 8 for bytes in np.complex64
@@ -102,15 +94,9 @@ with open(filename, "rb") as file:
             # Move to next possible FSP position
             idx+=samples*8
 
-            temp += 1
-            # for i in range(8):
-            print(temp, idx, data_array[0])
-
             # Check for data that exceeds threshold
             # Ignore first frame
             if ((np.abs(corr_out[max_index])/ave)>4 and max_index>=samples-XM.MFP_symbols):
-                
-                print(data_array[0]) #max_index+64])
 
                 # Mark MFP as found and reset indices
                 print("FOUND MFP", idx)
@@ -147,11 +133,6 @@ with open(filename, "rb") as file:
                 # Save frame to file
                 np.save(mfp_file,MFP_bits)
 
-            # Save subregion of frame
-            #else:
-            #    MFP_SYMBOLS[FSP_index*XM.data_symbols:(FSP_index+1)*XM.data_symbols] = (data_array[XM.FSP_symbols:])
-            #    FSP_index+=1
-
         if (len(data_array)==0): break
 
 # Close numpy file
@@ -168,15 +149,8 @@ if True:
                 data.append(np.load(mfp_data))
             except:
                 break
-    
-    print(len(data))
 
     data = np.array(data)
-
-    print(data.shape)
-
-    # Load numpy data
-    # data = np.load('mfp_data.npy')
 
     # Save to .mat file
     import scipy.io as sio
